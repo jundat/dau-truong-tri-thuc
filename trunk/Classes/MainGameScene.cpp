@@ -9,6 +9,8 @@
 
 USING_NS_CC;
 
+
+
 CCScene* MainGameScene::scene()
 {
     CCScene *scene = CCScene::create();
@@ -23,18 +25,14 @@ bool MainGameScene::init()
     {
         return false;
     }
+	
+	m_curScore = DataManager::sharedDataManager()->GetHighScore();
+	m_curQuestionNumber = DataManager::sharedDataManager()->GetLastQuestion();
+	m_curRightAnswer = -1;
 
 	CCSprite* bg = CCSprite::create("game_background.png");
 	bg->setPosition(ccp(400, 640));
 	this->addChild(bg);
-
-	//////////////////////////////////////////////////////////////////////////
-
-	m_lbQuest = CCLabelTTF::create("Question...", "Roboto-Medium.ttf", 32);
-	m_lbQuest->setFontFillColor(ccc3(0, 0, 0));
-	m_lbQuest->setAnchorPoint(ccp(0.0f, 1.0f));
-	m_lbQuest->setPosition(ccp(20, 1260));
-	this->addChild(m_lbQuest);
 
 	//////////////////////////////////////////////////////////////////////////
 
@@ -44,19 +42,14 @@ bool MainGameScene::init()
 		this,
 		menu_selector(MainGameScene::menuCallback));
 	itBack->setAnchorPoint(ccp(0.0f, 0.0f));
-	itBack->setPosition(ccp(0, 0));
+	itBack->setPosition(ccp(10, 10));
 
-	CCMenuItemImage *itNext = CCMenuItemImage::create(
-		"next.png",
-		"next.png",
-		this,
-		menu_selector(MainGameScene::nextCallback));
-	itNext->setPosition(ccp(400, 128));
-
-	CCMenu* pMenu = CCMenu::create(itBack, itNext, NULL);
+	CCMenu* pMenu = CCMenu::create(itBack, NULL);
 	pMenu->setPosition(CCPointZero);
 	this->addChild(pMenu);
 
+	initItems();
+	nextQuestion();
 
 	this->setKeypadEnabled(true);
 	PLAY_BACKGROUND_MUSIC;
@@ -76,11 +69,95 @@ void MainGameScene::keyBackClicked()
 	menuCallback(NULL);
 }
 
-void MainGameScene::nextCallback(CCObject* pSender)
+void MainGameScene::answerCallback( CCObject* pSender )
 {
-	static int level = 0;
-	level++;
+	CCMenuItemImage* it = (CCMenuItemImage*) pSender;
+	int tag = it->getTag();
 
-	LevelData* ld = LevelManager::shareLevelLoader()->getLevel(level);
-	m_lbQuest->setString(ld->ToString());
+	if (tag == m_curRightAnswer)
+	{
+		//CCMessageBox("RIGHT", "ANSWER");
+		PLAY_GET_BOMB_EFFECT;
+		m_curScore += SOLO_ADD_SCORE;
+	}
+	else
+	{
+		//CCMessageBox("WRONG", "ANSWER");
+		PLAY_OUT_PORP_EFFECT;
+		m_curScore -= SOLO_ADD_SCORE;
+	}
+
+	m_lbScore->setString(CCString::createWithFormat("%d", m_curScore)->getCString());
+	DataManager::sharedDataManager()->SetHighScore(m_curScore);
+	DataManager::sharedDataManager()->SetLastQuestion(m_curQuestionNumber);
+
+	nextQuestion();
+
 }
+
+void MainGameScene::nextQuestion()
+{
+	m_curQuestionNumber++;
+	initLevel(m_curQuestionNumber);
+}
+
+void MainGameScene::initItems()
+{
+	CCSprite* sprQuest = CCSprite::create("question.png");
+	sprQuest->setPosition(ccp(400, 1280-537));
+	this->addChild(sprQuest);
+
+	m_lbScore = CCLabelTTF::create(CCString::createWithFormat("%d", m_curScore)->getCString(), "Roboto-Medium.ttf", 72);
+	m_lbScore->setFontFillColor(ccc3(0,0,0));
+	m_lbScore->setAnchorPoint(ccp(0.0f, 0.5f));
+	m_lbScore->setPosition(ccp(23, 1280-43));
+	this->addChild(m_lbScore);
+
+	m_lbNumber = CCLabelTTF::create("", "Roboto-Medium.ttf", 64);
+	m_lbNumber->setFontFillColor(ccc3(0,0,0));
+	m_lbNumber->setAnchorPoint(ccp(0.5f, 0.5f));
+	m_lbNumber->setPosition(ccp(400, 1280-340));
+	this->addChild(m_lbNumber);
+
+	m_lbQuestion = CCLabelTTF::create("", "Roboto-Medium.ttf", 48);
+	m_lbQuestion->setFontFillColor(ccc3(0,0,0));
+	m_lbQuestion->setAnchorPoint(ccp(0.5f, 0.5f));
+	m_lbQuestion->setPosition(ccp(400, 1280-600));
+	this->addChild(m_lbQuestion);
+
+	for (int i = 0; i < 4; ++i)
+	{
+		m_itAnswers[i] = CCMenuItemImage::create("answer.png", "answer_down.png", this, menu_selector(MainGameScene::answerCallback));
+		m_itAnswers[i]->setPosition(ccp(400, 1280-843 - i*94));
+		m_itAnswers[i]->setTag(i);
+	}
+
+	CCMenu* menu = CCMenu::create(m_itAnswers[0], m_itAnswers[1], m_itAnswers[2], m_itAnswers[3], NULL);
+	menu->setPosition(CCPointZero);
+	this->addChild(menu);
+
+	for (int i = 0; i < 4; ++i)
+	{
+		m_lbAnswers[i] = CCLabelTTF::create("", "Roboto-Medium.ttf", 48);
+		m_lbAnswers[i]->setFontFillColor(ccc3(0,0,0));
+		m_lbAnswers[i]->setAnchorPoint(ccp(0.0f, 0.5f));
+		m_lbAnswers[i]->setPosition(ccp(140, 1280-840 - i*94));
+		this->addChild(m_lbAnswers[i]);
+	}
+}
+
+void MainGameScene::initLevel( int level )
+{
+	LevelData* ld = LevelManager::shareLevelLoader()->getLevel(level);
+	
+	m_lbQuestion->setString(ld->m_quest.c_str());
+	m_curRightAnswer = ld->m_answer; //0 -> 3
+	m_lbNumber->setString(CCString::createWithFormat("%d", level)->getCString());
+
+	for (int i = 0; i < 4; ++i)
+	{
+		m_lbAnswers[i]->setString(ld->m_arrChoice[i].c_str());
+	}
+}
+
+

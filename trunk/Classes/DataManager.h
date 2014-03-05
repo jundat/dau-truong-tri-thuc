@@ -40,7 +40,7 @@ public:
 	void	SetPassword(const char* pass);
 
 	int	GetHighScore();
-	void	SetCurrentHighScore(int currentScore);
+	void	SetHighScore(int currentScore);
 
 	tm*		GetLastDeadTime();
 	void	SetLastDeadTime(tm* time); //int hour, int min, int sec, int mday, int mon, int year);
@@ -73,10 +73,8 @@ public:
 	void	SetTimeLifeToFriendNow(const char* fbId);
 
 
-	int		GetBoom();
-	void	SetBoom(int boom);
-	void	IncreaseBoom();
-	void	DecreaseBoom();
+	int		GetLastQuestion();
+	void	SetLastQuestion(int boom);
 
 	int		GetDiamon();
 	void	SetDiamon(int diamon);

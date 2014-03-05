@@ -24,12 +24,12 @@ DataManager::DataManager()
 //Default value = 0
 int DataManager::GetHighScore()
 {
-	return CCUserDefault::sharedUserDefault()->getIntegerForKey("CURRENT_HIGHSCORE");
+	return CCUserDefault::sharedUserDefault()->getIntegerForKey("CURRENT_HIGHSCORE", 0);
 }
 
 
 //Default value = 0
-void DataManager::SetCurrentHighScore(int score)
+void DataManager::SetHighScore(int score)
 {
 	if(score > this->GetHighScore() ) {
 		CCUserDefault::sharedUserDefault()->setIntegerForKey("CURRENT_HIGHSCORE", score);
@@ -352,34 +352,19 @@ void DataManager::SetTimeLifeToFriendNow( const char* fbId )
 
 
 
-int DataManager::GetBoom()
+int DataManager::GetLastQuestion()
 {
-	return CCUserDefault::sharedUserDefault()->getIntegerForKey("BOOM", G_DEFAULT_BOOM);
+	return CCUserDefault::sharedUserDefault()->getIntegerForKey("LAST_QUESTION", 0);
 }
 
-void DataManager::SetBoom( int boom )
+void DataManager::SetLastQuestion( int lastQuestion )
 {
-	MY_LIMIT_VALUE(boom, 0, G_MAX_BOOM);
-	CCUserDefault::sharedUserDefault()->setIntegerForKey("BOOM", boom);
-	CCUserDefault::sharedUserDefault()->flush();
+	if (lastQuestion > GetLastQuestion())
+	{
+		CCUserDefault::sharedUserDefault()->setIntegerForKey("LAST_QUESTION", lastQuestion);
+		CCUserDefault::sharedUserDefault()->flush();
+	}	
 }
-
-void DataManager::IncreaseBoom()
-{
-	CCUserDefault::sharedUserDefault()->setIntegerForKey("BOOM", 
-		DataManager::sharedDataManager()->GetBoom() + 1);
-
-	CCUserDefault::sharedUserDefault()->flush();
-}
-
-void DataManager::DecreaseBoom()
-{
-	CCUserDefault::sharedUserDefault()->setIntegerForKey("BOOM", 
-		DataManager::sharedDataManager()->GetBoom() - 1);
-
-	CCUserDefault::sharedUserDefault()->flush();
-}
-
 
 
 

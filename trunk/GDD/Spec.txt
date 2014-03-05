@@ -29,8 +29,7 @@ B> GIAO DIỆN
 1. Menu
 - PLAY
 - LEADER BOARD
-- FACEBOOK
-- 
+ 
 
 
 
