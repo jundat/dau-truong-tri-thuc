@@ -40,7 +40,7 @@ bool MainGameScene::init()
 
 	CCMenuItemImage *itBack = CCMenuItemImage::create(
 		"back.png",
-		"back1.png",
+		"backDown.png",
 		this,
 		menu_selector(MainGameScene::menuCallback));
 	itBack->setAnchorPoint(ccp(0.0f, 0.0f));

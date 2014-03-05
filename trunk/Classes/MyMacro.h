@@ -5,7 +5,7 @@
 USING_NS_CC;
 
 
-#define LIMIT_VALUE(x, minX, maxX) \
+#define MY_LIMIT_VALUE(x, minX, maxX) \
 {\
 	if(x < minX) { x = minX; }\
 	if(x > maxX) { x = maxX; }\
@@ -20,7 +20,17 @@ do\
 		delete (pObj);\
 		(pObj) = NULL;\
 	}\
-} while(0);
+} while(0)
+
+
+#define MY_ADD_SPRITE(sprName, sprFile, pos) \
+do\
+{\
+	CCSprite* sprName = CCSprite::create(#sprFile);\
+	sprName->setPosition(pos);\
+	this->addChild(sprName);\
+} while(0)
+
 
 
 #endif //__MY_MACRO_H__
