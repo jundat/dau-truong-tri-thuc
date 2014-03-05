@@ -1,0 +1,34 @@
+﻿<plist version="1.0">
+<dict>
+	<key>1</key>
+	<dict>
+		<key>quest</key>
+		<string>Bạn tên là gì?</string>
+		<key>a</key>
+		<string>Long</string>
+		<key>b</key>
+		<string>Hieu</string>
+		<key>c</key>
+		<string>Tran</string>
+		<key>d</key>
+		<string>Linh</string>
+		<key>answer</key>
+		<string>a</string>
+	</dict>
+	<key>2</key>
+	<dict>
+		<key>quest</key>
+		<string>Việt Nam có bao nhiêu dân tộc?</string>
+		<key>a</key>
+		<string>34</string>
+		<key>b</key>
+		<string>54</string>
+		<key>c</key>
+		<string>64</string>
+		<key>d</key>
+		<string>24</string>
+		<key>answer</key>
+		<string>b</string>
+	</dict>
+</dict>
+</plist>

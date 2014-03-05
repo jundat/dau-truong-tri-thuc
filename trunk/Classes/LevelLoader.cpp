@@ -2,57 +2,42 @@
 #include "cocos2d.h"
 
 USING_NS_CC;
+using namespace std;
 
+//cd_catalog.xml
 CCString* LevelLoader::s_levelFile = CCStringMake("level.csv");
 LevelLoader* LevelLoader::s_instance = NULL;
 
 LevelLoader::LevelLoader(void)
 {
-	m_dict = CCDictionary::create();
-	m_dict->retain();
-
-	unsigned long bufferSize = 0;
-	std::string fileData  = std::string(CCString::createWithContentsOfFile(s_levelFile->getCString())->getCString());
-	std::string smallStr;
-
-	fileData = fileData.substr(0, fileData.find_last_not_of('\n'));
-
-	int beginIndex  = fileData.find_first_of('\n'); //REMOVE 1st line
-	smallStr = fileData.substr(0, beginIndex + 1); //pos, len
-	fileData = fileData.substr(beginIndex + 1); //pos, end
-
-	int score, hp1, hp2, hp3;
-	float velocity1, velocity2, velocity3, smallDelay, bigDelay;
-	int arrEnemy[NUM_ENEMY_TYPE];
+	CCDictionary* theDict = CCDictionary::createWithContentsOfFile("questions.plist");
 	
-
-	bool isBroken = false;
-	while(isBroken == false)
+	CCDictElement* pElement = NULL;
+	CCDICT_FOREACH(theDict, pElement)
 	{
-		beginIndex = fileData.find_first_of('\n');
+		CCLOG("----");
+		CCDictionary* question = (CCDictionary*)pElement->getObject();
 
-		if(beginIndex <= 0) {
-			isBroken = true;
-			beginIndex = fileData.length() - 1;
-		}
+		std::string count = pElement->getStrKey();
+		CCLOG("Quest: %s", count.c_str());
 
-		smallStr = fileData.substr(0, beginIndex + 1); //pos, len
+		CCString* quest = (CCString*)question->objectForKey("quest");
+		CCLOG("%s", quest->m_sString.c_str());
 
-		if (smallStr.find_first_of('\n') <= 1)
-		{
-			break;
-		}
+		CCString* a = (CCString*)question->objectForKey("a");
+		CCLOG("%s", a->getCString());
 
-		fileData = fileData.substr(beginIndex + 1); //pos, end
+		CCString* b = (CCString*)question->objectForKey("b");
+		CCLOG("%s", b->getCString());
 
-		sscanf(smallStr.c_str(), "%d,%d,%d,%d,%f,%f,%f,%f,%f,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d\n", \
-			&score, &hp1, &hp2, &hp3, &velocity1, &velocity2, &velocity3, &smallDelay, &bigDelay, \
-			&arrEnemy[0], &arrEnemy[1], &arrEnemy[2], &arrEnemy[3], &arrEnemy[4], &arrEnemy[5], &arrEnemy[6], &arrEnemy[7], &arrEnemy[8], \
-			&arrEnemy[9], &arrEnemy[10], &arrEnemy[11], &arrEnemy[12], &arrEnemy[13], &arrEnemy[14]);
+		CCString* c = (CCString*)question->objectForKey("c");
+		CCLOG("%s", c->getCString());
 
-		LevelData* ld = LevelData::create(score, hp1, hp2, hp3, velocity1, velocity2, velocity3, smallDelay, bigDelay, arrEnemy);
-		CCLOG("%s", ld->ToString());
-		m_dict->setObject(ld, score);
+		CCString* d = (CCString*)question->objectForKey("d");
+		CCLOG("%s", d->getCString());
+
+		CCString* answer = (CCString*)question->objectForKey("answer");
+		CCLOG("%s", answer->getCString());
 	}
 }
 
