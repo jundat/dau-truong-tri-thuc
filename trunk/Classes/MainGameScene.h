@@ -16,6 +16,11 @@ public:
 
 	void menuCallback(CCObject* pSender);
 	virtual void keyBackClicked();
+	void nextCallback(CCObject* pSender);
+
+
+public:
+	CCLabelTTF* m_lbQuest;
 };
 
 #endif // __MAIN_GAME_SCENE_H__

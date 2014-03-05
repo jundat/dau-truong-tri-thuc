@@ -10,6 +10,15 @@
 USING_NS_CC;
 USING_NS_CC_EXT;
 
+
+CCScene* ScoreScene::scene()
+{
+	CCScene *scene = CCScene::create();
+	ScoreScene *layer = ScoreScene::create();
+	scene->addChild(layer);
+	return scene;
+}
+
 bool ScoreScene::init()
 {
 	if (!CCLayer::init())
@@ -17,8 +26,9 @@ bool ScoreScene::init()
 		return false;
 	}
 
-	this->setKeypadEnabled(true);
-
+	CCSprite* bg = CCSprite::create("score_background.png");
+	bg->setPosition(ccp(400, 640));
+	this->addChild(bg);
 
 	CCMenuItemImage *backItem = CCMenuItemImage::create(
 		"back.png",
@@ -30,8 +40,10 @@ bool ScoreScene::init()
 
 	CCMenu* pMenu = CCMenu::create(backItem, NULL);
 	pMenu->setPosition(CCPointZero);
-	this->addChild(pMenu, 1);
+	this->addChild(pMenu);
 
+
+	this->setKeypadEnabled(true);
 	return true;
 }
 
