@@ -39,7 +39,7 @@ bool AppDelegate::applicationDidFinishLaunching() {
 
 		//save some value
 		DM->SetLastPlayerLife(G_MAX_PLAYER_LIFE);
-		DM->SetBoom(G_DEFAULT_BOOM);
+		DM->SetLastQuestion(G_DEFAULT_BOOM);
 	}	
 
 

@@ -84,8 +84,8 @@ bool MenuScene::init()
 
 	//guide
 	CCMenuItemImage *itGuide = CCMenuItemImage::create(
-		"ImgMenuLeaderboard.png",
-		"ImgMenuLeaderboardDown.png",
+		"ImgMenuGuide.png",
+		"ImgMenuGuideDown.png",
 		this,
 		menu_selector(MenuScene::guideCallback));
 	itGuide->setPosition(ccp(635, 1280-984));
@@ -102,7 +102,8 @@ bool MenuScene::init()
 	{
 		soundToggle->setSelectedIndex(1);
 	}
-	soundToggle->setPosition(ccp(91, 1280-1183));
+	soundToggle->setAnchorPoint(ccp(0.0f, 0.0f));
+	soundToggle->setPosition(ccp(10, 10));
 
     CCMenu* m_menu = CCMenu::create(itPlaySolo, itPlayWar, itScore, itAchievement, itFacebook, itGuide, soundToggle, NULL);
     m_menu->setPosition(CCPointZero);

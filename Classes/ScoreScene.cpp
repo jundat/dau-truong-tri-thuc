@@ -36,7 +36,7 @@ bool ScoreScene::init()
 		this,
 		menu_selector(ScoreScene::menuCallback));
 	backItem->setAnchorPoint(ccp(0.0f, 0.0f));
-	backItem->setPosition(ccp(0, 0));
+	backItem->setPosition(ccp(10, 10));
 
 
 	CCMenu* pMenu = CCMenu::create(backItem, NULL);

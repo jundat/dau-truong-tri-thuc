@@ -7,6 +7,13 @@
 
 USING_NS_CC;
 
+#define SOLO_ADD_SCORE		10
+#define WAR_ADD_SCORE		20
+
+#define SOLO_SUB_SCORE		10
+#define WAR_SUB_SCORE		20
+
+
 class MainGameScene : public cocos2d::CCLayerColor
 {
 public:
@@ -16,11 +23,21 @@ public:
 
 	void menuCallback(CCObject* pSender);
 	virtual void keyBackClicked();
-	void nextCallback(CCObject* pSender);
-
+	void nextQuestion();
+	void initLevel(int level);
+	void initItems();
+	void answerCallback(CCObject* pSender);
 
 public:
-	CCLabelTTF* m_lbQuest;
+	int m_curScore;
+	int m_curQuestionNumber;
+	int m_curRightAnswer;
+
+	CCLabelTTF* m_lbScore;
+	CCLabelTTF* m_lbNumber;
+	CCLabelTTF* m_lbQuestion;
+	CCLabelTTF* m_lbAnswers[4];
+	CCMenuItemImage* m_itAnswers[4];
 };
 
 #endif // __MAIN_GAME_SCENE_H__
