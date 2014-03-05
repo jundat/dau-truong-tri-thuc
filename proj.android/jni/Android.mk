@@ -17,8 +17,6 @@ CLASSES_FILES := $(wildcard $(LOCAL_PATH)/../../Classes/*.cpp)
 CLASSES_FILES += $(wildcard $(LOCAL_PATH)/../../Classes/jansson/*.cpp)
 CLASSES_FILES += $(wildcard $(LOCAL_PATH)/../../Classes/jansson/*.c)
 
-
-
 CLASSES_FILES := $(CLASSES_FILES:$(LOCAL_PATH)/%=%)
 
 LOCAL_SRC_FILES := $(HELLOCPP_FILES)
