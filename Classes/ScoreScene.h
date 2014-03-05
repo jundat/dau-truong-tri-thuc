@@ -14,11 +14,7 @@ class ScoreScene : public cocos2d::CCLayer
 public:
 	virtual bool init();
 	CREATE_FUNC(ScoreScene);
-	static CCScene* scene() {
-		CCScene *scene = CCScene::create();
-		scene->addChild(ScoreScene::create());
-		return scene;
-	}
+	static cocos2d::CCScene* scene() ;
 
 	void menuCallback(CCObject* pSender);
 	virtual void keyBackClicked();

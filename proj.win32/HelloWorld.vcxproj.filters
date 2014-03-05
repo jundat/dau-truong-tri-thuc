@@ -45,9 +45,6 @@
     <ClCompile Include="..\Classes\IntroScene.cpp">
       <Filter>Classes</Filter>
     </ClCompile>
-    <ClCompile Include="..\Classes\LevelLoader.cpp">
-      <Filter>Classes</Filter>
-    </ClCompile>
     <ClCompile Include="..\Classes\MainGameScene.cpp">
       <Filter>Classes</Filter>
     </ClCompile>
@@ -99,6 +96,9 @@
     <ClCompile Include="..\Classes\LoseDialog.cpp">
       <Filter>Classes</Filter>
     </ClCompile>
+    <ClCompile Include="..\Classes\LevelManager.cpp">
+      <Filter>Classes</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="main.h">
@@ -132,9 +132,6 @@
       <Filter>Classes</Filter>
     </ClInclude>
     <ClInclude Include="..\Classes\IntroScene.h">
-      <Filter>Classes</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Classes\LevelLoader.h">
       <Filter>Classes</Filter>
     </ClInclude>
     <ClInclude Include="..\Classes\MainGameScene.h">
@@ -177,6 +174,9 @@
       <Filter>Classes\jansson</Filter>
     </ClInclude>
     <ClInclude Include="..\Classes\LoseDialog.h">
+      <Filter>Classes</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\LevelManager.h">
       <Filter>Classes</Filter>
     </ClInclude>
   </ItemGroup>

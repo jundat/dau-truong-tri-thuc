@@ -5,7 +5,7 @@
 #include "SimpleAudioEngine.h"
 #include "DataManager.h"
 #include "ConfigLoader.h"
-#include "LevelLoader.h"
+#include "LevelManager.h"
 #include "AudioManager.h"
 #include "IntroScene.h"
 #include <time.h>
@@ -26,7 +26,7 @@ AppDelegate::~AppDelegate()
 bool AppDelegate::applicationDidFinishLaunching() {
 
 	ConfigLoader::shareConfigLoader();
-	LevelLoader::shareLevelLoader();
+	LevelManager::shareLevelLoader();
 
 
 	//check if first time install

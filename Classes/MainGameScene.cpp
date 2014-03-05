@@ -5,6 +5,7 @@
 #include "DataManager.h"
 #include <time.h>
 #include "PauseDialog.h"
+#include "LevelManager.h"
 
 USING_NS_CC;
 
@@ -16,23 +17,51 @@ CCScene* MainGameScene::scene()
     return scene;
 }
 
-// on "init" you need to initialize your instance
 bool MainGameScene::init()
 {
-    //////////////////////////////
-    // 1. super init first
-    if ( !CCLayerColor::initWithColor(ccc4(195, 200, 201, 255)) )
+    if ( !CCLayerColor::initWithColor(ccc4(255, 255, 255, 255)) )
     {
         return false;
     }
 
+	CCSprite* bg = CCSprite::create("game_background.png");
+	bg->setPosition(ccp(400, 640));
+	this->addChild(bg);
+
+	//////////////////////////////////////////////////////////////////////////
+
+	m_lbQuest = CCLabelTTF::create("Question...", "Roboto-Medium.ttf", 32);
+	m_lbQuest->setFontFillColor(ccc3(0, 0, 0));
+	m_lbQuest->setAnchorPoint(ccp(0.0f, 1.0f));
+	m_lbQuest->setPosition(ccp(20, 1260));
+	this->addChild(m_lbQuest);
+
+	//////////////////////////////////////////////////////////////////////////
+
+	CCMenuItemImage *itBack = CCMenuItemImage::create(
+		"back.png",
+		"back1.png",
+		this,
+		menu_selector(MainGameScene::menuCallback));
+	itBack->setAnchorPoint(ccp(0.0f, 0.0f));
+	itBack->setPosition(ccp(0, 0));
+
+	CCMenuItemImage *itNext = CCMenuItemImage::create(
+		"next.png",
+		"next.png",
+		this,
+		menu_selector(MainGameScene::nextCallback));
+	itNext->setPosition(ccp(400, 128));
+
+	CCMenu* pMenu = CCMenu::create(itBack, itNext, NULL);
+	pMenu->setPosition(CCPointZero);
+	this->addChild(pMenu);
+
+
 	this->setKeypadEnabled(true);
-
 	PLAY_BACKGROUND_MUSIC;
-
     return true;
 }
-
 
 void MainGameScene::menuCallback(CCObject* pSender)
 {
@@ -47,3 +76,11 @@ void MainGameScene::keyBackClicked()
 	menuCallback(NULL);
 }
 
+void MainGameScene::nextCallback(CCObject* pSender)
+{
+	static int level = 0;
+	level++;
+
+	LevelData* ld = LevelManager::shareLevelLoader()->getLevel(level);
+	m_lbQuest->setString(ld->ToString());
+}
