@@ -32,10 +32,11 @@ bool ScoreScene::init()
 
 	CCMenuItemImage *backItem = CCMenuItemImage::create(
 		"back.png",
-		"back1.png",
+		"backDown.png",
 		this,
 		menu_selector(ScoreScene::menuCallback));
-	backItem->setPosition(ccp(92, 1280-1201));
+	backItem->setAnchorPoint(ccp(0.0f, 0.0f));
+	backItem->setPosition(ccp(0, 0));
 
 
 	CCMenu* pMenu = CCMenu::create(backItem, NULL);

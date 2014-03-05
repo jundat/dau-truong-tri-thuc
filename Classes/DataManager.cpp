@@ -359,7 +359,7 @@ int DataManager::GetBoom()
 
 void DataManager::SetBoom( int boom )
 {
-	LIMIT_VALUE(boom, 0, G_MAX_BOOM);
+	MY_LIMIT_VALUE(boom, 0, G_MAX_BOOM);
 	CCUserDefault::sharedUserDefault()->setIntegerForKey("BOOM", boom);
 	CCUserDefault::sharedUserDefault()->flush();
 }

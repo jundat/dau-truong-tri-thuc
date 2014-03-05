@@ -1,9 +1,0 @@
-E:\Cocos2DX\projects\HelloWorld\QuestCreator\QuestCreator\QuestCreator\bin\Release\QuestCreator.exe
-E:\Cocos2DX\projects\HelloWorld\QuestCreator\QuestCreator\QuestCreator\bin\Release\QuestCreator.pdb
-E:\Cocos2DX\projects\HelloWorld\QuestCreator\QuestCreator\QuestCreator\obj\x86\Release\ResolveAssemblyReference.cache
-E:\Cocos2DX\projects\HelloWorld\QuestCreator\QuestCreator\QuestCreator\obj\x86\Release\QuestCreator.frmMain.resources
-E:\Cocos2DX\projects\HelloWorld\QuestCreator\QuestCreator\QuestCreator\obj\x86\Release\QuestCreator.Properties.Resources.resources
-E:\Cocos2DX\projects\HelloWorld\QuestCreator\QuestCreator\QuestCreator\obj\x86\Release\GenerateResource.read.1.tlog
-E:\Cocos2DX\projects\HelloWorld\QuestCreator\QuestCreator\QuestCreator\obj\x86\Release\GenerateResource.write.1.tlog
-E:\Cocos2DX\projects\HelloWorld\QuestCreator\QuestCreator\QuestCreator\obj\x86\Release\QuestCreator.exe
-E:\Cocos2DX\projects\HelloWorld\QuestCreator\QuestCreator\QuestCreator\obj\x86\Release\QuestCreator.pdb
