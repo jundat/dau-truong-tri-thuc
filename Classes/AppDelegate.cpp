@@ -28,19 +28,6 @@ bool AppDelegate::applicationDidFinishLaunching() {
 	ConfigLoader::shareConfigLoader();
 	LevelManager::shareLevelLoader();
 
-
-	//check if first time install
-	DataManager* DM = DataManager::sharedDataManager();
-	int isInstall = DM->GetValueFromKey(G_CHECK_INSTALLED);
-	if (isInstall != G_INSTALLED)
-	{
-		//first install
-		DM->SetValueFromKey(G_CHECK_INSTALLED, G_INSTALLED);
-
-		//set defautl value here
-	}
-
-
     CCDirector* pDirector = CCDirector::sharedDirector();
     CCEGLView* pEGLView = CCEGLView::sharedOpenGLView();
 	

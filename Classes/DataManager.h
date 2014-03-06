@@ -17,51 +17,44 @@ private:
 public:
 	static DataManager* sharedDataManager();
 
-	std::string GetFbPhotoPath();
-	void SetPhotoPath(const char* path);
-
-	std::string GetFbID();
-	void SetFbID(const char* profileID);
-
-	std::string GetFbUserName();
-	void SetFbUserName(const char* fbusernam);
-
-	std::string GetFbFullName();
-	void SetFbFullName(const char* fbusernam);
-
-	//facebook
-
-	std::string	GetName();
-	void		SetName(const char* name);
-
-	std::string	GetUsername();
-	void		SetUsername(const char* username);
-
-	std::string	GetPassword();
-	void		SetPassword(const char* pass);
-
 	//////////////////////////////////////////////////////////////////////////
-
-	int		GetValueFromKey(const char* key);
-	void	SetValueFromKey(const char* key, int val);
-
+	//Common
+	
 	tm*		GetTime(const char* key);
 	void	SetTime(const char* key, tm* time);
 
-	int		SoloGetLastQuestionIndex();
-	void	SoloSetLastQuestionIndex(int boom);
+	//////////////////////////////////////////////////////////////////////////
+	//Facebook
 
-// 	int		GetDiamond();
-// 	void	SetDiamond(int diamon);
-	
-	MY_CREATE_FUNCTION(int, Diamond, "DIAMOND", 0);
+	MY_GETSET_STR_FUNC(FbPhotoPath, "FB_ID", std::string("NULL"));
+	MY_GETSET_STR_FUNC(FbID, "FB_ID", std::string("NULL"));
+	MY_GETSET_STR_FUNC(FbUserName, "FB_USERNAME", std::string("NULL"));
+	MY_GETSET_STR_FUNC(FbFullName, "FB_FULL_NAME", std::string("NULL"));
 
 	//////////////////////////////////////////////////////////////////////////
+	//Normal Account
 
-// 	int		GetSoloScore();
-// 	void	SetSoloScore(int score);
+	MY_GETSET_STR_FUNC(Name, "NAME", std::string("NULL"));
+	MY_GETSET_STR_FUNC(UserName, "USER_NAME", std::string("NULL"));
+	MY_GETSET_STR_FUNC(Password, "PASSWORD", std::string("NULL"));
 
-	MY_CREATE_FUNCTION(int, SoloScore, "SOLO_SCORE", 0);
+	//////////////////////////////////////////////////////////////////////////
+	//In game
+	
+	//COMMON
+	MY_GETSET_INT_FUNC(Diamond, "DIAMOND", 0);
+
+	//SOLO
+	MY_GETSET_INT_FUNC(SoloScore, "SOLO_SCORE", 0);
+	MY_GETSET_INT_FUNC(SoloLastQuestionIndex, "SOLO_LAST_QUESTION_INDEX", 0);
+	MY_GETSET_INT_FUNC(SoloNumberOfFinishedQuestion, "SOLO_NUMBER_OF_FINISHED_QUESTION", 0);
+	MY_GETSET_INT_FUNC(SoloNumberOfRightQuestion, "SOLO_NUMBER_OF_RIGHT_QUESTION", 0);
+	
+	//WAR
+	MY_GETSET_INT_FUNC(WarScore, "WAR_SCORE", 0);
+	MY_GETSET_INT_FUNC(WarNumberOfFinishedQuestion, "WAR_NUMBER_OF_FINISHED_QUESTION", 0);
+	MY_GETSET_INT_FUNC(WarNumberOfRightQuestion, "WAR_NUMBER_OF_RIGHT_QUESTION", 0);
+
 
 	~DataManager(void);
 };
