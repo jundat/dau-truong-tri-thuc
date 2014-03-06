@@ -26,7 +26,7 @@ bool MainGameScene::init()
     }
 	
 	m_curScore = DataManager::sharedDataManager()->GetSoloScore();
-	m_curQuestionNumber = DataManager::sharedDataManager()->SoloGetLastQuestionIndex();
+	m_curQuestionNumber = DataManager::sharedDataManager()->GetSoloLastQuestionIndex();
 	m_curRightAnswer = -1;
 
 	CCSprite* bg = CCSprite::create("game_background.png");
@@ -88,7 +88,7 @@ void MainGameScene::answerCallback( CCObject* pSender )
 
 	m_lbScore->setString(CCString::createWithFormat("%d", m_curScore)->getCString());
 	DataManager::sharedDataManager()->SetSoloScore(m_curScore);
-	DataManager::sharedDataManager()->SoloSetLastQuestionIndex(m_curQuestionNumber);
+	DataManager::sharedDataManager()->SetSoloLastQuestionIndex(m_curQuestionNumber);
 
 	nextQuestion();
 
