@@ -1,7 +1,6 @@
 #include "MainGameScene.h"
 #include "AudioManager.h"
 #include "MenuScene.h"
-#include "LoseDialog.h"
 #include "DataManager.h"
 #include <time.h>
 #include "PauseDialog.h"

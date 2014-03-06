@@ -93,9 +93,6 @@
     <ClCompile Include="..\Classes\jansson\value.c">
       <Filter>Classes\jansson</Filter>
     </ClCompile>
-    <ClCompile Include="..\Classes\LoseDialog.cpp">
-      <Filter>Classes</Filter>
-    </ClCompile>
     <ClCompile Include="..\Classes\LevelManager.cpp">
       <Filter>Classes</Filter>
     </ClCompile>
@@ -172,9 +169,6 @@
     </ClInclude>
     <ClInclude Include="..\Classes\jansson\utf.h">
       <Filter>Classes\jansson</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Classes\LoseDialog.h">
-      <Filter>Classes</Filter>
     </ClInclude>
     <ClInclude Include="..\Classes\LevelManager.h">
       <Filter>Classes</Filter>
