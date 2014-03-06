@@ -24,14 +24,6 @@ do\
 } while(0)
 
 
-#define MY_ADD_SPRITE(sprName, sprFile, pos) \
-do\
-{\
-	CCSprite* sprName = CCSprite::create(#sprFile);\
-	sprName->setPosition(pos);\
-	this->addChild(sprName);\
-} while(0)
-
 
 //Create get/set function for integer value in DataManager
 #define MY_GETSET_INT_FUNC(funName, keyword, defaultValue)\
@@ -83,6 +75,28 @@ public: void Set##funName(bool var) {\
 }
 
 
+//Add a CCMenuItemImage to this
+#define MY_ADD_MENU_ITEM(itName, sprNormal, sprSelect, sprDisable, callbackFunc, position)\
+	CCMenuItemImage* itName = CCMenuItemImage::create(sprNormal, sprSelect, sprDisable, this, menu_selector(callbackFunc));\
+	itName->setPosition(position);\
+	CCMenu* menu##itName = CCMenu::create(itName, NULL);\
+	menu##itName->setPosition(CCPointZero);\
+	this->addChild(menu##itName);
+
+
+//Add a CCSprite to this
+#define MY_ADD_SPRITE(sprName, sprFile, position)\
+	CCSprite* sprName = CCSprite::create(sprFile);\
+	sprName->setPosition(position);\
+	this->addChild(sprName);
+
+
+//Add a CCLabelTTF to this
+#define MY_ADD_LABELTTF(lbName, str, fontName, fontSize, color, position)\
+	CCLabelTTF* lbName = CCLabelTTF::create(str, fontName, fontSize);\
+	lbName->setFontFillColor(color);\
+	lbName->setPosition(position);\
+	this->addChild(lbName);\
 
 
 #endif //__MY_MACRO_H__

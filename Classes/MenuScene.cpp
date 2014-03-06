@@ -4,6 +4,7 @@
 #include "ScoreScene.h"
 #include "AudioManager.h"
 #include "DataManager.h"
+#include "GuideScene.h"
 #include <time.h>
 
 USING_NS_CC;
@@ -25,70 +26,50 @@ bool MenuScene::init()
         return false;
     }
 	
-	CCSprite* bg = CCSprite::create("menu_background.png");
-	bg->setPosition(ccp(400, 640));
-	this->addChild(bg);
+	MY_ADD_SPRITE(bg, "menu_background.png", ccp(400, 640));
+	MY_ADD_SPRITE(sprTop, "ImgCrown.png", ccp(400, 1280-292));
 
-	//top
-	//MY_ADD_SPRITE(sprTop, "ImgCrown.png", ccp(400, 400));
-	CCSprite* sprTop = CCSprite::create("ImgCrown.png");
-	sprTop->setPosition(ccp(400, 1280-292));
-	this->addChild(sprTop);
+	//play button
+	MY_ADD_MENU_ITEM(itPlaySolo, 
+		"play_button.png", 
+		"play_button_down.png", 
+		"play_button_down.png", 
+		MenuScene::playSoloCallback, 
+		ccp(400, 1280-639));
 
-	//play
-    CCMenuItemImage* itPlaySolo = CCMenuItemImage::create(
-        "play_button.png",
-        "play_button_down.png",
-        this,
-        menu_selector(MenuScene::playSoloCallback));
-	itPlaySolo->setPosition(ccp(400, 1280-639));
+	MY_ADD_MENU_ITEM(itPlayWar, 
+		"play_button.png", 
+		"play_button_down.png", 
+		"play_button_down.png", 
+		MenuScene::playWarCallback, 
+		ccp(400, 1280-804));
 	
-	CCSprite* sprPlaySolo = CCSprite::create("solo.png");
-	sprPlaySolo->setPosition(ccp(400, 1280-642));
-	this->addChild(sprPlaySolo, 1);
-
-	CCMenuItemImage* itPlayWar = CCMenuItemImage::create(
-		"play_button.png",
-		"play_button_down.png",
-		this,
-		menu_selector(MenuScene::playWarCallback));
-	itPlayWar->setPosition(ccp(400, 1280-804));
-
-	CCSprite* sprPlayWar = CCSprite::create("thi_dau.png");
-	sprPlayWar->setPosition(ccp(400, 1280-800));
-	this->addChild(sprPlayWar, 1);
+	MY_ADD_SPRITE(sprPlaySolo, "solo.png", ccp(400, 1280-642));
+	MY_ADD_SPRITE(sprPlayWar, "thi_dau.png", ccp(400, 1280-800));
 
 	//score
-	CCMenuItemImage *itScore = CCMenuItemImage::create(
-		"ImgMenuLeaderboard.png",
-		"ImgMenuLeaderboardDown.png",
-		this,
-		menu_selector(MenuScene::scoreCallback));
-	itScore->setPosition(ccp(164, 1280-984));
-
-	//achievement
-	CCMenuItemImage *itAchievement = CCMenuItemImage::create(
-		"ImgMenuAchi.png",
-		"ImgMenuAchiDown.png",
-		this,
-		menu_selector(MenuScene::achievementCallback));
-	itAchievement->setPosition(ccp(319, 1280-984));
+	MY_ADD_MENU_ITEM(itScore, 
+		"ImgMenuLeaderboard.png", 
+		"ImgMenuLeaderboardDown.png", 
+		"ImgMenuLeaderboardDown.png", 
+		MenuScene::scoreCallback, 
+		ccp(250, 1280-1000));
 
 	//facebook
-	CCMenuItemImage *itFacebook = CCMenuItemImage::create(
-		"ImgMenuFacebook.png",
-		"ImgMenuFacebookDown.png",
-		this,
-		menu_selector(MenuScene::facebookCallback));
-	itFacebook->setPosition(ccp(480, 1280-984));
+	MY_ADD_MENU_ITEM(itFacebook, 
+		"ImgMenuFacebook.png", 
+		"ImgMenuFacebookDown.png", 
+		"ImgMenuFacebookDown.png", 
+		MenuScene::facebookCallback, 
+		ccp(400, 1280-1000));
 
 	//guide
-	CCMenuItemImage *itGuide = CCMenuItemImage::create(
-		"ImgMenuGuide.png",
-		"ImgMenuGuideDown.png",
-		this,
-		menu_selector(MenuScene::guideCallback));
-	itGuide->setPosition(ccp(635, 1280-984));
+	MY_ADD_MENU_ITEM(itGuide, 
+		"ImgMenuGuide.png", 
+		"ImgMenuGuideDown.png", 
+		"ImgMenuFacebookDown.png", 
+		MenuScene::guideCallback, 
+		ccp(550, 1280-1000));
 
 
 	CCMenuItem* soundOn = CCMenuItemImage::create("sound_on.png", NULL, NULL);
@@ -105,7 +86,7 @@ bool MenuScene::init()
 	soundToggle->setAnchorPoint(ccp(0.0f, 0.0f));
 	soundToggle->setPosition(ccp(10, 10));
 
-    CCMenu* m_menu = CCMenu::create(itPlaySolo, itPlayWar, itScore, itAchievement, itFacebook, itGuide, soundToggle, NULL);
+    CCMenu* m_menu = CCMenu::create(soundToggle, NULL);
     m_menu->setPosition(CCPointZero);
     this->addChild(m_menu);
 
@@ -165,20 +146,16 @@ void MenuScene::soundCallback( CCObject* pSender )
 	}
 }
 
-void MenuScene::achievementCallback( CCObject* pSender )
-{
-	PLAY_BUTTON_EFFECT;
-
-}
-
 void MenuScene::facebookCallback( CCObject* pSender )
 {
 	PLAY_BUTTON_EFFECT;
-
+	CCMessageBox("Connect Facebook", "Info");
 }
 
 void MenuScene::guideCallback( CCObject* pSender )
 {
 	PLAY_BUTTON_EFFECT;
 
+	CCScene *pScene = CCTransitionFade::create(0.5, GuideScene::scene());
+	CCDirector::sharedDirector()->replaceScene(pScene);
 }

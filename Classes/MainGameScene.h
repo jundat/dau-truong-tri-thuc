@@ -28,6 +28,10 @@ public:
 	void initItems();
 	void answerCallback(CCObject* pSender);
 
+	void itHelp1Callback(CCObject* pSender);
+	void itHelp2Callback(CCObject* pSender);
+	void itHelp3Callback(CCObject* pSender);
+
 public:
 	int m_curScore;
 	int m_curQuestionNumber;

@@ -29,24 +29,16 @@ bool MainGameScene::init()
 	m_curQuestionNumber = DataManager::sharedDataManager()->GetSoloLastQuestionIndex();
 	m_curRightAnswer = -1;
 
-	CCSprite* bg = CCSprite::create("game_background.png");
-	bg->setPosition(ccp(400, 640));
-	this->addChild(bg);
+	MY_ADD_SPRITE(bg, "game_background.png", ccp(400, 640));
 
-	//////////////////////////////////////////////////////////////////////////
+	MY_ADD_MENU_ITEM(itBack, "back.png", "backDown.png", "backDown.png", MainGameScene::menuCallback, ccp(60, 60));
+	
+	//HELP
 
-	CCMenuItemImage *itBack = CCMenuItemImage::create(
-		"back.png",
-		"backDown.png",
-		this,
-		menu_selector(MainGameScene::menuCallback));
-	itBack->setAnchorPoint(ccp(0.0f, 0.0f));
-	itBack->setPosition(ccp(10, 10));
-
-	CCMenu* pMenu = CCMenu::create(itBack, NULL);
-	pMenu->setPosition(CCPointZero);
-	this->addChild(pMenu);
-
+	MY_ADD_MENU_ITEM(itHelp1, "help1.png", "help1Down.png", "help1Down.png", MainGameScene::itHelp1Callback, ccp(740, 1280-60));
+	MY_ADD_MENU_ITEM(itHelp2, "help2.png", "help2Down.png", "help2Down.png", MainGameScene::itHelp2Callback, ccp(640, 1280-60));
+	MY_ADD_MENU_ITEM(itHelp3, "help3.png", "help3Down.png", "help3Down.png", MainGameScene::itHelp3Callback, ccp(540, 1280-60));
+	
 	initItems();
 	nextQuestion();
 
@@ -102,9 +94,7 @@ void MainGameScene::nextQuestion()
 
 void MainGameScene::initItems()
 {
-	CCSprite* sprQuest = CCSprite::create("question.png");
-	sprQuest->setPosition(ccp(400, 1280-537));
-	this->addChild(sprQuest);
+	MY_ADD_SPRITE(sprQuest, "question.png", ccp(400, 1280-537));
 
 	m_lbScore = CCLabelTTF::create(CCString::createWithFormat("%d", m_curScore)->getCString(), "Roboto-Medium.ttf", 72);
 	m_lbScore->setFontFillColor(ccc3(0,0,0));
@@ -159,4 +149,19 @@ void MainGameScene::initLevel( int level )
 	}
 }
 
+
+void MainGameScene::itHelp1Callback( CCObject* pSender )
+{
+
+}
+
+void MainGameScene::itHelp2Callback( CCObject* pSender )
+{
+
+}
+
+void MainGameScene::itHelp3Callback( CCObject* pSender )
+{
+
+}
 
