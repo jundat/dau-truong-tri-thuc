@@ -32,5 +32,28 @@ do\
 } while(0)
 
 
+//Create get/set function in DataManager
+#define MY_CREATE_FUNCTION(varType, funName, keyword, defaultValue)\
+public: varType Get##funName(void) {\
+	return CCUserDefault::sharedUserDefault()->getIntegerForKey(#keyword, defaultValue);\
+}\
+public: void Set##funName(varType var) {\
+	CCUserDefault::sharedUserDefault()->setIntegerForKey(#keyword, var);\
+	CCUserDefault::sharedUserDefault()->flush();\
+}
+
+// \
+// public: void add##funName(varType addValue) {\
+// 	varType oldValue = get##funName(void);\
+// 	CCUserDefault::sharedUserDefault()->setIntegerForKey(#keyword, oldValue + addValue);\
+// 	CCUserDefault::sharedUserDefault()->flush();\
+// }\
+// public: void sub##funName(varType subValue) {\
+// 	varType oldValue = get##funName(void);\
+// 	CCUserDefault::sharedUserDefault()->setIntegerForKey(#keyword, oldValue - subValue);\
+// 	CCUserDefault::sharedUserDefault()->flush();\
+// }
+
+
 
 #endif //__MY_MACRO_H__
