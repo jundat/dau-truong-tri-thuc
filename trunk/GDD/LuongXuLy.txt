@@ -1,0 +1,89 @@
+-------------------------------------------
+				LUỒNG XỬ LÝ
+-------------------------------------------
+
+
+Menu
+|__SOLO-------->MainSoloGame
+|__WAR--------->WarGameChooseRoom
+|__SCORE------->Leaderboard
+|__FACEBOOK---->ConnectFacebook__
+|__GUIDE------->Guide			|__success----->Leaderboard
+|__SOUND------->On/OffSound		|__error------->Menu (notified)
+
+
+-----------------------------
+			SOLO
+-----------------------------
+
+
+MainSoloGame
+|__Điểm
+|__Các gói trợ giúp
+|__Kim cương
+|__Số thứ tự câu
+|__Đồng hồ đếm
+|__Câu hỏi
+|__CÂU TRẢ LỜI------>Thông báo câu trả lời đúng------>SoloGameResult
+	|__A
+	|__B
+	|__C
+	|__D
+
+
+SoloGameResult
+|__Avatar
+|__Tên
+|__Kim cương
+|__Điểm số
+|__Số thứ tự của câu
+|__Kết quả (Thắng / Thua)
+|__Điểm cộng (+10đ / +0đ)
+|__NEXT------>MainSoloGame
+|__BACK------>Menu
+
+
+-----------------------------
+			WAR
+-----------------------------
+
+WarGameChooseRoom
+|__Avatar
+|__Tên
+|__Kim cương
+|__Điểm số
+|__Tổng số trận thắng / thua
+(Option: Danh sách các tên đã thua)
+|__Điểm cộng (+10đ / +0đ)
+|__BACK------>Menu
+|__CÁC LĨNH VỰC CÂU HỎI------>WarGameWaitRoom
+								|__connect success------>MainWarGame
+								|__connect error-------->WarGameChooseRoom (notified)
+
+
+MainWarGame
+|__Avatar, Tên, Exp, Số trận đã chơi, Số trận thắng người chơi
+|__Avatar, Tên, Exp, Số trận đã chơi, Số trận thắng đối thủ
+|__Các gói trợ giúp
+|__Kim cương
+|__Đồng hồ đếm
+(Option: Notifier----->Người chơi bên kia đã trả lời câu hỏi chưa)
+|__Câu hỏi
+|__CÂU TRẢ LỜI-------->Thông báo câu trả lời đúng------>Câu hỏi tiếp theo------>WarGameResult
+	|__A
+	|__B
+	|__C
+	|__D
+
+
+
+WarGameResult
+|__Avatar, Tên, Exp, Số trận đã chơi, Số trận thắng người chơi (giá trị mới)
+	|__Số điểm +/- của câu hỏi
+|__Avatar, Tên, Exp, Số trận đã chơi, Số trận thắng đối thủ	(giá trị mới)
+	|__Số điểm +/- của câu hỏi
+|__SHARE------>Share facebook về kết quả
+|__BACK------->Menu
+|__PLAY------->WarGameChooseRoom
+
+

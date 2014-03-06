@@ -37,10 +37,8 @@ bool AppDelegate::applicationDidFinishLaunching() {
 		//first install
 		DM->SetValueFromKey(G_CHECK_INSTALLED, G_INSTALLED);
 
-		//save some value
-		DM->SetLastPlayerLife(G_MAX_PLAYER_LIFE);
-		DM->SetLastQuestion(G_DEFAULT_BOOM);
-	}	
+		//set defautl value here
+	}
 
 
     CCDirector* pDirector = CCDirector::sharedDirector();

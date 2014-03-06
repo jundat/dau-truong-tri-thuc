@@ -3,17 +3,17 @@
 #include "MyMacro.h"
 
 
-DataManager* DataManager::_instance = 0;
+DataManager* DataManager::s_instance = 0;
 
 
 DataManager* DataManager::sharedDataManager()
 {
-	if(DataManager::_instance == 0)
+	if(DataManager::s_instance == 0)
 	{
-		_instance = new DataManager();
+		s_instance = new DataManager();
 	}
 
-	return _instance;
+	return s_instance;
 }
 
 
@@ -27,8 +27,6 @@ int DataManager::GetHighScore()
 	return CCUserDefault::sharedUserDefault()->getIntegerForKey("CURRENT_HIGHSCORE", 0);
 }
 
-
-//Default value = 0
 void DataManager::SetHighScore(int score)
 {
 	if(score > this->GetHighScore() ) {
@@ -44,89 +42,12 @@ int	DataManager::GetValueFromKey(const char* key)
 	return CCUserDefault::sharedUserDefault()->getIntegerForKey(key, 0);
 }
 
-
-//Default value = 0
 void DataManager::SetValueFromKey(const char* key, int val)
 {
 	CCUserDefault::sharedUserDefault()->setIntegerForKey(key, val);
 	CCUserDefault::sharedUserDefault()->flush();
 }
 
-
-tm* DataManager::GetLastDeadTime()
-{
-	tm* _tm = new tm();
-	_tm->tm_hour = CCUserDefault::sharedUserDefault()->getIntegerForKey("G_LAST_DEAD_TIME_HOUR", -1);
-	_tm->tm_min = CCUserDefault::sharedUserDefault()->getIntegerForKey("G_LAST_DEAD_TIME_MIN", -1);
-	_tm->tm_sec = CCUserDefault::sharedUserDefault()->getIntegerForKey("G_LAST_DEAD_TIME_SEC", -1);
-	_tm->tm_mday = CCUserDefault::sharedUserDefault()->getIntegerForKey("G_LAST_DEAD_TIME_MDAY", -1);
-	_tm->tm_mon = CCUserDefault::sharedUserDefault()->getIntegerForKey("G_LAST_DEAD_TIME_MON", -1);
-	_tm->tm_year = CCUserDefault::sharedUserDefault()->getIntegerForKey("G_LAST_DEAD_TIME_YEAR", -1);
-
-	if (_tm->tm_hour == -1)
-	{
-		time_t t = time(NULL);
-		_tm = localtime(&t);
-	}
-
-	return _tm;
-}
-
-
-void DataManager::SetLastDeadTime( tm* time )
-{
-	CCUserDefault::sharedUserDefault()->setIntegerForKey("G_LAST_DEAD_TIME_HOUR", time->tm_hour);
-	CCUserDefault::sharedUserDefault()->setIntegerForKey("G_LAST_DEAD_TIME_MIN", time->tm_min);
-	CCUserDefault::sharedUserDefault()->setIntegerForKey("G_LAST_DEAD_TIME_SEC", time->tm_sec);
-	CCUserDefault::sharedUserDefault()->setIntegerForKey("G_LAST_DEAD_TIME_MDAY", time->tm_mday);
-	CCUserDefault::sharedUserDefault()->setIntegerForKey("G_LAST_DEAD_TIME_MON", time->tm_mon);
-	CCUserDefault::sharedUserDefault()->setIntegerForKey("G_LAST_DEAD_TIME_YEAR", time->tm_year);
-	CCUserDefault::sharedUserDefault()->flush();
-}
-
-void DataManager::SetLastDeadTimeNow()
-{
-	time_t curTime = time(NULL);
-	tm* _tm = localtime(&curTime);
-	DataManager::sharedDataManager()->SetLastDeadTime(_tm);
-}
-
-int DataManager::GetLastPlayerLife()
-{
-	//check if first time run
-	int flagFirstTime = CCUserDefault::sharedUserDefault()->getIntegerForKey("FLAG_FIRST_TIME", 0);
-	if (flagFirstTime != 0) //not the first time
-	{
-		return CCUserDefault::sharedUserDefault()->getIntegerForKey("G_LAST_PLAYER_LIFE");
-	} 
-	else //==0, first time
-	{
-		CCUserDefault::sharedUserDefault()->setIntegerForKey("FLAG_FIRST_TIME", 1);
-		SetLastPlayerLife(G_MAX_PLAYER_LIFE);
-		return G_MAX_PLAYER_LIFE;
-	}
-}
-
-void DataManager::SetLastPlayerLife( int lastLife )
-{
-	lastLife = (lastLife < 0) ? 0 : lastLife;
-	lastLife = (lastLife > G_MAX_PLAYER_LIFE) ? G_MAX_PLAYER_LIFE : lastLife;
-
-	CCUserDefault::sharedUserDefault()->setIntegerForKey("G_LAST_PLAYER_LIFE", lastLife);
-	CCUserDefault::sharedUserDefault()->flush();
-}
-
-//default = false
-bool DataManager::GetIsJustRevived()
-{
-	return CCUserDefault::sharedUserDefault()->getBoolForKey("G_IS_JUST_REVIVED", false);
-}
-
-void DataManager::SetIsJustRevived(bool isJustRevived)
-{
-	CCUserDefault::sharedUserDefault()->setBoolForKey("G_IS_JUST_REVIVED", isJustRevived);
-	CCUserDefault::sharedUserDefault()->flush();
-}
 
 std::string DataManager::GetName()
 {
@@ -139,6 +60,7 @@ void DataManager::SetName( const char* name )
 	CCUserDefault::sharedUserDefault()->flush();
 }
 
+
 std::string DataManager::GetUsername()
 {
 	return CCUserDefault::sharedUserDefault()->getStringForKey("G_USERNAME", std::string("NULL"));
@@ -149,6 +71,7 @@ void DataManager::SetUsername(const char* username)
 	CCUserDefault::sharedUserDefault()->setStringForKey("G_USERNAME", std::string(username));
 	CCUserDefault::sharedUserDefault()->flush();
 }
+
 
 std::string DataManager::GetPassword()
 {
@@ -161,34 +84,8 @@ void DataManager::SetPassword(const char* pass )
 	CCUserDefault::sharedUserDefault()->flush();
 }
 
-void DataManager::RefreshPlayerLife()
-{
-	int lastLife = DataManager::sharedDataManager()->GetLastPlayerLife();
-	if (lastLife < G_MAX_PLAYER_LIFE)
-	{
-		tm* lasttm = DataManager::sharedDataManager()->GetLastDeadTime();
-		time_t lastTime = mktime(lasttm);
-		time_t curTime = time(NULL);
-		double seconds = difftime(curTime, lastTime);
 
-		int add_lastLife = (int)((int)seconds / (int)G_PLAYER_TIME_TO_REVIVE);
-		if (add_lastLife > 0)
-		{
-			lastLife += add_lastLife;
-			DataManager::sharedDataManager()->SetLastPlayerLife(lastLife);
-
-			//save next time
-			tm* _tm = DataManager::sharedDataManager()->GetLastDeadTime();
-			_tm->tm_sec += add_lastLife * G_PLAYER_TIME_TO_REVIVE;
-
-			mktime(_tm); //normalize
-
-			DataManager::sharedDataManager()->SetLastDeadTime(_tm);
-		}
-	}
-}
-
-std::string DataManager::GetProfileID()
+std::string DataManager::GetFbID()
 {
 	return CCUserDefault::sharedUserDefault()->getStringForKey("G_PROFILE_ID", std::string("NULL"));
 }
@@ -198,6 +95,7 @@ void DataManager::SetProfileID( const char* profileID )
 	CCUserDefault::sharedUserDefault()->setStringForKey("G_PROFILE_ID", std::string(profileID));
 	CCUserDefault::sharedUserDefault()->flush();
 }
+
 
 std::string DataManager::GetFbUserName()
 {
@@ -234,37 +132,6 @@ void DataManager::SetPhotoPath( const char* path )
 	CCUserDefault::sharedUserDefault()->flush();
 }
 
-int DataManager::GetGiftFromFriend(const char* fbID )
-{
-	CCString* s = CCString::createWithFormat("GIFT_FROM_%s", fbID);
-	return CCUserDefault::sharedUserDefault()->getIntegerForKey(s->getCString(), 0);
-}
-
-void DataManager::IncreaseGiftFromFriend(const char* fbID)
-{
-	CCString* s = CCString::createWithFormat("GIFT_FROM_%s", fbID);
-
-	CCUserDefault::sharedUserDefault()->setIntegerForKey(
-		s->getCString(),
-		DataManager::sharedDataManager()->GetGiftFromFriend(fbID) + 1
-	);
-
-	CCUserDefault::sharedUserDefault()->flush();
-}
-
-void DataManager::DecreaseGiftFromFriend( const char* fbID )
-{
-	CCString* s = CCString::createWithFormat("GIFT_FROM_%s", fbID);
-	int gift = DataManager::sharedDataManager()->GetGiftFromFriend(fbID) - 1;
-	gift = (gift < 0) ? 0: gift;
-
-	CCUserDefault::sharedUserDefault()->setIntegerForKey(
-		s->getCString(), 
-		gift
-	);
-
-	CCUserDefault::sharedUserDefault()->flush();
-}
 
 void DataManager::SetTime( const char* key, tm* time )
 {
@@ -306,52 +173,6 @@ tm* DataManager::GetTime( const char* key )
 }
 
 
-
-void DataManager::SetTimeBoomFriend( const char* fbId, tm* time )
-{
-	CCString* sKey = CCString::createWithFormat("LAST_GET_BOOM_FROM_%s", fbId);
-	SetTime(sKey->getCString(), time);
-}
-
-tm* DataManager::GetTimeBoomFriend( const char* fbId )
-{
-	CCString* sKey = CCString::createWithFormat("LAST_GET_BOOM_FROM_%s", fbId);
-	return GetTime(sKey->getCString());
-}
-
-void DataManager::SetTimeBoomFriendNow( const char* fbId )
-{
-	time_t curTime = time(NULL);
-	tm* _tm = localtime(&curTime);
-
-	DataManager::sharedDataManager()->SetTimeBoomFriend(fbId, _tm);
-}
-
-
-
-void DataManager::SetTimeLifeToFriend( const char* fbId, tm* time )
-{
-	CCString* sKey = CCString::createWithFormat("LAST_SEND_LIFE_TO_%s", fbId);
-	SetTime(sKey->getCString(), time);
-}
-
-tm* DataManager::GetTimeLifeToFriend( const char* fbId )
-{
-	CCString* sKey = CCString::createWithFormat("LAST_SEND_LIFE_TO_%s", fbId);
-	return GetTime(sKey->getCString());
-}
-
-void DataManager::SetTimeLifeToFriendNow( const char* fbId )
-{
-	time_t curTime = time(NULL);
-	tm* _tm = localtime(&curTime);
-
-	DataManager::sharedDataManager()->SetTimeLifeToFriend(fbId, _tm);
-}
-
-
-
-
 int DataManager::GetLastQuestion()
 {
 	return CCUserDefault::sharedUserDefault()->getIntegerForKey("LAST_QUESTION", 0);
@@ -365,7 +186,6 @@ void DataManager::SetLastQuestion( int lastQuestion )
 		CCUserDefault::sharedUserDefault()->flush();
 	}	
 }
-
 
 
 int DataManager::GetDiamon()
