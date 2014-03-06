@@ -25,8 +25,8 @@ bool MainGameScene::init()
         return false;
     }
 	
-	m_curScore = DataManager::sharedDataManager()->GetHighScore();
-	m_curQuestionNumber = DataManager::sharedDataManager()->GetLastQuestion();
+	m_curScore = DataManager::sharedDataManager()->GetSoloScore();
+	m_curQuestionNumber = DataManager::sharedDataManager()->SoloGetLastQuestionIndex();
 	m_curRightAnswer = -1;
 
 	CCSprite* bg = CCSprite::create("game_background.png");
@@ -87,8 +87,8 @@ void MainGameScene::answerCallback( CCObject* pSender )
 	}
 
 	m_lbScore->setString(CCString::createWithFormat("%d", m_curScore)->getCString());
-	DataManager::sharedDataManager()->SetHighScore(m_curScore);
-	DataManager::sharedDataManager()->SetLastQuestion(m_curQuestionNumber);
+	DataManager::sharedDataManager()->SetSoloScore(m_curScore);
+	DataManager::sharedDataManager()->SoloSetLastQuestionIndex(m_curQuestionNumber);
 
 	nextQuestion();
 

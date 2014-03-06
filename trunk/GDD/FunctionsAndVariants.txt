@@ -1,0 +1,49 @@
+
+
+------------------------------------------
+A. SOLO
+
+1. Số điểm
+DataManager->SoloGetScore();
+DataManager->SoloSetScore(int score);
+DataManager->SoloAddScore(int addScore);
+DataManager->SoloSubScore(int subScore);
+
+2. Số câu hỏi đã trải qua
+DataManager->SoloGetNumberOfFinishedQuestion();
+DataManager->SoloSetNumberOfFinishedQuestion(int number);
+DataManager->SoloAddNumberOfFinishedQuestion(int addScore);
+DataManager->SoloSubNumberOfFinishedQuestion(int subScore);
+
+3. Số câu hỏi đã trả lời đúng
+DataManager->SoloGetNumberOfRightQuestion();
+DataManager->SoloSetNumberOfRightQuestion(int number);
+DataManager->SoloAddNumberOfRightQuestion(int addScore);
+DataManager->SoloSubNumberOfRightQuestion(int subScore);
+
+4. Chỉ số của câu hỏi cuối cùng (Chưa trả lời)
+DataManager->SoloGetLastQuestionIndex();
+DataManager->SoloSetLastQuestionIndex(int index);
+DataManager->SoloAddLastQuestionIndex(int addIndex);
+DataManager->SoloSubLastQuestionIndex(int subIndex);
+
+------------------------------------------
+B. WAR
+
+1. Số điểm
+DataManager->WarGetScore();
+DataManager->WarSetScore(int score);
+DataManager->WarAddScore(int addScore);
+DataManager->WarSubScore(int subScore);
+
+2. Số câu hỏi đã trải qua
+DataManager->WarGetNumberOfFinishedQuestion();
+DataManager->WarSetNumberOfFinishedQuestion(int number);
+DataManager->WarAddNumberOfFinishedQuestion(int addScore);
+DataManager->WarSubNumberOfFinishedQuestion(int subScore);
+
+3. Số câu hỏi đã trả lời đúng
+DataManager->WarGetNumberOfRightQuestion();
+DataManager->WarSetNumberOfRightQuestion(int number);
+DataManager->WarAddNumberOfRightQuestion(int addScore);
+DataManager->WarSubNumberOfRightQuestion(int subScore);

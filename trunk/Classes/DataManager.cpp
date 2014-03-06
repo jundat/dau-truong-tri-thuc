@@ -21,114 +21,86 @@ DataManager::DataManager()
 {
 }
 
-//Default value = 0
-int DataManager::GetHighScore()
-{
-	return CCUserDefault::sharedUserDefault()->getIntegerForKey("CURRENT_HIGHSCORE", 0);
-}
-
-void DataManager::SetHighScore(int score)
-{
-	if(score > this->GetHighScore() ) {
-		CCUserDefault::sharedUserDefault()->setIntegerForKey("CURRENT_HIGHSCORE", score);
-		CCUserDefault::sharedUserDefault()->flush();
-	}
-}
-
-
-//Default value = 0
-int	DataManager::GetValueFromKey(const char* key)
-{
-	return CCUserDefault::sharedUserDefault()->getIntegerForKey(key, 0);
-}
-
-void DataManager::SetValueFromKey(const char* key, int val)
-{
-	CCUserDefault::sharedUserDefault()->setIntegerForKey(key, val);
-	CCUserDefault::sharedUserDefault()->flush();
-}
-
-
 std::string DataManager::GetName()
 {
-	return CCUserDefault::sharedUserDefault()->getStringForKey("G_NAME", std::string(G_DEFAULT_NAME));
+	return CCUserDefault::sharedUserDefault()->getStringForKey("NAME", std::string(G_DEFAULT_NAME));
 }
 
 void DataManager::SetName( const char* name )
 {
-	CCUserDefault::sharedUserDefault()->setStringForKey("G_NAME", std::string(name));
+	CCUserDefault::sharedUserDefault()->setStringForKey("NAME", std::string(name));
 	CCUserDefault::sharedUserDefault()->flush();
 }
 
 
 std::string DataManager::GetUsername()
 {
-	return CCUserDefault::sharedUserDefault()->getStringForKey("G_USERNAME", std::string("NULL"));
+	return CCUserDefault::sharedUserDefault()->getStringForKey("USERNAME", std::string("NULL"));
 }
 
 void DataManager::SetUsername(const char* username)
 {
-	CCUserDefault::sharedUserDefault()->setStringForKey("G_USERNAME", std::string(username));
+	CCUserDefault::sharedUserDefault()->setStringForKey("USERNAME", std::string(username));
 	CCUserDefault::sharedUserDefault()->flush();
 }
 
 
 std::string DataManager::GetPassword()
 {
-	return CCUserDefault::sharedUserDefault()->getStringForKey("G_PASSWORD", std::string("NULL"));
+	return CCUserDefault::sharedUserDefault()->getStringForKey("PASSWORD", std::string("NULL"));
 }
 
 void DataManager::SetPassword(const char* pass )
 {
-	CCUserDefault::sharedUserDefault()->setStringForKey("G_PASSWORD", std::string(pass));
+	CCUserDefault::sharedUserDefault()->setStringForKey("PASSWORD", std::string(pass));
 	CCUserDefault::sharedUserDefault()->flush();
 }
 
 
 std::string DataManager::GetFbID()
 {
-	return CCUserDefault::sharedUserDefault()->getStringForKey("G_PROFILE_ID", std::string("NULL"));
+	return CCUserDefault::sharedUserDefault()->getStringForKey("FB_ID", std::string("NULL"));
 }
 
-void DataManager::SetProfileID( const char* profileID )
+void DataManager::SetFbID( const char* fbID )
 {
-	CCUserDefault::sharedUserDefault()->setStringForKey("G_PROFILE_ID", std::string(profileID));
+	CCUserDefault::sharedUserDefault()->setStringForKey("FB_ID", std::string(fbID));
 	CCUserDefault::sharedUserDefault()->flush();
 }
 
 
 std::string DataManager::GetFbUserName()
 {
-	return CCUserDefault::sharedUserDefault()->getStringForKey("G_FB_USER_NAME", std::string("NULL"));
+	return CCUserDefault::sharedUserDefault()->getStringForKey("FB_USER_NAME", std::string("NULL"));
 }
 
 void DataManager::SetFbUserName( const char* fbusernam )
 {
-	CCUserDefault::sharedUserDefault()->setStringForKey("G_FB_USER_NAME", std::string(fbusernam));
+	CCUserDefault::sharedUserDefault()->setStringForKey("FB_USER_NAME", std::string(fbusernam));
 	CCUserDefault::sharedUserDefault()->flush();
 }
 
 
 std::string DataManager::GetFbFullName()
 {
-	return CCUserDefault::sharedUserDefault()->getStringForKey("G_FB_FULL_NAME", std::string("NULL"));
+	return CCUserDefault::sharedUserDefault()->getStringForKey("FB_FULL_NAME", std::string("NULL"));
 }
 
 void DataManager::SetFbFullName( const char* fbusernam )
 {
-	CCUserDefault::sharedUserDefault()->setStringForKey("G_FB_FULL_NAME", std::string(fbusernam));
+	CCUserDefault::sharedUserDefault()->setStringForKey("FB_FULL_NAME", std::string(fbusernam));
 	CCUserDefault::sharedUserDefault()->flush();
 }
 
 
-std::string DataManager::GetPhotoPath()
+std::string DataManager::GetFbPhotoPath()
 {
-	return CCUserDefault::sharedUserDefault()->getStringForKey("G_PHOTO_PATH", std::string("NULL"));
+	return CCUserDefault::sharedUserDefault()->getStringForKey("FB_PHOTO_PATH", std::string("NULL"));
 }
 
 void DataManager::SetPhotoPath( const char* path )
 {
-	CCUserDefault::sharedUserDefault()->setStringForKey("G_PHOTO_PATH", std::string(path));
+	CCUserDefault::sharedUserDefault()->setStringForKey("FB_PHOTO_PATH", std::string(path));
 	CCUserDefault::sharedUserDefault()->flush();
 }
 
@@ -173,29 +145,57 @@ tm* DataManager::GetTime( const char* key )
 }
 
 
-int DataManager::GetLastQuestion()
+int DataManager::SoloGetLastQuestionIndex()
 {
-	return CCUserDefault::sharedUserDefault()->getIntegerForKey("LAST_QUESTION", 0);
+	return CCUserDefault::sharedUserDefault()->getIntegerForKey("SOLO_LAST_QUESTION_INDEX", 0);
 }
 
-void DataManager::SetLastQuestion( int lastQuestion )
+void DataManager::SoloSetLastQuestionIndex( int index )
 {
-	if (lastQuestion > GetLastQuestion())
-	{
-		CCUserDefault::sharedUserDefault()->setIntegerForKey("LAST_QUESTION", lastQuestion);
-		CCUserDefault::sharedUserDefault()->flush();
-	}	
-}
-
-
-int DataManager::GetDiamon()
-{
-	return CCUserDefault::sharedUserDefault()->getIntegerForKey("DIAMON", G_DEFAULT_DIAMON);
-}
-
-void DataManager::SetDiamon( int diamon )
-{
-	CCUserDefault::sharedUserDefault()->setIntegerForKey("DIAMON", diamon);
+	CCUserDefault::sharedUserDefault()->setIntegerForKey("SOLO_LAST_QUESTION_INDEX", index);
 	CCUserDefault::sharedUserDefault()->flush();
 }
+
+
+// int DataManager::GetDiamond()
+// {
+// 	return CCUserDefault::sharedUserDefault()->getIntegerForKey("DIAMON", G_DEFAULT_DIAMON);
+// }
+// 
+// void DataManager::SetDiamond( int diamon )
+// {
+// 	CCUserDefault::sharedUserDefault()->setIntegerForKey("DIAMON", diamon);
+// 	CCUserDefault::sharedUserDefault()->flush();
+// }
+
+
+//////////////////////////////////////////////////////////////////////////
+
+
+//Default value = 0
+int	DataManager::GetValueFromKey(const char* key)
+{
+	return CCUserDefault::sharedUserDefault()->getIntegerForKey(key, 0);
+}
+
+void DataManager::SetValueFromKey(const char* key, int val)
+{
+	CCUserDefault::sharedUserDefault()->setIntegerForKey(key, val);
+	CCUserDefault::sharedUserDefault()->flush();
+}
+
+
+//////////////////////////////////////////////////////////////////////////
+
+//Default value = 0
+// int DataManager::GetSoloScore()
+// {
+// 	return CCUserDefault::sharedUserDefault()->getIntegerForKey("SOLO_SCORE", 0);
+// }
+// 
+// void DataManager::SetSoloScore(int score)
+// {
+// 	CCUserDefault::sharedUserDefault()->setIntegerForKey("SOLO_SCORE", score);
+// 	CCUserDefault::sharedUserDefault()->flush();
+// }
 
