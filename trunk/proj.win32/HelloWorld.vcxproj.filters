@@ -96,6 +96,9 @@
     <ClCompile Include="..\Classes\LevelManager.cpp">
       <Filter>Classes</Filter>
     </ClCompile>
+    <ClCompile Include="..\Classes\GuideScene.cpp">
+      <Filter>Classes</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="main.h">
@@ -171,6 +174,9 @@
       <Filter>Classes\jansson</Filter>
     </ClInclude>
     <ClInclude Include="..\Classes\LevelManager.h">
+      <Filter>Classes</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\GuideScene.h">
       <Filter>Classes</Filter>
     </ClInclude>
   </ItemGroup>

@@ -18,10 +18,10 @@ public:
     void playSoloCallback(CCObject* pSender);
 	void playWarCallback(CCObject* pSender);	
 	void scoreCallback(CCObject* pSender);
-	void achievementCallback(CCObject* pSender);
 	void facebookCallback(CCObject* pSender);
 	void guideCallback(CCObject* pSender);
 	void soundCallback(CCObject* pSender);
+
 };
 
 #endif // __MENU_SCENE_H__
