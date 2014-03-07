@@ -140,7 +140,7 @@ void MainGameScene::initLevel( int level )
 	LevelData* ld = LevelManager::shareLevelLoader()->getLevel(level);
 	
 	m_lbQuestion->setString(ld->m_quest.c_str());
-	m_curRightAnswer = ld->m_answer; //0 -> 3
+	m_curRightAnswer = ld->m_right; //0 -> 3
 	m_lbNumber->setString(CCString::createWithFormat("%d", level)->getCString());
 
 	for (int i = 0; i < 4; ++i)
