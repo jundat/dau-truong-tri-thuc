@@ -28,36 +28,32 @@ namespace QuestCreator
                 FileStream fs = new FileStream(fileName, FileMode.Create);
                 StreamWriter sw = new StreamWriter(fs);
 
-                string s = 
-"<plist version=\"1.0\">\n" +
-"<dict>\n";
-                sw.Write(s);
+                string s = "[\n";
 
                 for (int i = 1; i <= 1000; ++i )
                 {
-                    s =
-    "\t<key>" + i +"</key>\n" +
-    "\t<dict>\n" +
-        "\t\t<key>quest</key>\n" +
-        "\t\t<string>" + "Câu hỏi số " + i + "</string>\n" +
-        "\t\t<key>a</key>\n" +
-        "\t\t<string>Đáp án a</string>\n" +
-        "\t\t<key>b</key>\n" +
-        "\t\t<string>Đán án b</string>\n" +
-        "\t\t<key>c</key>\n" +
-        "\t\t<string>Đáp án c</string>\n" +
-        "\t\t<key>d</key>\n" +
-        "\t\t<string>Đáp án e</string>\n" +
-        "\t\t<key>answer</key>\n" +
-        "\t\t<string>" + ( i % 4) + "</string>\n" +
-    "\t</dict>\n";
-
-                    sw.Write(s);
+                    s +=        "\t{\n" +
+		                            "\t\t\"quest\": \"Đây éo phải là câu hỏi số " + i + "?\",\n" +
+                                    "\t\t\"answers\":\n" +
+                                    "\t\t[\n" +
+                                        "\t\t\t\"Câu trả lời số " + i + "-0\",\n" +
+                                        "\t\t\t\"Câu trả lời số " + i + "-1\",\n" +
+                                        "\t\t\t\"Câu trả lời số " + i + "-2\",\n" +
+                                        "\t\t\t\"Câu trả lời số " + i + "-3\"\n" +
+                                    "\t\t],\n" +
+                                    "\t\t\"right\": " + (i%4) + "\n" + 
+	                            "\t}";
+                    if (i != 1000)
+                    {
+                        s += ",\n";
+                    }
+                    else
+                    {
+                        s += "\n";
+                    }
                 }
 
-                s =
-"</dict>\n" +
-"</plist>";
+                s += "]";
                 sw.Write(s);
 
                 sw.Flush();

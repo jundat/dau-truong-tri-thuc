@@ -1,5 +1,6 @@
 #include "LevelManager.h"
 #include "cocos2d.h"
+#include "jansson/jansson.h"
 
 USING_NS_CC;
 using namespace std;
@@ -9,36 +10,53 @@ LevelManager* LevelManager::s_instance = NULL;
 
 LevelManager::LevelManager(void)
 {
-	m_dict = CCDictionary::createWithContentsOfFile(LEVEL_FILE);
-	m_dict->retain();
-	
-// 	CCDictElement* pElement = NULL;
-// 	CCDICT_FOREACH(theDict, pElement)
-// 	{
-// 		CCLOG("----");
-// 		CCDictionary* question = (CCDictionary*)pElement->getObject();
-// 
-// 		std::string count = pElement->getStrKey();
-// 		CCLOG("Quest: %s", count.c_str());
-// 
-// 		CCString* quest = (CCString*)question->objectForKey("quest");
-// 		CCLOG("%s", quest->m_sString.c_str());
-// 
-// 		CCString* a = (CCString*)question->objectForKey("a");
-// 		CCLOG("%s", a->getCString());
-// 
-// 		CCString* b = (CCString*)question->objectForKey("b");
-// 		CCLOG("%s", b->getCString());
-// 
-// 		CCString* c = (CCString*)question->objectForKey("c");
-// 		CCLOG("%s", c->getCString());
-// 
-// 		CCString* d = (CCString*)question->objectForKey("d");
-// 		CCLOG("%s", d->getCString());
-// 
-// 		CCString* answer = (CCString*)question->objectForKey("answer");
-// 		CCLOG("%s", answer->getCString());
-// 	}
+	//m_dict = CCDictionary::createWithContentsOfFile(LEVEL_FILE);
+	//m_dict->retain();
+
+	CCString* ss = CCString::createWithContentsOfFile("questions.json");
+	string s = string(ss->getCString());
+	CCLOG("READ: %s", ss->getCString());
+	CCLOG("--------- BEGIN ---------");
+
+	//get score from response
+	json_t *questionList;
+	json_error_t error;
+	//json_t *questionList;
+
+	questionList = json_loads(s.c_str(), strlen(s.c_str()), &error);
+	//questionList = json_object_get(questionList, "list");
+
+	//foreach to get all friend, insert to list
+	int number = json_array_size(questionList);
+	CCLOG("NUMBER = %d", number);
+
+	CCArray* arrFriends = new CCArray();
+	arrFriends->retain();
+
+	for(int i = 0; i < number; i++)
+	{
+		json_t *question = json_array_get(questionList, i);
+
+		json_t* quest;
+		json_t* answers;
+		json_t* right;
+
+		quest = json_object_get(question, "quest");
+		right = json_object_get(question, "right");
+
+		CCLOG("Quest: %s", json_string_value(quest));
+		CCLOG("Right: %d", (int)json_number_value(right));
+
+
+		answers = json_object_get(question, "answers");
+		for (int j = 0; j < 4; ++j)
+		{
+			json_t* answer = json_array_get(answers, j);
+			CCLOG("Answer:%d: %s", j, json_string_value(answer));
+		}
+	}
+
+	CCLOG("--------- END ---------");
 }
 
 LevelManager* LevelManager::shareLevelLoader()
