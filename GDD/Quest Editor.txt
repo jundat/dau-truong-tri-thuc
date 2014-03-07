@@ -1,0 +1,17 @@
+Quest Editor
+
+
+Textbox: Số thứ tự (tự động)
+Textbox: câu hỏi
+Textbox: trả lời 0
+Textbox: trả lời 1
+Textbox: trả lời 2
+Textbox: trả lời 3
+Textbox: đán án
+ComboBox: chủ đề của câu hỏi
+Textbox: độ khó 1->5
+
+
+Xuyên suốt quá trình tạo data câu hỏi thao tác trên database SQLServer, Access hay cái thể loại gì đó
+Sau khi hoàn tất thì có nút Export -> Json, đọc từ database và sinh ra json :D
+Ngon! Yolo

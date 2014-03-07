@@ -1,0 +1,17 @@
+
+
+1. Ko lên mạng
+NO: Id, Name, ...
+
+2. Có online, Ko facebook
+Có DeviceID -> 
+	Name: mặc định
+		Setting: cho phép sửa
+Ko có DeviceID
+	Request -> server -> cấp ID duy nhất -> Lưu lại local
+
+3. Có online, có facebook
+UserID = FacebookId
+Tên = Tên facebook
+
+

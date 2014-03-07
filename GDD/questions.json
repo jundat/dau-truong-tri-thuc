@@ -1,25 +1,25 @@
 [
 	{
-		quest: "Day la cau hoi 1?",
-		answers:
+		"quest": "Day la cau hoi 1?",
+		"answers":
 		[
 			"Cau tra loi A", //0
 			"Cau tra loi B", //1
 			"Cau tra loi C", //2
 			"Cau tra loi D" //3
 		],
-		right: 0 // 1->3
+		"right": 0 // 1->3
 	},
 	{
-		quest: "Day la cau hoi 2?",
-		answers:
+		"quest": "Day la cau hoi 2?",
+		"answers":
 		[
 			"Cau tra loi A", //0
 			"Cau tra loi B", //1
 			"Cau tra loi C", //2
 			"Cau tra loi D" //3
 		],
-		right: 0 // 1->3
+		"right": 0 // 1->3
 	}
 	//...
 ]
