@@ -10,8 +10,8 @@
 USING_NS_CC;
 using namespace std;
 
-#define NUM_ENEMY_TYPE	15
-#define LEVEL_FILE		"questions.plist"
+
+#define LEVEL_FILE		"questions.json"
 
 
 class LevelData : public CCObject {
