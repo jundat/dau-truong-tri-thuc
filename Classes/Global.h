@@ -2,6 +2,18 @@
 #define __GLOBAL_H__
 
 #include <string>
+#include "ConfigLoader.h"
+
+
+//////////////////////////////////////////////////////////////////////////
+//MACRO
+
+#define CONF_INT(config)		ConfigLoader::shareConfigLoader()->getIntValue(#config)
+#define CONF_FLOAT(config)		ConfigLoader::shareConfigLoader()->getFloatValue(#config)
+#define CONF_STR(config)		ConfigLoader::shareConfigLoader()->getStringValue(#config)
+
+//////////////////////////////////////////////////////////////////////////
+
 
 //////////////////////////////////////////////////////////////////////////
 //CONSTANT
@@ -26,24 +38,25 @@
 //////////////////////////////////////////////////////////////////////////
 //
 
+
 //URL
-extern std::string G_URL_PROFILE;
-extern std::string G_URL_FRIEND;
-extern std::string G_URL_DEVICE;
-extern std::string G_URL_SCORE;
+#define     G_URL_PROFILE
+#define     G_URL_PROFILE
+#define     G_URL_DEVICE
+#define     G_URL_SCORE
 
 
 //////////////////////////////////////////////////////////////////////////
 //VARIANT
 
 
-extern int		G_DESIGN_WIDTH;
-extern int		G_DESIGN_HEIGHT;
-extern float	G_SCALE_FACTOR;
+#define    	G_DESIGN_WIDTH
+#define    	G_DESIGN_HEIGHT
+#define    	G_SCALE_FACTOR
 
-extern int		G_DEFAULT_DIAMON;
-extern int		G_DIAMON_PER_LIFE;
-extern float	G_TIME_TO_REFRESH_FRIENDS;
+#define    	G_DEFAULT_DIAMON
+#define    	G_DIAMON_PER_LIFE
+#define    	G_TIME_TO_REFRESH_FRIENDS
 
 
 
