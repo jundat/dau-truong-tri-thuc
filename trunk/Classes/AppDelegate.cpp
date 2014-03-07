@@ -15,6 +15,8 @@
 USING_NS_CC;
 using namespace CocosDenshion;
 
+
+
 AppDelegate::AppDelegate() 
 {
 }
@@ -32,8 +34,8 @@ bool AppDelegate::applicationDidFinishLaunching() {
     CCEGLView* pEGLView = CCEGLView::sharedOpenGLView();
 	
 #ifdef WIN32
-	pEGLView->setFrameSize(G_DESIGN_WIDTH, G_DESIGN_HEIGHT);
-	pEGLView->setFrameZoomFactor(G_SCALE_FACTOR);
+	pEGLView->setFrameSize(CONF_INT(G_DESIGN_WIDTH), CONF_INT(G_DESIGN_HEIGHT));
+	pEGLView->setFrameZoomFactor(CONF_FLOAT(G_SCALE_FACTOR));
 #endif
 	
     pDirector->setOpenGLView(pEGLView);
@@ -43,11 +45,11 @@ bool AppDelegate::applicationDidFinishLaunching() {
 	
 	if (realSize.width < G_SMALL_DEVIVE_SIZE) //mini device
 	{
-		pEGLView->setDesignResolutionSize(G_DESIGN_WIDTH, G_DESIGN_HEIGHT, kResolutionExactFit);
+		pEGLView->setDesignResolutionSize(CONF_INT(G_DESIGN_WIDTH), CONF_INT(G_DESIGN_HEIGHT), kResolutionExactFit);
 	} 
 	else
 	{
-		pEGLView->setDesignResolutionSize(G_DESIGN_WIDTH, G_DESIGN_HEIGHT, kResolutionShowAll);
+		pEGLView->setDesignResolutionSize(CONF_INT(G_DESIGN_WIDTH), CONF_INT(G_DESIGN_HEIGHT), kResolutionShowAll);
 	}
 	
 	AudioManager::sharedAudioManager()->SetVolumeMusic(G_DEFAULT_VOLUME);

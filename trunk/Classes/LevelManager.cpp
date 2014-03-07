@@ -10,13 +10,13 @@ LevelManager* LevelManager::s_instance = NULL;
 
 LevelManager::LevelManager(void)
 {
+	CCLOG("--------- LEVEL LOAD BEGIN ---------");
 	m_dict = CCDictionary::create();
 	m_dict->retain();
 
 	//JSON
 	CCString* ss = CCString::createWithContentsOfFile(LEVEL_FILE);
 	string s = string(ss->getCString());
-	CCLOG("--------- LEVEL LOAD BEGIN ---------");
 
 	json_t *questionList;
 	json_error_t error;
@@ -56,23 +56,6 @@ LevelManager* LevelManager::shareLevelLoader()
 
 LevelData* LevelManager::getLevel( int level )
 {
-	string sLevel = CCString::createWithFormat("%d", level)->getCString();
-	CCDictionary* question = (CCDictionary*)m_dict->objectForKey(sLevel);
-	
-	if (question != NULL)
-	{
-		string quest = ((CCString*)question->objectForKey("quest"))->getCString();
-		string a = ((CCString*)question->objectForKey("a"))->getCString();
-		string b = ((CCString*)question->objectForKey("b"))->getCString();
-		string c = ((CCString*)question->objectForKey("c"))->getCString();
-		string d = ((CCString*)question->objectForKey("d"))->getCString();
-		int answer = ((CCString*)question->objectForKey("answer"))->intValue();
-
-		LevelData* ld = LevelData::create(quest, a, b, c, d, answer);
-		return ld;
-	} 
-	else
-	{
-		return NULL;
-	}
+	LevelData* ld = (LevelData*)m_dict->objectForKey(level);
+	return ld;
 }

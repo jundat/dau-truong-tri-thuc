@@ -2,44 +2,23 @@
 #include "cocos2d.h"
 
 USING_NS_CC;
-
-//////////////////////////////////////////////////////////////////////////
-
+using namespace std;
 
 ConfigLoader* ConfigLoader::s_instance = NULL;
 
 
 ConfigLoader::ConfigLoader(void)
 {
-	CCLOG("-----------CONFIG------------");
-	m_dict = CCDictionary::createWithContentsOfFile(CONFIG_FILE);
+	CCLOG("-----------CONFIG BEGIN------------");
 
-	CCDictElement* pElement = NULL;
-	CCDICT_FOREACH(m_dict, pElement)
-	{
-		CCString* val = (CCString*)pElement->getObject();
-		std::string key = pElement->getStrKey();
-		CCLOG("%s : %s", key.c_str(), val->getCString());
-	}
-	CCLOG("------------CONFIG-----------");
+	//JSON
+	string s = string(CCString::createWithContentsOfFile(CONFIG_FILE)->getCString());
+	CCLOG("%s", s.c_str());
+	json_error_t error;
 
-	//URL
-	G_URL_PROFILE	= std::string(GetValue(std::string("G_URL_PROFILE"))->getCString());
-	G_URL_FRIEND	= std::string(GetValue(std::string("G_URL_FRIEND"))->getCString());
-	G_URL_DEVICE	= std::string(GetValue(std::string("G_URL_DEVICE"))->getCString());
-	G_URL_SCORE		= std::string(GetValue(std::string("G_URL_SCORE"))->getCString());
+	m_configObject = json_loads(s.c_str(), strlen(s.c_str()), &error);
 
-
-	//////////////////////////////////////////////////////////////////////////
-
-	//save to variant
-	G_DESIGN_WIDTH	= GetValue(std::string("G_DESIGN_WIDTH"))->intValue();
-	G_DESIGN_HEIGHT = GetValue(std::string("G_DESIGN_HEIGHT"))->intValue();
-	G_SCALE_FACTOR	= GetValue(std::string("G_SCALE_FACTOR"))->floatValue();
-
-	G_DEFAULT_DIAMON	= GetValue(std::string("G_DEFAULT_DIAMON"))->intValue();
-	G_DIAMON_PER_LIFE	= GetValue(std::string("G_DIAMON_PER_LIFE"))->intValue();
-	G_TIME_TO_REFRESH_FRIENDS	= GetValue(std::string("G_TIME_TO_REFRESH_FRIENDS"))->floatValue();	
+	CCLOG("-----------CONFIG END------------");
 }
 
 ConfigLoader::~ConfigLoader(void)
@@ -56,14 +35,21 @@ ConfigLoader* ConfigLoader::shareConfigLoader()
 	return s_instance;
 }
 
-const CCString* ConfigLoader::GetValue(const std::string key )
+const char* ConfigLoader::getStringValue(const char* key)
 {
-	const CCString* val = m_dict->valueForKey(key);
-	if (val->length() == 0)
-	{
-		CCLOG("NOT A VALID KEY CONFIG: %s", key.c_str());
-		return CCStringMake("NULL_STRING");
-	}
-
-	return val;
+	json_t* jsonValue = json_object_get(m_configObject, key);
+	return json_string_value(jsonValue);
 }
+
+int ConfigLoader::getIntValue( const char* key )
+{
+	json_t* jsonValue = json_object_get(m_configObject, key);
+	return (int)json_number_value(jsonValue);
+}
+
+float ConfigLoader::getFloatValue( const char* key )
+{
+	json_t* jsonValue = json_object_get(m_configObject, key);
+	return (float)json_number_value(jsonValue);
+}
+

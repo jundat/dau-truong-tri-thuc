@@ -9,7 +9,7 @@ void GameClientManager::sendPlayerFbProfile( std::string fbId, std::string fbNam
 	CCHttpRequest* request = new CCHttpRequest();
 	request->setRequestType(CCHttpRequest::kHttpPost);
 
-	request->setUrl(G_URL_PROFILE.c_str());
+	request->setUrl(CONF_STR(G_URL_PROFILE));
 	request->setTag("sendPlayerFbProfile");
 	request->setResponseCallback(this, httpresponse_selector(GameClientManager::_onSendPlayerFbProfileCompleted));
 
@@ -63,7 +63,7 @@ void GameClientManager::sendFriendList(std::string fbId, CCArray* arrFriends )
 	CCHttpRequest* request = new CCHttpRequest();
 	request->setRequestType(CCHttpRequest::kHttpPost);
 
-	request->setUrl(G_URL_FRIEND.c_str());
+	request->setUrl(CONF_STR(G_URL_PROFILE));
 	request->setTag("sendFriendList");
 	request->setResponseCallback(this, httpresponse_selector(GameClientManager::_onSendFriendListCompleted));
 
@@ -135,7 +135,7 @@ void GameClientManager::sendDeviceProfile( std::string fbId, std::string deviceI
 	CCHttpRequest* request = new CCHttpRequest();
 	request->setRequestType(CCHttpRequest::kHttpPost);
 
-	request->setUrl(G_URL_DEVICE.c_str());
+	request->setUrl(CONF_STR(G_URL_DEVICE));
 	request->setTag("sendDeviceProfile");
 	request->setResponseCallback(this, httpresponse_selector(GameClientManager::_onSendDeviceProfileCompleted));
 
@@ -193,7 +193,7 @@ void GameClientManager::sendScore( std::string appId, std::string fbId, int scor
 	CCHttpRequest* request = new CCHttpRequest();
 	request->setRequestType(CCHttpRequest::kHttpPost);
 
-	request->setUrl(G_URL_SCORE.c_str());
+	request->setUrl(CONF_STR(G_URL_SCORE));
 	request->setTag("sendScore");
 	request->setResponseCallback(this, httpresponse_selector(GameClientManager::_onSendScoreCompleted));
 
@@ -250,7 +250,7 @@ void GameClientManager::getScore( std::string appId, std::string fbId )
 	CCHttpRequest* request = new CCHttpRequest();
 	request->setRequestType(CCHttpRequest::kHttpPost);
 
-	request->setUrl(G_URL_SCORE.c_str());
+	request->setUrl(CONF_STR(G_URL_SCORE));
 	request->setTag("getScore");
 	request->setResponseCallback(this, httpresponse_selector(GameClientManager::_onGetScoreCompleted));
 
@@ -313,7 +313,7 @@ void GameClientManager::getFriendList( std::string appId, std::string fbId )
 	CCHttpRequest* request = new CCHttpRequest();
 	request->setRequestType(CCHttpRequest::kHttpPost);
 
-	request->setUrl(G_URL_FRIEND.c_str());
+	request->setUrl(CONF_STR(G_URL_PROFILE));
 	request->setTag("getFriendList");
 	request->setResponseCallback(this, httpresponse_selector(GameClientManager::_onGetFriendListCompleted));
 
@@ -399,7 +399,7 @@ void GameClientManager::getPlayerFbProfile(std::string fbId )
 	CCHttpRequest* request = new CCHttpRequest();
 	request->setRequestType(CCHttpRequest::kHttpPost);
 
-	request->setUrl(G_URL_PROFILE.c_str());
+	request->setUrl(CONF_STR(G_URL_PROFILE));
 	request->setTag("getPlayerFbProfile");
 	request->setResponseCallback(this, httpresponse_selector(GameClientManager::_onGetPlayerFbProfileCompleted));
 
@@ -485,7 +485,7 @@ void GameClientManager::getDeviceProfile(std::string fbId )
 	CCHttpRequest* request = new CCHttpRequest();
 	request->setRequestType(CCHttpRequest::kHttpPost);
 
-	request->setUrl(G_URL_DEVICE.c_str());
+	request->setUrl(CONF_STR(G_URL_DEVICE));
 	request->setTag("getDeviceProfile");
 	request->setResponseCallback(this, httpresponse_selector(GameClientManager::_onGetDeviceProfileCompleted));
 
