@@ -17,7 +17,7 @@ using namespace std;
 class LevelData : public CCObject {
 public:
 	LevelData(){};
-	LevelData(string quest, string a, string b, string c, string d, int answer) {
+	LevelData(string quest, string a, string b, string c, string d, int right) {
 		m_quest = string(quest);
 
 		m_arrChoice[0] = string(a);
@@ -25,7 +25,7 @@ public:
 		m_arrChoice[2] = string(c);
 		m_arrChoice[3] = string(d);
 		
-		m_answer = answer;
+		m_right = right;
 	}
 
 	LevelData Clone() {
@@ -38,7 +38,7 @@ public:
 		newLd.m_arrChoice[2] = string(this->m_arrChoice[2]);
 		newLd.m_arrChoice[3] = string(this->m_arrChoice[3]);
 
-		newLd.m_answer = this->m_answer;
+		newLd.m_right = this->m_right;
 
 		return newLd;
 	}
@@ -49,22 +49,50 @@ public:
 		return ld;
 	}
 
-	const char* ToString() {
+	CCObject* copyWithZone(CCZone *pZone)
+	{
+		CCZone *pNewZone = NULL;
+		LevelData *pRet = NULL;
+		if(pZone && pZone->m_pCopyObject) //in case of being called at sub class
+		{
+			pRet = (LevelData*)(pZone->m_pCopyObject);
+		}
+		else
+		{
+			pRet = new LevelData();
+			pZone = pNewZone = new CCZone(pRet);
+		}
+		CCObject::copyWithZone(pZone);
+		// copy member data
+		
+		pRet->m_quest = string(m_quest);
+		pRet->m_arrChoice[0] = string(m_arrChoice[0]);
+		pRet->m_arrChoice[1] = string(m_arrChoice[1]);
+		pRet->m_arrChoice[2] = string(m_arrChoice[2]);
+		pRet->m_arrChoice[3] = string(m_arrChoice[3]);
+		pRet->m_right = m_right;
+
+		CC_SAFE_DELETE(pNewZone);
+		return pRet;
+	}
+
+	const char* toString() {
 		CCString* s = CCString::createWithFormat("Quest: %s\nA: %s\nB: %s\nC: %s\nD: %s\nAnswer: %d",
 			m_quest.c_str(),
 			m_arrChoice[0].c_str(),
 			m_arrChoice[1].c_str(),
 			m_arrChoice[2].c_str(),
 			m_arrChoice[3].c_str(),
-			m_answer
+			m_right
 			);
 		return s->getCString();
 	}
 
 	string m_quest;
 	string m_arrChoice[4];
-	int m_answer;
+	int m_right;
 };
+
 
 class LevelManager
 {
