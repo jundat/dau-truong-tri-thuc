@@ -1,4 +1,4 @@
-#include "MainGameScene.h"
+#include "SoloGameScene.h"
 #include "AudioManager.h"
 #include "MenuScene.h"
 #include "DataManager.h"
@@ -10,15 +10,15 @@ USING_NS_CC;
 
 
 
-CCScene* MainGameScene::scene()
+CCScene* SoloGameScene::scene()
 {
     CCScene *scene = CCScene::create();
-    MainGameScene *layer = MainGameScene::create();
+    SoloGameScene *layer = SoloGameScene::create();
     scene->addChild(layer);
     return scene;
 }
 
-bool MainGameScene::init()
+bool SoloGameScene::init()
 {
     if ( !CCLayerColor::initWithColor(ccc4(255, 255, 255, 255)) )
     {
@@ -52,20 +52,20 @@ bool MainGameScene::init()
 	_lbClock->setAnchorPoint(ANCHOR_MID);
 	m_lbClock = _lbClock;
 
-	MY_ADD_MENU_ITEM(itBack, "back.png", "backDown.png", "backDown.png", MainGameScene::menuCallback, ccp(60, 60));
+	MY_ADD_MENU_ITEM(itBack, "back.png", "backDown.png", "backDown.png", SoloGameScene::menuCallback, ccp(60, 60));
 	
 	//HELP
 
-	MY_ADD_MENU_ITEM(itHelp1, "help1.png", "help1Down.png", "help1Down.png", MainGameScene::itHelp1Callback, ccp(740, 1280-60));
-	MY_ADD_MENU_ITEM(itHelp2, "help2.png", "help2Down.png", "help2Down.png", MainGameScene::itHelp2Callback, ccp(640, 1280-60));
-	MY_ADD_MENU_ITEM(itHelp3, "help3.png", "help3Down.png", "help3Down.png", MainGameScene::itHelp3Callback, ccp(540, 1280-60));
+	MY_ADD_MENU_ITEM(itHelp1, "help1.png", "help1Down.png", "help1Down.png", SoloGameScene::itHelp1Callback, ccp(740, 1280-60));
+	MY_ADD_MENU_ITEM(itHelp2, "help2.png", "help2Down.png", "help2Down.png", SoloGameScene::itHelp2Callback, ccp(640, 1280-60));
+	MY_ADD_MENU_ITEM(itHelp3, "help3.png", "help3Down.png", "help3Down.png", SoloGameScene::itHelp3Callback, ccp(540, 1280-60));
 
 	initItems();
 
 	MY_ADD_SPRITE(_sprGameResult, "game_result.png", ccp(400, 640));
 	m_sprGameResult = _sprGameResult;
 	m_sprGameResult->setVisible(false);
-	MY_CREATE_MENU_ITEM(itNext, "next.png", "next.png", "next.png", MainGameScene::nextQuestion, ccp(400, m_sprGameResult->getContentSize().height/2));
+	MY_CREATE_MENU_ITEM(itNext, "next.png", "next.png", "next.png", SoloGameScene::nextQuestion, ccp(400, m_sprGameResult->getContentSize().height/2));
 	m_sprGameResult->addChild(menuitNext);
 
 	nextQuestion(NULL);
@@ -74,13 +74,13 @@ bool MainGameScene::init()
     return true;
 }
 
-void MainGameScene::onEnterTransitionDidFinish()
+void SoloGameScene::onEnterTransitionDidFinish()
 {
-	this->schedule(schedule_selector(MainGameScene::scheduleClock), 0.5f);
+	this->schedule(schedule_selector(SoloGameScene::scheduleClock), 0.5f);
 	this->setKeypadEnabled(true);
 }
 
-void MainGameScene::menuCallback(CCObject* pSender)
+void SoloGameScene::menuCallback(CCObject* pSender)
 {
 	PLAY_BUTTON_EFFECT;
 
@@ -88,19 +88,19 @@ void MainGameScene::menuCallback(CCObject* pSender)
 	CCDirector::sharedDirector()->replaceScene(pScene);
 }
 
-void MainGameScene::keyBackClicked()
+void SoloGameScene::keyBackClicked()
 {
 	menuCallback(NULL);
 }
 
-void MainGameScene::answerCallback( CCObject* pSender )
+void SoloGameScene::answerCallback( CCObject* pSender )
 {
 	if (m_isPause)
 	{
 		return;
 	}
 	
-	this->unschedule(schedule_selector(MainGameScene::scheduleClock));
+	this->unschedule(schedule_selector(SoloGameScene::scheduleClock));
 
 	CCMenuItemImage* it = (CCMenuItemImage*) pSender;
 	it->selected();
@@ -127,7 +127,7 @@ void MainGameScene::answerCallback( CCObject* pSender )
 	DataManager::sharedDataManager()->SetSoloScore(m_curScore);
 }
 
-void MainGameScene::nextQuestion(CCObject* pSender)
+void SoloGameScene::nextQuestion(CCObject* pSender)
 {
 	//UI
 	m_sprGameResult->setVisible(false);
@@ -145,10 +145,10 @@ void MainGameScene::nextQuestion(CCObject* pSender)
 	m_isPause = false;
 	m_curDisableChoose = 0;
 	m_clockCounter = CONF_INT(G_SOLO_TIME_FOR_QUESTION);
-	this->schedule(schedule_selector(MainGameScene::scheduleClock), 0.5f);
+	this->schedule(schedule_selector(SoloGameScene::scheduleClock), 0.5f);
 }
 
-void MainGameScene::initItems()
+void SoloGameScene::initItems()
 {
 	MY_ADD_SPRITE(sprQuest, "question.png", ccp(400, 1280-537));
 	
@@ -160,7 +160,7 @@ void MainGameScene::initItems()
 
 	for (int i = 0; i < 4; ++i)
 	{
-		m_itAnswers[i] = CCMenuItemImage::create("answer.png", "answer_down.png", "answer_disable.png", this, menu_selector(MainGameScene::answerCallback));
+		m_itAnswers[i] = CCMenuItemImage::create("answer.png", "answer_down.png", "answer_disable.png", this, menu_selector(SoloGameScene::answerCallback));
 		m_itAnswers[i]->setPosition(ccp(400, 1280-843 - i*94));
 		m_itAnswers[i]->setTag(i);
 	}
@@ -179,7 +179,7 @@ void MainGameScene::initItems()
 	}
 }
 
-void MainGameScene::initLevel( int level )
+void SoloGameScene::initLevel( int level )
 {
 	LevelData* ld = LevelManager::shareLevelLoader()->getLevel(level);
 	
@@ -194,7 +194,7 @@ void MainGameScene::initLevel( int level )
 }
 
 
-void MainGameScene::itHelp1Callback( CCObject* pSender )
+void SoloGameScene::itHelp1Callback( CCObject* pSender )
 {
 	if (m_isPause)
 	{
@@ -237,12 +237,12 @@ void MainGameScene::itHelp1Callback( CCObject* pSender )
 	}
 }
 
-void MainGameScene::itHelp2Callback( CCObject* pSender )
+void SoloGameScene::itHelp2Callback( CCObject* pSender )
 {
 	CCMessageBox("not implement", "Info");
 }
 
-void MainGameScene::itHelp3Callback( CCObject* pSender )
+void SoloGameScene::itHelp3Callback( CCObject* pSender )
 {
 	if (m_isPause)
 	{
@@ -265,7 +265,7 @@ void MainGameScene::itHelp3Callback( CCObject* pSender )
 	nextQuestion(NULL);
 }
 
-void MainGameScene::scheduleClock( float dt )
+void SoloGameScene::scheduleClock( float dt )
 {
 	m_clockCounter -= dt;
 	m_clockCounter = (m_clockCounter < -1) ? -1 : m_clockCounter;
@@ -275,7 +275,7 @@ void MainGameScene::scheduleClock( float dt )
 
 	if (m_clockCounter == -1)
 	{
-		this->unschedule(schedule_selector(MainGameScene::scheduleClock));
+		this->unschedule(schedule_selector(SoloGameScene::scheduleClock));
 
 		m_lbScore -= CONF_INT(G_SOLO_SUB_SCORE);
 		if(m_curScore < 0) m_curScore = 0;
@@ -284,7 +284,7 @@ void MainGameScene::scheduleClock( float dt )
 	}
 }
 
-void MainGameScene::animationRightChoose()
+void SoloGameScene::animationRightChoose()
 {
 	m_isPause = true;
 
@@ -298,16 +298,12 @@ void MainGameScene::animationRightChoose()
 					),
 					5
 				),
-				CCCallFunc::create(this, callfunc_selector(MainGameScene::onFinishAnimationRightChoose))
+				CCCallFunc::create(this, callfunc_selector(SoloGameScene::onFinishAnimationRightChoose))
 			)
 		);
 }
 
-void MainGameScene::onFinishAnimationRightChoose()
+void SoloGameScene::onFinishAnimationRightChoose()
 {
 	m_sprGameResult->setVisible(true);
 }
-
-
-
-

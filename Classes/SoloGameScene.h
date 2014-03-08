@@ -8,12 +8,12 @@
 USING_NS_CC;
 
 
-class MainGameScene : public cocos2d::CCLayerColor
+class SoloGameScene : public cocos2d::CCLayerColor
 {
 public:
     virtual bool init();
     static cocos2d::CCScene* scene();
-	CREATE_FUNC(MainGameScene);
+	CREATE_FUNC(SoloGameScene);
 
 	virtual void onEnterTransitionDidFinish();
 

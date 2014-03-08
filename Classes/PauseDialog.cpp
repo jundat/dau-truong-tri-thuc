@@ -1,6 +1,6 @@
 #include "Global.h"
 #include "PauseDialog.h"
-#include "MainGameScene.h"
+#include "SoloGameScene.h"
 #include "MenuScene.h"
 #include "AudioManager.h"
 
@@ -61,7 +61,7 @@ void PauseDialog::resumeCallBack( CCObject* pSender )
 {
 	PLAY_BUTTON_EFFECT;
 
-	MainGameScene* parent = (MainGameScene*) this->getParent();
+	SoloGameScene* parent = (SoloGameScene*) this->getParent();
 	//parent->resumeCallback();
 	this->removeFromParent();
 }
@@ -70,7 +70,7 @@ void PauseDialog::restartCallBack( CCObject* pSender )
 {
 	PLAY_BUTTON_EFFECT;
 
-	MainGameScene* parent = (MainGameScene*) this->getParent();
+	SoloGameScene* parent = (SoloGameScene*) this->getParent();
 	//parent->restartCallback();
 	this->removeFromParent();
 }
