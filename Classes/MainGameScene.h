@@ -7,12 +7,6 @@
 
 USING_NS_CC;
 
-#define SOLO_ADD_SCORE		10
-#define WAR_ADD_SCORE		20
-
-#define SOLO_SUB_SCORE		10
-#define WAR_SUB_SCORE		20
-
 
 class MainGameScene : public cocos2d::CCLayerColor
 {
@@ -21,27 +15,39 @@ public:
     static cocos2d::CCScene* scene();
 	CREATE_FUNC(MainGameScene);
 
+	virtual void onEnterTransitionDidFinish();
+
 	void menuCallback(CCObject* pSender);
 	virtual void keyBackClicked();
-	void nextQuestion();
+	void nextQuestion(CCObject* pSender);
 	void initLevel(int level);
 	void initItems();
 	void answerCallback(CCObject* pSender);
+	void animationRightChoose();
+	void onFinishAnimationRightChoose();
 
 	void itHelp1Callback(CCObject* pSender);
 	void itHelp2Callback(CCObject* pSender);
 	void itHelp3Callback(CCObject* pSender);
 
+	void scheduleClock(float dt);
+
 public:
 	int m_curScore;
 	int m_curQuestionNumber;
 	int m_curRightAnswer;
+	float m_clockCounter;
+	bool m_isRight;
+	bool m_isPause;
 
+	CCLabelTTF* m_lbClock;
+	CCLabelTTF* m_lbDiamond;
 	CCLabelTTF* m_lbScore;
 	CCLabelTTF* m_lbNumber;
 	CCLabelTTF* m_lbQuestion;
 	CCLabelTTF* m_lbAnswers[4];
 	CCMenuItemImage* m_itAnswers[4];
+	CCSprite* m_sprGameResult;	
 };
 
 #endif // __MAIN_GAME_SCENE_H__

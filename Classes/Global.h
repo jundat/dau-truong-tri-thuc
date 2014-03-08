@@ -41,8 +41,8 @@
 
 //URL
 #define     G_URL_PROFILE
-#define     G_URL_PROFILE
 #define     G_URL_DEVICE
+#define     G_URL_FRIEND
 #define     G_URL_SCORE
 
 
@@ -58,7 +58,12 @@
 #define    	G_DIAMON_PER_LIFE
 #define    	G_TIME_TO_REFRESH_FRIENDS
 
+#define		G_SOLO_TIME_FOR_QUESTION
+#define		G_SOLO_ADD_SCORE
+#define		G_SOLO_SUB_SCORE
 
-
+#define		G_WAR_TIME_FOR_QUESTION
+#define		G_WAR_ADD_SCORE
+#define		G_WAR_SUB_SCORE
 
 #endif //__GLOBAL_H__

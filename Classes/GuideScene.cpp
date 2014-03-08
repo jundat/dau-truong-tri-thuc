@@ -26,22 +26,18 @@ bool GuideScene::init()
 		return false;
 	}
 
-	CCSprite* bg = CCSprite::create("guide_background.png");
-	bg->setPosition(ccp(400, 640));
-	this->addChild(bg);
+	MY_ADD_SPRITE(bg, "guide_background.png", ccp(400, 640));
 
-	CCMenuItemImage *backItem = CCMenuItemImage::create(
+	MY_ADD_MENU_ITEM(
+		backItem, 
 		"back.png",
 		"backDown.png",
-		this,
-		menu_selector(GuideScene::menuCallback));
-	backItem->setAnchorPoint(ccp(0.0f, 0.0f));
-	backItem->setPosition(ccp(10, 10));
+		"backDown.png",
+		GuideScene::menuCallback,
+		ccp(60, 60)
+		);
 
-
-	CCMenu* pMenu = CCMenu::create(backItem, NULL);
-	pMenu->setPosition(CCPointZero);
-	this->addChild(pMenu);
+	MY_ADD_LABELTTF(lbTitle, "Hướng dẫn", G_FONT_LEADERBOARD, 64, ccBLACK, ccp(400, 1200));
 
 
 	this->setKeypadEnabled(true);

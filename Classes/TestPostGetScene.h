@@ -2,10 +2,11 @@
 #define __TEST_POSTGET_SCENE_H__
 
 #include "cocos2d.h"
-#include "cocos-ext.h"
 #include "HttpClient.h"
+#include "cocos-ext.h"
 #include "GameClientDelegate.h"
 #include "GameClientManager.h"
+#include "MenuScene.h"
 
 USING_NS_CC;
 USING_NS_CC_EXT;
@@ -17,6 +18,14 @@ public:
     static cocos2d::CCScene* scene();
 	CREATE_FUNC(TestPostGetScene);
 
+	virtual void keyBackClicked()
+	{
+		GameClientManager::sharedGameClientManager()->setDelegate(NULL);
+
+		CCScene *pScene = CCTransitionFade::create(0.5, MenuScene::scene());
+		CCDirector::sharedDirector()->replaceScene(pScene);
+	}
+
 	void testPost1(CCObject *sender);
 	void testPost2(CCObject *sender);
 	void testPost3(CCObject *sender);
@@ -26,7 +35,7 @@ public:
 	void testPost7(CCObject *sender);
 	void testPost8(CCObject *sender);
 
-	virtual void onSendPlayerFbProfileCompleted( bool isSuccess )
+	virtual void onSendUserProfileCompleted( bool isSuccess )
 	{
 		if (isSuccess)
 		{
@@ -94,7 +103,7 @@ public:
 
 			for (int i = 0; i < arrHighScore->count(); ++i)
 			{
-				FacebookAccount* fb = (FacebookAccount*) arrHighScore->objectAtIndex(i);
+				UserProfile* fb = (UserProfile*) arrHighScore->objectAtIndex(i);
 				CCLOG("%s", fb->toJson().c_str());
 			}
 		} 
@@ -112,7 +121,7 @@ public:
 
 			for (int i = 0; i < arrHighScore->count(); ++i)
 			{
-				FacebookAccount* fb = (FacebookAccount*) arrHighScore->objectAtIndex(i);
+				UserProfile* fb = (UserProfile*) arrHighScore->objectAtIndex(i);
 				CCLOG("%s", fb->toJson().c_str());
 			}
 		} 
