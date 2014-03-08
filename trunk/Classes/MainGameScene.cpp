@@ -31,8 +31,26 @@ bool MainGameScene::init()
 	m_clockCounter = CONF_INT(G_SOLO_TIME_FOR_QUESTION);
 	m_isRight = false;
 	m_isPause = false;
+	m_curDisableChoose = 4;
 
 	MY_ADD_SPRITE(bg, "game_background.png", ccp(400, 640));
+	MY_ADD_SPRITE(avatar, "avatar.png", ccp(86, 1280-86));
+
+	MY_ADD_SPRITE(score, "score.png", ccp(203, 1280-41));
+	MY_ADD_LABELTTF(_lbScore, CCString::createWithFormat("%d", m_curScore)->getCString(), G_FONT_NORMAL, 48, ccBLACK, ccp(240, 1280-46));
+	_lbScore->setAnchorPoint(ANCHOR_LEFT);
+	m_lbScore = _lbScore;
+
+	MY_ADD_SPRITE(sprDiamond, "diamond.png", ccp(203, 1280-100));
+	int diamond = DataManager::sharedDataManager()->GetDiamond();
+	MY_ADD_LABELTTF(_lbDiamond, CCString::createWithFormat("%d", diamond)->getCString(), G_FONT_NORMAL, 48, ccBLACK, ccp(240, 1280-100));
+	_lbDiamond->setAnchorPoint(ANCHOR_LEFT);
+	m_lbDiamond = _lbDiamond;
+	
+	MY_ADD_LABELTTF( _lbClock, CCString::createWithFormat("%d", (int)m_clockCounter)->getCString(), 
+		G_FONT_NORMAL, 64, ccBLACK, ccp(400, 1280-200));
+	_lbClock->setAnchorPoint(ANCHOR_MID);
+	m_lbClock = _lbClock;
 
 	MY_ADD_MENU_ITEM(itBack, "back.png", "backDown.png", "backDown.png", MainGameScene::menuCallback, ccp(60, 60));
 	
@@ -44,7 +62,7 @@ bool MainGameScene::init()
 
 	initItems();
 
-	MY_ADD_SPRITE(_sprGameResult, "game_result.png", ccp(400, 1280-587));
+	MY_ADD_SPRITE(_sprGameResult, "game_result.png", ccp(400, 640));
 	m_sprGameResult = _sprGameResult;
 	m_sprGameResult->setVisible(false);
 	MY_CREATE_MENU_ITEM(itNext, "next.png", "next.png", "next.png", MainGameScene::nextQuestion, ccp(400, m_sprGameResult->getContentSize().height/2));
@@ -85,6 +103,7 @@ void MainGameScene::answerCallback( CCObject* pSender )
 	this->unschedule(schedule_selector(MainGameScene::scheduleClock));
 
 	CCMenuItemImage* it = (CCMenuItemImage*) pSender;
+	it->selected();
 	int tag = it->getTag();
 
 	if (tag == m_curRightAnswer)
@@ -99,23 +118,32 @@ void MainGameScene::answerCallback( CCObject* pSender )
 		//CCMessageBox("WRONG", "ANSWER");
 		PLAY_OUT_PORP_EFFECT;
 		m_curScore -= CONF_INT(G_SOLO_SUB_SCORE);
+		if(m_curScore < 0) m_curScore = 0;
 		m_isRight = false;
 	}
 
 	animationRightChoose();
 	m_lbScore->setString(CCString::createWithFormat("%d", m_curScore)->getCString());
 	DataManager::sharedDataManager()->SetSoloScore(m_curScore);
-	DataManager::sharedDataManager()->SetSoloLastQuestionIndex(m_curQuestionNumber);
 }
 
 void MainGameScene::nextQuestion(CCObject* pSender)
 {
+	//UI
 	m_sprGameResult->setVisible(false);
-
+	for (int i = 0; i < 4; ++i)
+	{
+		m_itAnswers[i]->setEnabled(true);
+		m_itAnswers[i]->setVisible(true);
+		m_itAnswers[i]->unselected();
+	}
+	
+	DataManager::sharedDataManager()->SetSoloLastQuestionIndex(m_curQuestionNumber);
 	m_curQuestionNumber++;
 	initLevel(m_curQuestionNumber);
 
 	m_isPause = false;
+	m_curDisableChoose = 0;
 	m_clockCounter = CONF_INT(G_SOLO_TIME_FOR_QUESTION);
 	this->schedule(schedule_selector(MainGameScene::scheduleClock), 0.5f);
 }
@@ -123,24 +151,7 @@ void MainGameScene::nextQuestion(CCObject* pSender)
 void MainGameScene::initItems()
 {
 	MY_ADD_SPRITE(sprQuest, "question.png", ccp(400, 1280-537));
-
-	MY_ADD_LABELTTF(_lbScore, CCString::createWithFormat("%d", m_curScore)->getCString(), G_FONT_NORMAL, 48, ccBLACK, ccp(20, 1280-60));
-	_lbScore->setAnchorPoint(ANCHOR_LEFT);
-	m_lbScore = _lbScore;
-
-	MY_ADD_SPRITE(sprDiamond, "diamond.png", ccp(328, 1280-60));
-
-	int diamond = DataManager::sharedDataManager()->GetDiamond();
-	MY_ADD_LABELTTF(_lbDiamond, CCString::createWithFormat("%d", diamond)->getCString(), G_FONT_NORMAL, 48, ccBLACK, ccp(380, 1280-60));
-	_lbDiamond->setAnchorPoint(ANCHOR_LEFT);
-	m_lbDiamond = _lbDiamond;
-
-
-	MY_ADD_LABELTTF( _lbClock, CCString::createWithFormat("%d", (int)m_clockCounter)->getCString(), 
-		G_FONT_NORMAL, 64, ccBLACK, ccp(400, 1280-200));
-	_lbClock->setAnchorPoint(ANCHOR_MID);
-	m_lbClock = _lbClock;
-
+	
 	MY_ADD_LABELTTF( _lbNumber, "", G_FONT_NORMAL, 64, ccBLACK, ccp(400, 1280-340));
 	m_lbNumber = _lbNumber;
 
@@ -149,7 +160,7 @@ void MainGameScene::initItems()
 
 	for (int i = 0; i < 4; ++i)
 	{
-		m_itAnswers[i] = CCMenuItemImage::create("answer.png", "answer_down.png", this, menu_selector(MainGameScene::answerCallback));
+		m_itAnswers[i] = CCMenuItemImage::create("answer.png", "answer_down.png", "answer_disable.png", this, menu_selector(MainGameScene::answerCallback));
 		m_itAnswers[i]->setPosition(ccp(400, 1280-843 - i*94));
 		m_itAnswers[i]->setTag(i);
 	}
@@ -185,17 +196,73 @@ void MainGameScene::initLevel( int level )
 
 void MainGameScene::itHelp1Callback( CCObject* pSender )
 {
+	if (m_isPause)
+	{
+		return;
+	}
+	
+	//CCMessageBox("Help1", "Info");
+	int diamond = DataManager::sharedDataManager()->GetDiamond();
+	if (diamond < CONF_INT(G_DIAMON_PER_HELP1))
+	{
+		PLAY_OUT_PORP_EFFECT;
+		return;
+	}
+	
+	if (m_curDisableChoose >= 2)
+	{
+		PLAY_OUT_PORP_EFFECT;
+		return;
+	}
+	
 
+	bool isOK = false;
+	while(isOK == false)
+	{
+		int rd = (int)(CCRANDOM_0_1() * 4);
+		
+		if (rd != m_curRightAnswer)
+		{
+			if (m_itAnswers[rd]->isEnabled())
+			{
+				m_itAnswers[rd]->setEnabled(false);
+				m_curDisableChoose++;
+				
+				DataManager::sharedDataManager()->AddDiamond(- CONF_INT(G_DIAMON_PER_HELP1));
+				m_lbDiamond->setString(CCString::createWithFormat("%d", DataManager::sharedDataManager()->GetDiamond())->getCString());
+				PLAY_GET_BOMB_EFFECT;
+				isOK = true;
+			}			
+		}
+	}
 }
 
 void MainGameScene::itHelp2Callback( CCObject* pSender )
 {
-
+	CCMessageBox("not implement", "Info");
 }
 
 void MainGameScene::itHelp3Callback( CCObject* pSender )
 {
+	if (m_isPause)
+	{
+		return;
+	}
 
+	//CCMessageBox("Help3", "Info");
+	int diamond = DataManager::sharedDataManager()->GetDiamond();
+	if (diamond < CONF_INT(G_DIAMON_PER_HELP3))
+	{
+		PLAY_OUT_PORP_EFFECT;
+		return;
+	}
+
+
+	DataManager::sharedDataManager()->AddDiamond(- CONF_INT(G_DIAMON_PER_HELP3));
+	m_lbDiamond->setString(CCString::createWithFormat("%d", DataManager::sharedDataManager()->GetDiamond())->getCString());
+	PLAY_GET_BOMB_EFFECT;
+
+	nextQuestion(NULL);
 }
 
 void MainGameScene::scheduleClock( float dt )
@@ -211,6 +278,7 @@ void MainGameScene::scheduleClock( float dt )
 		this->unschedule(schedule_selector(MainGameScene::scheduleClock));
 
 		m_lbScore -= CONF_INT(G_SOLO_SUB_SCORE);
+		if(m_curScore < 0) m_curScore = 0;
 		m_isRight = false;
 		animationRightChoose();
 	}

@@ -29,12 +29,15 @@ bool AppDelegate::applicationDidFinishLaunching() {
 
 	ConfigLoader::shareConfigLoader();
 	LevelManager::shareLevelLoader();
+
 	GameClientManager::sharedGameClientManager()->setUrls(
 		CONF_STR(G_URL_PROFILE),
 		CONF_STR(G_URL_DEVICE),
 		CONF_STR(G_URL_FRIEND),
 		CONF_STR(G_URL_FRIEND)
 		);
+
+
 
     CCDirector* pDirector = CCDirector::sharedDirector();
     CCEGLView* pEGLView = CCEGLView::sharedOpenGLView();

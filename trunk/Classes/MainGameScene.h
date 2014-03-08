@@ -39,6 +39,7 @@ public:
 	float m_clockCounter;
 	bool m_isRight;
 	bool m_isPause;
+	int m_curDisableChoose;
 
 	CCLabelTTF* m_lbClock;
 	CCLabelTTF* m_lbDiamond;
@@ -47,7 +48,7 @@ public:
 	CCLabelTTF* m_lbQuestion;
 	CCLabelTTF* m_lbAnswers[4];
 	CCMenuItemImage* m_itAnswers[4];
-	CCSprite* m_sprGameResult;	
+	CCSprite* m_sprGameResult;
 };
 
 #endif // __MAIN_GAME_SCENE_H__
