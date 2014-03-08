@@ -4,6 +4,7 @@
 
 #include "cocos2d.h"
 #include "MyMacro.h"
+#include "Global.h"
 #include <time.h>
 USING_NS_CC;
 
@@ -42,7 +43,7 @@ public:
 	//In game
 	
 	//COMMON
-	MY_GETSET_INT_FUNC(Diamond, "DIAMOND", 0);
+	MY_GETSET_INT_FUNC(Diamond, "DIAMOND", CONF_INT(G_DEFAULT_DIAMON));
 
 	//SOLO
 	MY_GETSET_INT_FUNC(SoloScore, "SOLO_SCORE", 0);

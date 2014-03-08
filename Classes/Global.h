@@ -56,6 +56,9 @@
 
 #define    	G_DEFAULT_DIAMON
 #define    	G_DIAMON_PER_LIFE
+#define		G_DIAMON_PER_HELP1
+#define		G_DIAMON_PER_HELP2
+#define		G_DIAMON_PER_HELP3
 #define    	G_TIME_TO_REFRESH_FRIENDS
 
 #define		G_SOLO_TIME_FOR_QUESTION
