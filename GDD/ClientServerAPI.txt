@@ -1,0 +1,151 @@
+ALL ARE POST request
+
+API:
+
+-------------------------------------------------------------------
+-------------------------------------------------------------------
+							SEND DATA
+Callback function: Success or Error
+-------------------------------------------------------------------
+-------------------------------------------------------------------
+
+
+1. Send User Profile
+Url:
+	"/profile"
+
+Message:
+	"data={
+		fbId: "123456789",
+		fbName: "JundatPham",
+		email: "longpham.uit@gmail.com"
+	}&method=set"
+
+Response Message:
+	"{
+		isSuccess: true
+	}"
+
+1.1 Get User Profile
+Message:
+	"data={
+		fbId: "123456789"
+	}&method=get"
+
+Response Message:
+	"{
+		fbId: "123456789",
+		fbName: "JundatPham",
+		email: "longpham.uit@gmail.com"
+	}"
+
+-------------------------------------------------------------------
+2. Send Friend List
+Url:
+	"/friend"
+
+Message:
+	"data={
+		fbId: "123456789",
+		friendList: 
+		[
+			"1234",
+			"5678",
+			"91011"
+		]
+	}&method=set"
+
+Response Message:
+	"{
+		isSuccess: true
+	}"
+
+2.1 Get Friend List
+Message:
+	"data={
+		appId: "App1",
+		fbId: "123456789"
+	}&method=get"
+
+Response Message:
+	"{
+		list:
+		[
+			{
+				fbId: "1234",
+				fbName: "TanLong",
+				score: "756"
+			},
+			{
+				fbId: "4321",
+				fbName: "LongTan",
+				score: "234"
+			},
+			//....
+		]	
+	}"
+
+-------------------------------------------------------------------
+3. Send Device Profile
+Url:
+	"/device"
+
+Message:
+	"data={
+		fbId: "123456789",
+		deviceId: "Android9876",
+		deviceToken: "lk38dygasl8",
+		deviceConfig: "9484759560",
+		devicePhoneNumber: "0979163510"
+	}&method=set"
+
+Response Message:
+	"{
+		isSuccess: true
+	}"
+
+3.1 Get Device Profile
+Message:
+	"data={
+		fbId: "1234",
+		deviceId: "Device1"
+	}&method=get"
+
+Response Message:
+	"{
+		fbId: "123456789",
+		deviceId: "Device1",
+		deviceToken: "deviceToken1",
+		deviceConfig: "deviceConfig1",
+		devicePhoneNumber: "1284095376"
+	}"
+
+-------------------------------------------------------------------
+4. Send Score
+Url:
+	"/score"
+
+Message:
+	"data={
+		appId: "DBPTK"
+		fbId: "123456789",
+		score: "1234"
+	}&method=set"
+
+Response Message:
+	"{
+		isSuccess: true
+	}"
+
+4.1 Get score
+Message:
+	"data={
+		appId: "App1",
+		fbId: "123456789",
+	}&method=get"
+
+Response Message:
+	"{
+		score: "9999",
+		time: "1019338384"
+	}"
