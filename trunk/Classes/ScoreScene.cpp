@@ -5,6 +5,7 @@
 #include "MyMacro.h"
 #include "AudioManager.h"
 #include "Global.h"
+#include "MyMacro.h"
 
 
 USING_NS_CC;
@@ -26,23 +27,18 @@ bool ScoreScene::init()
 		return false;
 	}
 
-	CCSprite* bg = CCSprite::create("score_background.png");
-	bg->setPosition(ccp(400, 640));
-	this->addChild(bg);
-
-	CCMenuItemImage *backItem = CCMenuItemImage::create(
+	MY_ADD_SPRITE(bg, "score_background.png", ccp(400, 640));
+	
+	MY_ADD_MENU_ITEM(
+		backItem, 
 		"back.png",
 		"backDown.png",
-		this,
-		menu_selector(ScoreScene::menuCallback));
-	backItem->setAnchorPoint(ccp(0.0f, 0.0f));
-	backItem->setPosition(ccp(10, 10));
-
-
-	CCMenu* pMenu = CCMenu::create(backItem, NULL);
-	pMenu->setPosition(CCPointZero);
-	this->addChild(pMenu);
-
+		"backDown.png",
+		ScoreScene::menuCallback,
+		ccp(60, 60)
+		);
+	
+	MY_ADD_LABELTTF(lbTitle, "Bảng xếp hạng", G_FONT_LEADERBOARD, 64, ccBLACK, ccp(400, 1200));
 
 	this->setKeypadEnabled(true);
 	return true;

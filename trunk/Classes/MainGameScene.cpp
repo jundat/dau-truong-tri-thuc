@@ -28,6 +28,9 @@ bool MainGameScene::init()
 	m_curScore = DataManager::sharedDataManager()->GetSoloScore();
 	m_curQuestionNumber = DataManager::sharedDataManager()->GetSoloLastQuestionIndex();
 	m_curRightAnswer = -1;
+	m_clockCounter = CONF_INT(G_SOLO_TIME_FOR_QUESTION);
+	m_isRight = false;
+	m_isPause = false;
 
 	MY_ADD_SPRITE(bg, "game_background.png", ccp(400, 640));
 
@@ -38,13 +41,25 @@ bool MainGameScene::init()
 	MY_ADD_MENU_ITEM(itHelp1, "help1.png", "help1Down.png", "help1Down.png", MainGameScene::itHelp1Callback, ccp(740, 1280-60));
 	MY_ADD_MENU_ITEM(itHelp2, "help2.png", "help2Down.png", "help2Down.png", MainGameScene::itHelp2Callback, ccp(640, 1280-60));
 	MY_ADD_MENU_ITEM(itHelp3, "help3.png", "help3Down.png", "help3Down.png", MainGameScene::itHelp3Callback, ccp(540, 1280-60));
-	
-	initItems();
-	nextQuestion();
 
-	this->setKeypadEnabled(true);
+	initItems();
+
+	MY_ADD_SPRITE(_sprGameResult, "game_result.png", ccp(400, 1280-587));
+	m_sprGameResult = _sprGameResult;
+	m_sprGameResult->setVisible(false);
+	MY_CREATE_MENU_ITEM(itNext, "next.png", "next.png", "next.png", MainGameScene::nextQuestion, ccp(400, m_sprGameResult->getContentSize().height/2));
+	m_sprGameResult->addChild(menuitNext);
+
+	nextQuestion(NULL);
+	
 	PLAY_BACKGROUND_MUSIC;
     return true;
+}
+
+void MainGameScene::onEnterTransitionDidFinish()
+{
+	this->schedule(schedule_selector(MainGameScene::scheduleClock), 0.5f);
+	this->setKeypadEnabled(true);
 }
 
 void MainGameScene::menuCallback(CCObject* pSender)
@@ -62,6 +77,13 @@ void MainGameScene::keyBackClicked()
 
 void MainGameScene::answerCallback( CCObject* pSender )
 {
+	if (m_isPause)
+	{
+		return;
+	}
+	
+	this->unschedule(schedule_selector(MainGameScene::scheduleClock));
+
 	CCMenuItemImage* it = (CCMenuItemImage*) pSender;
 	int tag = it->getTag();
 
@@ -69,50 +91,61 @@ void MainGameScene::answerCallback( CCObject* pSender )
 	{
 		//CCMessageBox("RIGHT", "ANSWER");
 		PLAY_GET_BOMB_EFFECT;
-		m_curScore += SOLO_ADD_SCORE;
+		m_curScore += CONF_INT(G_SOLO_ADD_SCORE);
+		m_isRight = true;
 	}
 	else
 	{
 		//CCMessageBox("WRONG", "ANSWER");
 		PLAY_OUT_PORP_EFFECT;
-		m_curScore -= SOLO_ADD_SCORE;
+		m_curScore -= CONF_INT(G_SOLO_SUB_SCORE);
+		m_isRight = false;
 	}
 
+	animationRightChoose();
 	m_lbScore->setString(CCString::createWithFormat("%d", m_curScore)->getCString());
 	DataManager::sharedDataManager()->SetSoloScore(m_curScore);
 	DataManager::sharedDataManager()->SetSoloLastQuestionIndex(m_curQuestionNumber);
-
-	nextQuestion();
-
 }
 
-void MainGameScene::nextQuestion()
+void MainGameScene::nextQuestion(CCObject* pSender)
 {
+	m_sprGameResult->setVisible(false);
+
 	m_curQuestionNumber++;
 	initLevel(m_curQuestionNumber);
+
+	m_isPause = false;
+	m_clockCounter = CONF_INT(G_SOLO_TIME_FOR_QUESTION);
+	this->schedule(schedule_selector(MainGameScene::scheduleClock), 0.5f);
 }
 
 void MainGameScene::initItems()
 {
 	MY_ADD_SPRITE(sprQuest, "question.png", ccp(400, 1280-537));
 
-	m_lbScore = CCLabelTTF::create(CCString::createWithFormat("%d", m_curScore)->getCString(), "Roboto-Medium.ttf", 72);
-	m_lbScore->setFontFillColor(ccc3(0,0,0));
-	m_lbScore->setAnchorPoint(ccp(0.0f, 0.5f));
-	m_lbScore->setPosition(ccp(23, 1280-43));
-	this->addChild(m_lbScore);
+	MY_ADD_LABELTTF(_lbScore, CCString::createWithFormat("%d", m_curScore)->getCString(), G_FONT_NORMAL, 48, ccBLACK, ccp(20, 1280-60));
+	_lbScore->setAnchorPoint(ANCHOR_LEFT);
+	m_lbScore = _lbScore;
 
-	m_lbNumber = CCLabelTTF::create("", "Roboto-Medium.ttf", 64);
-	m_lbNumber->setFontFillColor(ccc3(0,0,0));
-	m_lbNumber->setAnchorPoint(ccp(0.5f, 0.5f));
-	m_lbNumber->setPosition(ccp(400, 1280-340));
-	this->addChild(m_lbNumber);
+	MY_ADD_SPRITE(sprDiamond, "diamond.png", ccp(328, 1280-60));
 
-	m_lbQuestion = CCLabelTTF::create("", "Roboto-Medium.ttf", 48);
-	m_lbQuestion->setFontFillColor(ccc3(0,0,0));
-	m_lbQuestion->setAnchorPoint(ccp(0.5f, 0.5f));
-	m_lbQuestion->setPosition(ccp(400, 1280-600));
-	this->addChild(m_lbQuestion);
+	int diamond = DataManager::sharedDataManager()->GetDiamond();
+	MY_ADD_LABELTTF(_lbDiamond, CCString::createWithFormat("%d", diamond)->getCString(), G_FONT_NORMAL, 48, ccBLACK, ccp(380, 1280-60));
+	_lbDiamond->setAnchorPoint(ANCHOR_LEFT);
+	m_lbDiamond = _lbDiamond;
+
+
+	MY_ADD_LABELTTF( _lbClock, CCString::createWithFormat("%d", (int)m_clockCounter)->getCString(), 
+		G_FONT_NORMAL, 64, ccBLACK, ccp(400, 1280-200));
+	_lbClock->setAnchorPoint(ANCHOR_MID);
+	m_lbClock = _lbClock;
+
+	MY_ADD_LABELTTF( _lbNumber, "", G_FONT_NORMAL, 64, ccBLACK, ccp(400, 1280-340));
+	m_lbNumber = _lbNumber;
+
+	MY_ADD_LABELTTF( _lbQuestion, "", G_FONT_NORMAL, 48, ccBLACK, ccp(400, 1280-600) );
+	m_lbQuestion = _lbQuestion;
 
 	for (int i = 0; i < 4; ++i)
 	{
@@ -127,9 +160,9 @@ void MainGameScene::initItems()
 
 	for (int i = 0; i < 4; ++i)
 	{
-		m_lbAnswers[i] = CCLabelTTF::create("", "Roboto-Medium.ttf", 48);
-		m_lbAnswers[i]->setFontFillColor(ccc3(0,0,0));
-		m_lbAnswers[i]->setAnchorPoint(ccp(0.0f, 0.5f));
+		m_lbAnswers[i] = CCLabelTTF::create("", G_FONT_NORMAL, 48);
+		m_lbAnswers[i]->setFontFillColor(ccBLACK);
+		m_lbAnswers[i]->setAnchorPoint(ANCHOR_LEFT);
 		m_lbAnswers[i]->setPosition(ccp(140, 1280-840 - i*94));
 		this->addChild(m_lbAnswers[i]);
 	}
@@ -164,4 +197,49 @@ void MainGameScene::itHelp3Callback( CCObject* pSender )
 {
 
 }
+
+void MainGameScene::scheduleClock( float dt )
+{
+	m_clockCounter -= dt;
+	m_clockCounter = (m_clockCounter < -1) ? -1 : m_clockCounter;
+
+	CCString* s = CCString::createWithFormat("%d", (int)(m_clockCounter + 1));
+	m_lbClock->setString(s->getCString());
+
+	if (m_clockCounter == -1)
+	{
+		this->unschedule(schedule_selector(MainGameScene::scheduleClock));
+
+		m_lbScore -= CONF_INT(G_SOLO_SUB_SCORE);
+		m_isRight = false;
+		animationRightChoose();
+	}
+}
+
+void MainGameScene::animationRightChoose()
+{
+	m_isPause = true;
+
+	m_itAnswers[m_curRightAnswer]->runAction(
+			CCSequence::createWithTwoActions(
+				CCRepeat::create(
+					CCSequence::create(
+						CCTintTo::create(0.15f, 0, 255, 0),
+						CCTintTo::create(0.15f, 255, 255, 255),
+						NULL
+					),
+					5
+				),
+				CCCallFunc::create(this, callfunc_selector(MainGameScene::onFinishAnimationRightChoose))
+			)
+		);
+}
+
+void MainGameScene::onFinishAnimationRightChoose()
+{
+	m_sprGameResult->setVisible(true);
+}
+
+
+
 

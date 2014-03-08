@@ -10,53 +10,21 @@ class GameClientDelegate
 {
 public:
 
-	//////////////////////////////////////////////////////////////////////////
-	//SEND DATA FUNCTIONS
+	virtual void onSendUserProfileCompleted( bool isSuccess ){}
+	virtual void onGetUserProfileCompleted(bool isSuccess, UserProfile* acc){}
 
-	virtual void onSendPlayerFbProfileCompleted(
-		bool isSuccess
-		){}
+	virtual void onSendFriendListCompleted( bool isSuccess ){}
+	//array of FacebookAccount (our code)
+	virtual void onGetFriendListCompleted( bool isSuccess, CCArray* arrFriends){}
 
-	virtual void onSendFriendListCompleted(
-		bool isSuccess
-		){}
-
-	virtual void onSendDeviceProfileCompleted(
-		bool isSuccess
-		){}
-
-	virtual void onSendScoreCompleted(
-		bool isSuccess
-		){}
-
-
-	//////////////////////////////////////////////////////////////////////////
-	//GET DATA FUNCTIONS
-
-	virtual void onGetScoreCompleted(
-		bool isSuccess,
-		int score
-		){}
-
-	virtual void onGetFriendLeaderboardCompleted(
-		bool isSuccess,
-		CCArray* arrHighScore //array of FacebookAccount (our code)
-		){}
-
-	virtual void onGetWorldLeaderboardCompleted(
-		bool isSuccess,
-		CCArray* arrHighScore //array of FacebookAccount (our code)
-		){}
-
-	virtual void onGetFriendListCompleted(
-		bool isSuccess,
-		CCArray* arrFriends //array of FacebookAccount (our code)
-		){}
-
-	virtual void onGetPlayerFbProfileCompleted(bool isSuccess, FacebookAccount* acc){}
-
+	virtual void onSendDeviceProfileCompleted( bool isSuccess ){}
 	virtual void onGetDeviceProfileCompleted(bool isSuccess, DeviceProfile* deviceProfile){}
 
+	virtual void onSendScoreCompleted( bool isSuccess, int newScore ){}
+	virtual void onGetScoreCompleted( bool isSuccess, int score, std::string time ){}
+
+// 	virtual void onSendItemsCompleted( bool isSuccess, int newScore ){}
+// 	virtual void onGetItemsCompleted(bool isSuccess, CCArray* arrGameItems){}
 };
 
 

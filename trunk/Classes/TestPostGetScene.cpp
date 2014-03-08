@@ -60,7 +60,7 @@ bool TestPostGetScene::init()
 	itemPost5->setPosition(ccp(20, 980));
 	menuRequest->addChild(itemPost5);
 
-	CCLabelTTF *labelPost6 = CCLabelTTF::create("Get Player Facebook Profile", "Arial", 48);
+	CCLabelTTF *labelPost6 = CCLabelTTF::create("Get User Profile", "Arial", 48);
 	labelPost6->setFontFillColor(ccc3(0,0,0));
 	CCMenuItemLabel *itemPost6 = CCMenuItemLabel::create(labelPost6, this, menu_selector(TestPostGetScene::testPost6));
 	itemPost6->setAnchorPoint(ccp(0.0f, 0.5f));
@@ -82,6 +82,9 @@ bool TestPostGetScene::init()
 	itemPost8->setPosition(ccp(20, 800));
 	menuRequest->addChild(itemPost8);
 
+	this->setKeypadEnabled(true);
+
+
 	GameClientManager::sharedGameClientManager()->setDelegate(this);
     return true;
 }
@@ -89,7 +92,12 @@ bool TestPostGetScene::init()
 //user profile
 void TestPostGetScene::testPost1(CCObject *sender)
 {
-	GameClientManager::sharedGameClientManager()->sendPlayerFbProfile("Fb1", "Jundat Pham", "longpham.uit@gmail.com");
+	GameClientManager::sharedGameClientManager()->sendUserProfile("Fb1", "PhamLong", "PhamLong@gmail.com");
+// 	GameClientManager::sharedGameClientManager()->sendPlayerFbProfile("Fb2", "DinhDung", "DinhDung@gmail.com");
+// 	GameClientManager::sharedGameClientManager()->sendPlayerFbProfile("Fb3", "BuiHieu", "BuiHieu@gmail.com");
+// 	GameClientManager::sharedGameClientManager()->sendPlayerFbProfile("Fb4", "DangTran", "DangTran@gmail.com");
+// 	GameClientManager::sharedGameClientManager()->sendPlayerFbProfile("Fb5", "TrinhLinh", "TrinhLinh@gmail.com");
+// 	GameClientManager::sharedGameClientManager()->sendPlayerFbProfile("Fb6", "NguyenChau", "NguyenChau@gmail.com");
 }
 
 //friendlist
@@ -98,11 +106,11 @@ void TestPostGetScene::testPost2(CCObject *sender)
 	CCArray* arrFr = new CCArray();
 	arrFr->retain();
 
-	arrFr->addObject(new FacebookAccount("Fb2", "DinhDung", 1));
-	arrFr->addObject(new FacebookAccount("Fb3", "BuiHieu", 2));
-	arrFr->addObject(new FacebookAccount("Fb4", "DangTran", 3));
-	arrFr->addObject(new FacebookAccount("Fb5", "TrinhLinh", 4));
-	arrFr->addObject(new FacebookAccount("Fb6", "NguyenChau", 5));
+	arrFr->addObject(new UserProfile("Fb2", "DinhDung", std::string("DinhDung@gmail.com"), 1));
+	arrFr->addObject(new UserProfile("Fb3", "BuiHieu", std::string("BuiHieu@gmail.com"), 2));
+	arrFr->addObject(new UserProfile("Fb4", "DangTran", std::string("DangTran@gmail.com"), 3));
+	arrFr->addObject(new UserProfile("Fb5", "TrinhLinh", std::string("TrinhLinh@gmail.com"), 4));
+	arrFr->addObject(new UserProfile("Fb6", "NguyenChau", std::string("NguyenChau@gmail.com"), 5));
 
 	GameClientManager::sharedGameClientManager()->sendFriendList("Fb1", arrFr);
 }
@@ -121,7 +129,12 @@ void TestPostGetScene::testPost3(CCObject *sender)
 //sendScore
 void TestPostGetScene::testPost4(CCObject *sender)
 {
-	GameClientManager::sharedGameClientManager()->sendScore("App1", "Fb1", 9999, 9292992);
+	GameClientManager::sharedGameClientManager()->sendScore("App1", "Fb1", 2222);
+// 	GameClientManager::sharedGameClientManager()->sendScore("App1", "Fb2", 2222);
+// 	GameClientManager::sharedGameClientManager()->sendScore("App1", "Fb3", 3333);
+// 	GameClientManager::sharedGameClientManager()->sendScore("App1", "Fb4", 4444);
+// 	GameClientManager::sharedGameClientManager()->sendScore("App1", "Fb5", 5555);
+// 	GameClientManager::sharedGameClientManager()->sendScore("App1", "Fb6", 6666);
 }
 
 //getScore
@@ -133,13 +146,13 @@ void TestPostGetScene::testPost5(CCObject *sender)
 //getPlayerFbProfile
 void TestPostGetScene::testPost6(CCObject *sender)
 {
-	GameClientManager::sharedGameClientManager()->getPlayerFbProfile("Fb1");
+	GameClientManager::sharedGameClientManager()->getUserProfile("Fb1");
 }
 
 //getDeviceProfile
 void TestPostGetScene::testPost7(CCObject *sender)
 {
-	GameClientManager::sharedGameClientManager()->getDeviceProfile("Fb1");
+	GameClientManager::sharedGameClientManager()->getDeviceProfile("Fb1", "DeviceId1");
 }
 
 //getFriendList

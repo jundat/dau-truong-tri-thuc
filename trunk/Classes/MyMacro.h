@@ -5,6 +5,10 @@
 USING_NS_CC;
 
 
+#define ANCHOR_MID		ccp(0.5f, 0.5f)
+#define ANCHOR_LEFT		ccp(0.0f, 0.5f)
+#define ANCHOR_RIGHT	ccp(0.5f, 1.0f)
+
 
 #define MY_LIMIT_VALUE(x, minX, maxX) \
 {\
@@ -97,6 +101,20 @@ public: void Set##funName(bool var) {\
 	lbName->setFontFillColor(color);\
 	lbName->setPosition(position);\
 	this->addChild(lbName);\
+
+
+//////////////////////////////////////////////////////////////////////////
+
+
+#define MY_CREATE_MENU_ITEM(itName, sprNormal, sprSelect, sprDisable, callbackFunc, position)\
+	CCMenuItemImage* itName = CCMenuItemImage::create(sprNormal, sprSelect, sprDisable, this, menu_selector(callbackFunc));\
+	itName->setPosition(position);\
+	CCMenu* menu##itName = CCMenu::create(itName, NULL);\
+	menu##itName->setPosition(CCPointZero);\
+	
+
+
+
 
 
 #endif //__MY_MACRO_H__
