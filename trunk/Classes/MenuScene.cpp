@@ -1,6 +1,6 @@
 ﻿#include "Global.h"
 #include "MenuScene.h"
-#include "MainGameScene.h"
+#include "SoloGameScene.h"
 #include "ScoreScene.h"
 #include "AudioManager.h"
 #include "DataManager.h"
@@ -107,7 +107,7 @@ void MenuScene::playSoloCallback(CCObject* pSender)
 {
 	PLAY_BUTTON_EFFECT;
 
-	CCScene *pScene = CCTransitionFade::create(0.5, MainGameScene::scene());
+	CCScene *pScene = CCTransitionFade::create(0.5, SoloGameScene::scene());
 	CCDirector::sharedDirector()->replaceScene(pScene);
 }
 
@@ -115,7 +115,7 @@ void MenuScene::playWarCallback( CCObject* pSender )
 {
 	PLAY_BUTTON_EFFECT;
 
-	CCScene *pScene = CCTransitionFade::create(0.5, MainGameScene::scene());
+	CCScene *pScene = CCTransitionFade::create(0.5, SoloGameScene::scene());
 	CCDirector::sharedDirector()->replaceScene(pScene);
 }
 

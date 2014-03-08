@@ -1,6 +1,6 @@
 ﻿#include "AppDelegate.h"
 #include "Global.h"
-#include "MainGameScene.h"
+#include "SoloGameScene.h"
 #include "MenuScene.h"
 #include "SimpleAudioEngine.h"
 #include "DataManager.h"
