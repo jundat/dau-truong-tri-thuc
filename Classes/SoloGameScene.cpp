@@ -28,7 +28,7 @@ bool SoloGameScene::init()
 	m_curScore = DataManager::sharedDataManager()->GetSoloScore();
 	m_curQuestionNumber = DataManager::sharedDataManager()->GetSoloLastQuestionIndex();
 	m_curRightAnswer = -1;
-	m_clockCounter = CONF_INT(G_SOLO_TIME_FOR_QUESTION);
+	m_clockCounter = CONF_INT(SOLO_TIME_FOR_QUESTION);
 	m_isRight = false;
 	m_isPause = false;
 	m_curDisableChoose = 4;
@@ -39,23 +39,23 @@ bool SoloGameScene::init()
 
 	string name = DataManager::sharedDataManager()->GetName();
 	name = MY_LIMIT_STR(name, 12, "..");
-	MY_ADD_LABELTTF(lbName, name.c_str(), G_FONT_NORMAL, 36, ccBLACK, ccp(86, 1280-195));
+	MY_ADD_LABELTTF(lbName, name.c_str(), CONF_STR(FONT_NORMAL), 36, ccBLACK, ccp(86, 1280-195));
 
 	MY_ADD_SPRITE(score, "score.png", ccp(203, 1280-41));
-	MY_ADD_LABELTTF(_lbScore, CCString::createWithFormat("%d", m_curScore)->getCString(), G_FONT_NORMAL, 48, ccBLACK, ccp(240, 1280-46));
+	MY_ADD_LABELTTF(_lbScore, CCString::createWithFormat("%d", m_curScore)->getCString(), CONF_STR(FONT_NORMAL), 48, ccBLACK, ccp(240, 1280-46));
 	_lbScore->setAnchorPoint(ANCHOR_LEFT);
 	m_lbScore = _lbScore;
 
 	MY_ADD_SPRITE(sprDiamond, "diamond.png", ccp(203, 1280-100));
 	int diamond = DataManager::sharedDataManager()->GetDiamond();
-	MY_ADD_LABELTTF(_lbDiamond, CCString::createWithFormat("%d", diamond)->getCString(), G_FONT_NORMAL, 48, ccBLACK, ccp(240, 1280-100));
+	MY_ADD_LABELTTF(_lbDiamond, CCString::createWithFormat("%d", diamond)->getCString(), CONF_STR(FONT_NORMAL), 48, ccBLACK, ccp(240, 1280-100));
 	_lbDiamond->setAnchorPoint(ANCHOR_LEFT);
 	m_lbDiamond = _lbDiamond;
 	
 	MY_ADD_SPRITE(sprClock, "clock.png", ccp(400, 1280-200));
 
 	MY_ADD_LABELTTF( _lbClock, CCString::createWithFormat("%d", (int)m_clockCounter)->getCString(), 
-		G_FONT_NORMAL, 64, ccBLACK, sprClock->getPosition());
+		CONF_STR(FONT_NORMAL), 64, ccBLACK, sprClock->getPosition());
 	_lbClock->setAnchorPoint(ANCHOR_MID);
 	m_lbClock = _lbClock;
 
@@ -73,7 +73,7 @@ bool SoloGameScene::init()
 	m_sprGameResult = _sprGameResult;
 	m_sprGameResult->setVisible(false);
 
-	CCLabelTTF* changeScore = CCLabelTTF::create("", G_FONT_NORMAL, 48);
+	CCLabelTTF* changeScore = CCLabelTTF::create("", CONF_STR(FONT_NORMAL), 48);
 	changeScore->setFontFillColor(ccBLACK);
 	changeScore->setPosition(ccp(400, m_sprGameResult->getContentSize().height * 3/4.0f));
 	changeScore->setTag(1);
@@ -124,14 +124,14 @@ void SoloGameScene::answerCallback( CCObject* pSender )
 	{
 		//CCMessageBox("RIGHT", "ANSWER");
 		PLAY_GET_BOMB_EFFECT;
-		m_curScore += CONF_INT(G_SOLO_ADD_SCORE);
+		m_curScore += CONF_INT(SOLO_ADD_SCORE);
 		m_isRight = true;
 	}
 	else
 	{
 		//CCMessageBox("WRONG", "ANSWER");
 		PLAY_OUT_PORP_EFFECT;
-		m_curScore -= CONF_INT(G_SOLO_SUB_SCORE);
+		m_curScore -= CONF_INT(SOLO_SUB_SCORE);
 		if(m_curScore < 0) m_curScore = 0;
 		m_isRight = false;
 	}
@@ -158,7 +158,7 @@ void SoloGameScene::nextQuestion(CCObject* pSender)
 
 	m_isPause = false;
 	m_curDisableChoose = 0;
-	m_clockCounter = CONF_INT(G_SOLO_TIME_FOR_QUESTION);
+	m_clockCounter = CONF_INT(SOLO_TIME_FOR_QUESTION);
 	this->schedule(schedule_selector(SoloGameScene::scheduleClock), 0.5f);
 }
 
@@ -166,10 +166,10 @@ void SoloGameScene::initItems()
 {
 	MY_ADD_SPRITE(sprQuest, "question.png", ccp(400, 1280-537));
 	
-	MY_ADD_LABELTTF( _lbNumber, "", G_FONT_NORMAL, 64, ccBLACK, ccp(400, 1280-340));
+	MY_ADD_LABELTTF( _lbNumber, "", CONF_STR(FONT_NORMAL), 64, ccBLACK, ccp(400, 1280-340));
 	m_lbNumber = _lbNumber;
 
-	MY_ADD_LABELTTF( _lbQuestion, "", G_FONT_NORMAL, 48, ccBLACK, ccp(400, 1280-600) );
+	MY_ADD_LABELTTF( _lbQuestion, "", CONF_STR(FONT_NORMAL), 48, ccBLACK, ccp(400, 1280-600) );
 	m_lbQuestion = _lbQuestion;
 
 	for (int i = 0; i < 4; ++i)
@@ -185,7 +185,7 @@ void SoloGameScene::initItems()
 
 	for (int i = 0; i < 4; ++i)
 	{
-		m_lbAnswers[i] = CCLabelTTF::create("", G_FONT_NORMAL, 48);
+		m_lbAnswers[i] = CCLabelTTF::create("", CONF_STR(FONT_NORMAL), 48);
 		m_lbAnswers[i]->setFontFillColor(ccBLACK);
 		m_lbAnswers[i]->setAnchorPoint(ANCHOR_LEFT);
 		m_lbAnswers[i]->setPosition(ccp(140, 1280-840 - i*94));
@@ -217,7 +217,7 @@ void SoloGameScene::itHelp1Callback( CCObject* pSender )
 	
 	//CCMessageBox("Help1", "Info");
 	int diamond = DataManager::sharedDataManager()->GetDiamond();
-	if (diamond < CONF_INT(G_DIAMON_PER_HELP1))
+	if (diamond < CONF_INT(DIAMON_PER_HELP1))
 	{
 		PLAY_OUT_PORP_EFFECT;
 		return;
@@ -242,7 +242,7 @@ void SoloGameScene::itHelp1Callback( CCObject* pSender )
 				m_itAnswers[rd]->setEnabled(false);
 				m_curDisableChoose++;
 				
-				DataManager::sharedDataManager()->AddDiamond(- CONF_INT(G_DIAMON_PER_HELP1));
+				DataManager::sharedDataManager()->AddDiamond(- CONF_INT(DIAMON_PER_HELP1));
 				m_lbDiamond->setString(CCString::createWithFormat("%d", DataManager::sharedDataManager()->GetDiamond())->getCString());
 				PLAY_GET_BOMB_EFFECT;
 				isOK = true;
@@ -265,14 +265,14 @@ void SoloGameScene::itHelp3Callback( CCObject* pSender )
 
 	//CCMessageBox("Help3", "Info");
 	int diamond = DataManager::sharedDataManager()->GetDiamond();
-	if (diamond < CONF_INT(G_DIAMON_PER_HELP3))
+	if (diamond < CONF_INT(DIAMON_PER_HELP3))
 	{
 		PLAY_OUT_PORP_EFFECT;
 		return;
 	}
 
 
-	DataManager::sharedDataManager()->AddDiamond(- CONF_INT(G_DIAMON_PER_HELP3));
+	DataManager::sharedDataManager()->AddDiamond(- CONF_INT(DIAMON_PER_HELP3));
 	m_lbDiamond->setString(CCString::createWithFormat("%d", DataManager::sharedDataManager()->GetDiamond())->getCString());
 	PLAY_GET_BOMB_EFFECT;
 
@@ -291,7 +291,7 @@ void SoloGameScene::scheduleClock( float dt )
 	{
 		this->unschedule(schedule_selector(SoloGameScene::scheduleClock));
 
-		m_lbScore -= CONF_INT(G_SOLO_SUB_SCORE);
+		m_lbScore -= CONF_INT(SOLO_SUB_SCORE);
 		if(m_curScore < 0) m_curScore = 0;
 		m_isRight = false;
 		animationRightChoose();
@@ -327,11 +327,11 @@ void SoloGameScene::onFinishAnimationRightChoose()
 	{
 		if (m_isRight)
 		{
-			changeScore->setString(CCString::createWithFormat("+%d", CONF_INT(G_SOLO_ADD_SCORE))->getCString());
+			changeScore->setString(CCString::createWithFormat("+%d", CONF_INT(SOLO_ADD_SCORE))->getCString());
 		} 
 		else
 		{
-			changeScore->setString(CCString::createWithFormat("-%d", CONF_INT(G_SOLO_SUB_SCORE))->getCString());
+			changeScore->setString(CCString::createWithFormat("-%d", CONF_INT(SOLO_SUB_SCORE))->getCString());
 		}
 	}
 }

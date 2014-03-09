@@ -35,7 +35,7 @@ public:
 	//////////////////////////////////////////////////////////////////////////
 	//Normal Account
 
-	MY_GETSET_STR_FUNC(Name, "NAME", std::string(CONF_STR(G_DEFAULT_NAME)));
+	MY_GETSET_STR_FUNC(Name, "NAME", std::string(CONF_STR(DEFAULT_USER_NAME)));
 	MY_GETSET_STR_FUNC(UserName, "USER_NAME", std::string("NULL"));
 	MY_GETSET_STR_FUNC(Password, "PASSWORD", std::string("NULL"));
 
@@ -43,7 +43,7 @@ public:
 	//In game
 	
 	//COMMON
-	MY_GETSET_INT_FUNC(Diamond, "DIAMOND", CONF_INT(G_DEFAULT_DIAMON));
+	MY_GETSET_INT_FUNC(Diamond, "DIAMOND", CONF_INT(DEFAULT_DIAMON));
 
 	//SOLO
 	MY_GETSET_INT_FUNC(SoloScore, "SOLO_SCORE", 0);

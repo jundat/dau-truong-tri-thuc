@@ -14,7 +14,7 @@ CCScene* TestPostGetScene::scene()
 
 bool TestPostGetScene::init()
 {
-    if ( !CCLayerColor::initWithColor(G_CCWHITE4) )
+    if ( !CCLayerColor::initWithColor(ccWHITE4) )
     {
         return false;
     }

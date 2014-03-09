@@ -31,10 +31,10 @@ bool AppDelegate::applicationDidFinishLaunching() {
 	LevelManager::shareLevelLoader();
 
 	GameClientManager::sharedGameClientManager()->setUrls(
-		CONF_STR(G_URL_PROFILE),
-		CONF_STR(G_URL_DEVICE),
-		CONF_STR(G_URL_FRIEND),
-		CONF_STR(G_URL_FRIEND)
+		CONF_STR(URL_PROFILE),
+		CONF_STR(URL_DEVICE),
+		CONF_STR(URL_FRIEND),
+		CONF_STR(URL_FRIEND)
 		);
 
 
@@ -43,30 +43,30 @@ bool AppDelegate::applicationDidFinishLaunching() {
     CCEGLView* pEGLView = CCEGLView::sharedOpenGLView();
 	
 #ifdef WIN32
-	pEGLView->setFrameSize(CONF_INT(G_DESIGN_WIDTH), CONF_INT(G_DESIGN_HEIGHT));
-	pEGLView->setFrameZoomFactor(CONF_FLOAT(G_SCALE_FACTOR));
+	pEGLView->setFrameSize(CONF_INT(DESIGN_WIDTH), CONF_INT(DESIGN_HEIGHT));
+	pEGLView->setFrameZoomFactor(CONF_FLOAT(SCALE_FACTOR));
 #endif
 	
     pDirector->setOpenGLView(pEGLView);
-    pDirector->setAnimationInterval(G_FPS);
+    pDirector->setAnimationInterval(1.0f / CONF_INT(FPS));
 	
 	CCSize realSize = pEGLView->getFrameSize();
 	
-	if (realSize.width < G_SMALL_DEVIVE_SIZE) //mini device
+	if (realSize.width < CONF_INT(SMALL_DEVICE_SIZE)) //mini device
 	{
-		pEGLView->setDesignResolutionSize(CONF_INT(G_DESIGN_WIDTH), CONF_INT(G_DESIGN_HEIGHT), kResolutionExactFit);
+		pEGLView->setDesignResolutionSize(CONF_INT(DESIGN_WIDTH), CONF_INT(DESIGN_HEIGHT), kResolutionExactFit);
 	} 
 	else
 	{
-		pEGLView->setDesignResolutionSize(CONF_INT(G_DESIGN_WIDTH), CONF_INT(G_DESIGN_HEIGHT), kResolutionShowAll);
+		pEGLView->setDesignResolutionSize(CONF_INT(DESIGN_WIDTH), CONF_INT(DESIGN_HEIGHT), kResolutionShowAll);
 	}
 	
-	AudioManager::sharedAudioManager()->SetVolumeMusic(G_DEFAULT_VOLUME);
-	AudioManager::sharedAudioManager()->SetVolumeFX(G_DEFAULT_VOLUME);
+	AudioManager::sharedAudioManager()->SetVolumeMusic(CONF_FLOAT(DEFAULT_VOLUME));
+	AudioManager::sharedAudioManager()->SetVolumeFX(CONF_FLOAT(DEFAULT_VOLUME));
 
 
     CCScene *pScene;
-	if (CONF_BOOL(G_IS_TEST_POSTGET))
+	if (CONF_BOOL(IS_TEST_POSTGET))
 	{
 		pScene = TestPostGetScene::scene();
 	}

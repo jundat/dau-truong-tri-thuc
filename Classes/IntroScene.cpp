@@ -14,7 +14,7 @@ CCScene* IntroScene::scene()
 
 bool IntroScene::init()
 {
-    if ( !CCLayerColor::initWithColor(G_CCWHITE4) )
+    if ( !CCLayerColor::initWithColor(ccWHITE4) )
     {
         return false;
     }

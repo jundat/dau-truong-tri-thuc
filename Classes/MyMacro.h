@@ -6,6 +6,9 @@ USING_NS_CC;
 using namespace std;
 
 
+#define ccWHITE4		ccc4(255, 255, 255, 255)
+#define ccBLACK4		ccc4(0, 0, 0, 255)
+
 #define ANCHOR_MID		ccp(0.5f, 0.5f)
 #define ANCHOR_LEFT		ccp(0.0f, 0.5f)
 #define ANCHOR_RIGHT	ccp(0.5f, 1.0f)
