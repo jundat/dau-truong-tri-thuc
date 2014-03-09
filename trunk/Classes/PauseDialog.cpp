@@ -13,9 +13,9 @@ bool PauseDialog::init()
 		return false;
 	}
 
-	CCPoint  presume = ccp(400, CONF_INT(G_DESIGN_HEIGHT)/2 + 200);
-	CCPoint prestart = ccp(400, CONF_INT(G_DESIGN_HEIGHT)/2);
-	CCPoint  pexit= ccp(400, CONF_INT(G_DESIGN_HEIGHT)/2 - 200);
+	CCPoint  presume = ccp(400, CONF_INT(DESIGN_HEIGHT)/2 + 200);
+	CCPoint prestart = ccp(400, CONF_INT(DESIGN_HEIGHT)/2);
+	CCPoint  pexit= ccp(400, CONF_INT(DESIGN_HEIGHT)/2 - 200);
 	float textScale = 0.8f;
 
 	CCMenuItemImage* exitButton = CCMenuItemImage::create(

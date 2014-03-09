@@ -20,7 +20,7 @@ bool SendRequestScene::init()
     }
 
 	CCSprite* bg = CCSprite::create("bg_stars.png");
-	bg->setPosition(ccp(CONF_INT(G_DESIGN_WIDTH)/2, CONF_INT(G_DESIGN_HEIGHT)/2));
+	bg->setPosition(ccp(CONF_INT(DESIGN_WIDTH)/2, CONF_INT(DESIGN_HEIGHT)/2));
 	this->addChild(bg);
 	
 // 	bg->runAction(CCSequence::create(

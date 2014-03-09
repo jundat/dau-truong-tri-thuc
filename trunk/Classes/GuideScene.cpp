@@ -37,7 +37,7 @@ bool GuideScene::init()
 		ccp(60, 60)
 		);
 
-	MY_ADD_LABELTTF(lbTitle, "Hướng dẫn", G_FONT_LEADERBOARD, 64, ccBLACK, ccp(400, 1200));
+	MY_ADD_LABELTTF(lbTitle, "Hướng dẫn", CONF_STR(FONT_LEADERBOARD), 64, ccBLACK, ccp(400, 1200));
 
 
 	this->setKeypadEnabled(true);
