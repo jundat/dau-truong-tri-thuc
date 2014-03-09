@@ -13,6 +13,7 @@
 
 USING_NS_CC;
 USING_NS_CC_EXT;
+using namespace std;
 
 
 class GameClientManager : public CCObject
@@ -62,6 +63,11 @@ public:
 	//////////////////////////////////////////////////////////////////////////
 	//main functions
 public:
+
+	void sendRequest(const char* url, CCObject* callbackObject, SEL_HttpResponse pSelector, const char* data);
+
+	//////////////////////////////////////////////////////////////////////////
+
 	void sendUserProfile(std::string fbId, std::string fbName, std::string email);
 	void _onSendUserProfileCompleted(CCHttpClient *sender, CCHttpResponse *response);
 
@@ -92,6 +98,13 @@ public:
 
 	void getScore( std::string appId, std::string fbId );
 	void _onGetScoreCompleted(CCHttpClient *sender, CCHttpResponse *response);
+
+
+	//////////////////////////////////////////////////////////////////////////
+	//////////////////////////////////////////////////////////////////////////
+
+	void getSubjectList( std::string appId );
+	void _onGetSubjectListCompleted(CCHttpClient *sender, CCHttpResponse *response);
 
 	//////////////////////////////////////////////////////////////////////////
 
