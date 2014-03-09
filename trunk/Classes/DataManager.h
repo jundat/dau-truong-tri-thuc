@@ -35,7 +35,7 @@ public:
 	//////////////////////////////////////////////////////////////////////////
 	//Normal Account
 
-	MY_GETSET_STR_FUNC(Name, "NAME", std::string("NULL"));
+	MY_GETSET_STR_FUNC(Name, "NAME", std::string(CONF_STR(G_DEFAULT_NAME)));
 	MY_GETSET_STR_FUNC(UserName, "USER_NAME", std::string("NULL"));
 	MY_GETSET_STR_FUNC(Password, "PASSWORD", std::string("NULL"));
 

@@ -8,9 +8,11 @@
 //////////////////////////////////////////////////////////////////////////
 //MACRO
 
+#define CONF_BOOL(config)		ConfigLoader::shareConfigLoader()->getBoolValue(#config)
 #define CONF_INT(config)		ConfigLoader::shareConfigLoader()->getIntValue(#config)
 #define CONF_FLOAT(config)		ConfigLoader::shareConfigLoader()->getFloatValue(#config)
 #define CONF_STR(config)		ConfigLoader::shareConfigLoader()->getStringValue(#config)
+
 
 //////////////////////////////////////////////////////////////////////////
 
@@ -38,6 +40,7 @@
 //////////////////////////////////////////////////////////////////////////
 //
 
+#define		G_IS_TEST_POSTGET
 
 //URL
 #define     G_URL_PROFILE

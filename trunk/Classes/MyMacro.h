@@ -3,6 +3,7 @@
 
 #include "cocos2d.h"
 USING_NS_CC;
+using namespace std;
 
 
 #define ANCHOR_MID		ccp(0.5f, 0.5f)
@@ -10,10 +11,22 @@ USING_NS_CC;
 #define ANCHOR_RIGHT	ccp(0.5f, 1.0f)
 
 
+
 #define MY_LIMIT_VALUE(x, minX, maxX) \
 {\
 	if(x < minX) { x = minX; }\
 	if(x > maxX) { x = maxX; }\
+}
+
+
+static string MY_LIMIT_STR(string srcString, int maxlen, string addString)
+{
+	if (srcString.length() > maxlen)
+	{
+		srcString = srcString.substr(0, maxlen);
+		srcString.append(addString);
+	}
+	return srcString;
 }
 
 
@@ -113,6 +126,8 @@ public: void Set##funName(bool var) {\
 	menu##itName->setPosition(CCPointZero);\
 	
 
+
+//////////////////////////////////////////////////////////////////////////
 
 
 
