@@ -156,7 +156,7 @@ Url:
 	"/subject"
 
 Message:
-	"data={}&method=get"
+	""
 
 Response Message:
 	"{

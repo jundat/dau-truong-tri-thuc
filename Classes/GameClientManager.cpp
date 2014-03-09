@@ -605,15 +605,3 @@ void GameClientManager::_onGetScoreCompleted( CCHttpClient *sender, CCHttpRespon
 
 	CCLOG("------- END %s -------", response->getHttpRequest()->getTag());
 }
-
-
-
-void GameClientManager::getSubjectList( std::string appId )
-{
-
-}
-
-void GameClientManager::_onGetSubjectListCompleted( CCHttpClient *sender, CCHttpResponse *response )
-{
-
-}

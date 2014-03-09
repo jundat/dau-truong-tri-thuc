@@ -11,6 +11,57 @@ USING_NS_CC_EXT;
 using namespace std;
 
 
+class Subject : public CCObject
+{
+public:
+	int subjectId;
+	string subjectName;
+
+public:
+	Subject() 
+	{
+		subjectId = -1;
+		subjectName = string();
+	}
+
+	Subject(int id, const char* name)
+	{
+		subjectId = id;
+		subjectName = string(name);
+	}
+
+	static Subject* create(int id, const char* name)
+	{
+		Subject* sub = new Subject(id, name);
+		sub->autorelease();
+		return sub;
+	}
+
+	CCObject* copyWithZone(CCZone *pZone)
+	{
+		CCZone *pNewZone = NULL;
+		Subject *pRet = NULL;
+		if(pZone && pZone->m_pCopyObject) //in case of being called at sub class
+		{
+			pRet = (Subject*)(pZone->m_pCopyObject);
+		}
+		else
+		{
+			pRet = new Subject();
+			pZone = pNewZone = new CCZone(pRet);
+		}
+		CCObject::copyWithZone(pZone);
+		//copy subdata
+
+		pRet->subjectId = subjectId;
+		pRet->subjectName = string(subjectName);		
+
+		CC_SAFE_DELETE(pNewZone);
+		return pRet;
+	}
+};
+
+
 
 class WarGameChooseRoomScene : public cocos2d::CCLayer,
 	public cocos2d::extension::CCTableViewDataSource, 
@@ -24,7 +75,7 @@ public:
 	void menuCallback(CCObject* pSender);
 	virtual void keyBackClicked();
 
-
+	void onGetSubjectListCompleted(CCHttpClient *sender, CCHttpResponse *response);
 
 	//table delegate
 	virtual void scrollViewDidScroll(cocos2d::extension::CCScrollView* view) {};
@@ -34,6 +85,10 @@ public:
 	virtual cocos2d::extension::CCTableViewCell* tableCellAtIndex(cocos2d::extension::CCTableView *table, unsigned int idx);
 	virtual unsigned int numberOfCellsInTableView(cocos2d::extension::CCTableView *table);
 	//table delegate
+
+
+public: 
+	int m_numberOfSubject;
 };
 
 #endif // __WAR_GAME_CHOOSE_ROOM_SCENE_H__

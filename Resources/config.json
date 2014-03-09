@@ -1,8 +1,9 @@
 {
-	"URL_PROFILE" : "192.168.0.118:8025/profile",
-	"URL_DEVICE" : "192.168.0.118:8025/device",
-	"URL_FRIEND" : "192.168.0.118:8025/friend",
-	"URL_SCORE" : "192.168.0.118:8025/score",
+	"URL_PROFILE" : "127.0.0.1:8025/profile",
+	"URL_DEVICE" : "127.0.0.1:8025/device",
+	"URL_FRIEND" : "127.0.0.1:8025/friend",
+	"URL_SCORE" : "127.0.0.1:8025/score",
+	"URL_SUBJECT" : "127.0.0.1:8025/subject",
 
 	"IS_TEST_POSTGET" : false,
 
