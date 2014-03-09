@@ -53,8 +53,8 @@ public:
 	
 	//WAR
 	MY_GETSET_INT_FUNC(WarScore, "WAR_SCORE", 0);
-	MY_GETSET_INT_FUNC(WarNumberOfFinishedQuestion, "WAR_NUMBER_OF_FINISHED_QUESTION", 0);
-	MY_GETSET_INT_FUNC(WarNumberOfRightQuestion, "WAR_NUMBER_OF_RIGHT_QUESTION", 0);
+	MY_GETSET_INT_FUNC(WarNumberOfWin, "WAR_NUMBER_OF_WIN", 0);
+	MY_GETSET_INT_FUNC(WarNumberOfLose, "WAR_NUMBER_OF_LOSE", 0);
 
 
 	~DataManager(void);
