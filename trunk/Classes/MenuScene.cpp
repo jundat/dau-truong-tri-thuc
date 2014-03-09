@@ -5,6 +5,7 @@
 #include "AudioManager.h"
 #include "DataManager.h"
 #include "GuideScene.h"
+#include "WarGameChooseRoomScene.h"
 #include <time.h>
 
 USING_NS_CC;
@@ -115,7 +116,7 @@ void MenuScene::playWarCallback( CCObject* pSender )
 {
 	PLAY_BUTTON_EFFECT;
 
-	CCScene *pScene = CCTransitionFade::create(0.5, SoloGameScene::scene());
+	CCScene *pScene = CCTransitionFade::create(0.5, WarGameChooseRoomScene::scene());
 	CCDirector::sharedDirector()->replaceScene(pScene);
 }
 
