@@ -149,3 +149,28 @@ Response Message:
 		score: "9999",
 		time: "1019338384"
 	}"
+
+
+5. Get subject list
+Url:
+	"/subject"
+
+Message:
+	"data={}&method=get"
+
+Response Message:
+	"{
+		list:
+		[
+			{
+				subjectId: 1,
+				subjectName: "Khoa học tự nhiên"
+			},
+			{
+				subjectId: 2,
+				subjectName: "Khoa học xã hội"
+			}
+			//...
+		]
+	}"
+

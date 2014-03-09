@@ -54,11 +54,11 @@ WarGameChooseRoom
 |__Điểm số
 |__Tổng số trận thắng / thua
 (Option: Danh sách các tên đã thua)
-|__Điểm cộng (+10đ / +0đ)
 |__BACK------>Menu
-|__CÁC LĨNH VỰC CÂU HỎI------>WarGameWaitRoom
-								|__connect success------>MainWarGame
-								|__connect error-------->WarGameChooseRoom (notified)
+|__CÁC LĨNH VỰC CÂU HỎI
+|__PLAY-------->WarGameWaitRoom
+							|__connect success------>MainWarGame
+							|__connect error-------->WarGameChooseRoom (notified)
 
 
 MainWarGame

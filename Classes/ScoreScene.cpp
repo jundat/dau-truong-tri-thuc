@@ -6,6 +6,7 @@
 #include "AudioManager.h"
 #include "Global.h"
 #include "MyMacro.h"
+#include "GameClientManager.h"
 
 
 USING_NS_CC;
@@ -40,8 +41,37 @@ bool ScoreScene::init()
 	
 	MY_ADD_LABELTTF(lbTitle, "Bảng xếp hạng", CONF_STR(FONT_LEADERBOARD), 64, ccBLACK, ccp(400, 1200));
 
+	//MY_SEND_REQUEST("http://127.0.0.1:1337/", this, ScoreScene::onSendRequestCompleted, "HELLO");
+	//GameClientManager::sharedGameClientManager()->sendRequest("http://127.0.0.1:1337/", this, httpresponse_selector(ScoreScene::onSendRequestCompleted), "HELLO");
+
 	this->setKeypadEnabled(true);
 	return true;
+}
+
+
+void ScoreScene::onSendRequestCompleted(CCHttpClient *sender, CCHttpResponse *response)
+{
+// 	if (!response)
+// 	{
+// 		return;
+// 	}
+// 
+// 	//Show info
+// 	CCLOG("------- BEGIN %s -------", response->getHttpRequest()->getTag());
+// 	CCLOG("Status: [%i]", response->getResponseCode());
+// 
+// 	if (!response->isSucceed())
+// 	{
+// 		CCLOG("Request failed: %s", response->getErrorBuffer());
+// 	}
+// 	else
+// 	{
+// 		std::vector<char> *buffer = response->getResponseData();
+// 		std::string str(buffer->begin(), buffer->end());
+// 
+// 		CCLOG("Content: %s", str.c_str());
+//	}
+// 	CCLOG("------- END %s -------", response->getHttpRequest()->getTag()
 }
 
 void ScoreScene::menuCallback(CCObject* pSender)

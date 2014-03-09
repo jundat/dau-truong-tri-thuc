@@ -24,7 +24,7 @@ using namespace std;
 
 static string MY_LIMIT_STR(string srcString, int maxlen, string addString)
 {
-	if (srcString.length() > maxlen)
+	if ((int)srcString.length() > maxlen)
 	{
 		srcString = srcString.substr(0, maxlen);
 		srcString.append(addString);
@@ -131,7 +131,24 @@ public: void Set##funName(bool var) {\
 
 
 //////////////////////////////////////////////////////////////////////////
+//							NETWORK										//
+//////////////////////////////////////////////////////////////////////////
 
+//
+// string url, CCObject* callbackObject, SEL_CallFuncND pSelector, string data 
+//
+#define MY_SEND_REQUEST( strUrl, callbackObject, callbackFunc, strData)\
+	do\
+	{\
+		CCHttpRequest* request = new CCHttpRequest();\
+		request->setRequestType(CCHttpRequest::kHttpPost);\
+		request->setUrl(strUrl);\
+		request->setResponseCallback(callbackObject, httpresponse_selector(callbackFunc));\
+		CCLOG("SendRequest: \n%s", strData);\
+		request->setRequestData(strData, strlen(strData));\
+		CCHttpClient::getInstance()->send(request);\
+		request->release();\
+	} while (0)
 
 
 

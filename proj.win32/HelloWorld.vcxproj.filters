@@ -99,6 +99,9 @@
     <ClCompile Include="..\Classes\SoloGameScene.cpp">
       <Filter>Classes</Filter>
     </ClCompile>
+    <ClCompile Include="..\Classes\WarGameChooseRoomScene.cpp">
+      <Filter>Classes</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="main.h">
@@ -177,6 +180,9 @@
       <Filter>Classes</Filter>
     </ClInclude>
     <ClInclude Include="..\Classes\SoloGameScene.h">
+      <Filter>Classes</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\WarGameChooseRoomScene.h">
       <Filter>Classes</Filter>
     </ClInclude>
   </ItemGroup>

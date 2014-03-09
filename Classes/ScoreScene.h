@@ -18,6 +18,7 @@ public:
 
 	void menuCallback(CCObject* pSender);
 	virtual void keyBackClicked();
+	void onSendRequestCompleted(CCHttpClient *sender, CCHttpResponse *response);
 };
 
 #endif // __SCORE_SCENE_H__
