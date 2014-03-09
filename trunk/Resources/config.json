@@ -4,6 +4,7 @@
 	"URL_FRIEND" : "127.0.0.1:8025/friend",
 	"URL_SCORE" : "127.0.0.1:8025/score",
 	"URL_SUBJECT" : "127.0.0.1:8025/subject",
+	"URL_JOIN" : "127.0.0.1:8025/join",
 
 	"IS_TEST_POSTGET" : false,
 

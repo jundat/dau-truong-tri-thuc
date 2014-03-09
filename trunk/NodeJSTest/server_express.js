@@ -2,7 +2,7 @@
 
 var express = require('express');
 var app = express.createServer();
-//app.use(express.logger());
+app.use(express.logger());
 
 
 app.post('/', function(req, res){
@@ -33,12 +33,52 @@ app.post('/subject', function(req, res){
 			{
 				subjectId: 5,
 				subjectName: "Hiểu biết chung"
+			},
+			{
+				subjectId: 6,
+				subjectName: "Thể thao"
+			},
+			{
+				subjectId: 7,
+				subjectName: "Du lịch"
+			},
+			{
+				subjectId: 8,
+				subjectName: "Công nghệ thôn tin"
+			},
+			{
+				subjectId: 9,
+				subjectName: "Điện ảnh"
 			}
 		]
 	};
 
     res.send(obj);
 });
+
+
+app.post('/join', function(req, res){
+	var POST = res.body;
+	console.log(POST);
+
+	var obj = {
+		oppId: "123456789",
+		oppName: "Bích Phương",
+		oppWin: 210,
+		oppLose: 90,
+		quest: "Tổng thống Mỹ đầu tiên là ai?",
+		a: "Osama Biladen",
+		b: "Barack Obama",
+		c: "George Washington",
+		d: "John Kennedy",
+		right: 2
+	};
+
+    res.send(obj);
+});
+
+
+
 
 
 app.listen(8025, '127.0.0.1');

@@ -62,6 +62,19 @@ public:
 };
 
 
+class War
+{
+public:
+	string oppId;
+	string oppName;
+	int oppWin;
+	int oppLose;
+
+	string quest;
+	string answers[4];
+	int right;
+};
+
 
 class WarGameChooseRoomScene : public cocos2d::CCLayer,
 	public cocos2d::extension::CCTableViewDataSource, 
@@ -72,10 +85,14 @@ public:
 	CREATE_FUNC(WarGameChooseRoomScene);
 	static cocos2d::CCScene* scene() ;
 
+	void startCallback(CCObject* pSender);
 	void menuCallback(CCObject* pSender);
 	virtual void keyBackClicked();
 
+	virtual void onEnterTransitionDidFinish();
 	void onGetSubjectListCompleted(CCHttpClient *sender, CCHttpResponse *response);
+	void onJoinCompleted( CCHttpClient *sender, CCHttpResponse *response );
+	void gotoMaingame();
 
 	//table delegate
 	virtual void scrollViewDidScroll(cocos2d::extension::CCScrollView* view) {};
@@ -89,6 +106,12 @@ public:
 
 public: 
 	int m_numberOfSubject;
+	CCArray* m_arrSubjects;
+	CCTableView* m_tableSubjects;
+	CCSize m_cellSize;
+	int m_curSubjectId;
+	CCSprite* m_cellSelect;
+	War* m_curWar;
 };
 
 #endif // __WAR_GAME_CHOOSE_ROOM_SCENE_H__
