@@ -65,7 +65,16 @@ bool AppDelegate::applicationDidFinishLaunching() {
 	AudioManager::sharedAudioManager()->SetVolumeFX(G_DEFAULT_VOLUME);
 
 
-    CCScene *pScene = TestPostGetScene::scene(); // MenuScene::scene(); // TestPostGetScene::scene(); // IntroScene::scene(); //  MenuScene::scene(); //  MainGameScene::scene(); //
+    CCScene *pScene;
+	if (CONF_BOOL(G_IS_TEST_POSTGET))
+	{
+		pScene = TestPostGetScene::scene();
+	}
+	else
+	{
+		pScene = MenuScene::scene(); // TestPostGetScene::scene(); // IntroScene::scene(); //  MenuScene::scene(); //  MainGameScene::scene(); //
+	}
+
 	pDirector->runWithScene(pScene);
 
     return true;

@@ -23,6 +23,7 @@ public:
 	const char* getStringValue(const char* key);
 	int			getIntValue(const char* key);
 	float		getFloatValue(const char* key);
+	bool		getBoolValue( const char* key );
 
 protected:
 	static ConfigLoader* s_instance;
