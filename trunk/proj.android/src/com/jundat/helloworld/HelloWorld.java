@@ -42,6 +42,14 @@ import com.facebook.widget.FacebookDialog.ShareDialogFeature;
 
 //NEW
 import com.jundat.helloworld.classes.AndroidNDKHelper;
+import com.sromku.simple.fb.Permissions;
+import com.sromku.simple.fb.Properties;
+import com.sromku.simple.fb.SimpleFacebook;
+import com.sromku.simple.fb.SimpleFacebook.OnLoginListener;
+import com.sromku.simple.fb.SimpleFacebook.OnProfileRequestListener;
+import com.sromku.simple.fb.SimpleFacebookConfiguration;
+import com.sromku.simple.fb.entities.Profile;
+
 import org.json.JSONException;
 import org.json.JSONObject;
 import android.app.AlertDialog;
@@ -64,54 +72,247 @@ import android.widget.FrameLayout;
 
 public class HelloWorld extends Cocos2dxActivity
 {
-
-    //NEW
-    private FrameLayout rootView = null;
-
-    //NEW FACEBOOK
-	Session m_Session;
-	GraphUser m_User;
 	
+    ///////////////////////// BEGIN SIMPLE FACEBOOK //////////////////////////////
+	
+	protected static final String TAG = "JAVA_HELLO_WORLD";
 
-    //NEW
-    /* Helper method to get the hold of Cocos2dx Changable View,
-     * You can add others views using this view
-     */
-    private FrameLayout GetRootView()
-    {
-        if (this.rootView == null)
-        {
-            this.rootView = (FrameLayout)this.getWindow().getDecorView().findViewById(android.R.id.content);
-        }
-        return this.rootView;
+	//NEW SIMPLE FACEBOOK
+	SimpleFacebook mSimpleFacebook;
+
+    private void initSimleFacebook() {
+    	Permissions[] permissions = new Permissions[] {
+    		    Permissions.USER_PHOTOS,
+    		    Permissions.EMAIL,
+    		    Permissions.PUBLISH_ACTION
+    		};
+    	
+    	SimpleFacebookConfiguration configuration = new SimpleFacebookConfiguration.Builder()
+        .setAppId("526834920767265")
+        .setNamespace("helloworld")
+        .setPermissions(permissions)
+        .build();
+    	
+    	SimpleFacebook.setConfiguration(configuration);
     }
-
-    //NEW
-    private void AddButton()
-    {
-        Button tapButton = new Button(this);
-        tapButton.setText("Tap to change text");
-        tapButton.setLayoutParams(new LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT));
-        
-        tapButton.setOnClickListener(new OnClickListener() {
-            public void onClick(View v) {
-                //NEW///////////////////////////////////////////
-                // TODO Auto-generated method stub
-                HelloWorld.this.ChangeSomethingInCocos();
-            }
-        });
-        
-        this.GetRootView().addView(tapButton);
+    
+    @Override
+    public void onResume() {
+        super.onResume();
+        mSimpleFacebook = SimpleFacebook.getInstance(this);
     }
-    //END NEW
+    
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        mSimpleFacebook.onActivityResult(this, requestCode, resultCode, data); 
+        super.onActivityResult(requestCode, resultCode, data);
+    } 
 
+    //
+    
+    public void LogIn(JSONObject prms) {
+    	Log.i(TAG, "CALL LOG IN");
+    	
+    	OnLoginListener onLoginListener = new OnLoginListener() {
+    	    @Override
+    	    public void onLogin() {
+    	        Log.i(TAG, "onLogin");
+    	        
+    	        String jsonStr = "{\"isSuccess\" : true}";
+    	        JSONObject prmsToSend = null;
+    	        
+    	        try {
+    				prmsToSend = new JSONObject(jsonStr);
+    			}
+    	        catch (JSONException e) {
+    				// TODO Auto-generated catch block
+    				e.printStackTrace();
+    			}
+    	        
+    	        if (prmsToSend != null) {
+    	        	AndroidNDKHelper.SendMessageWithParameters("onLogInCompleted", prmsToSend);
+    	        } else {
+    	        	AndroidNDKHelper.SendMessageWithParameters("onLogInCompleted", null);
+    	        }
+    	    }
+
+			@Override
+			public void onThinking() {
+				// TODO Auto-generated method stub
+				Log.w(TAG, "onThinking");
+			}
+
+			@Override
+			public void onException(Throwable throwable) {
+				// TODO Auto-generated method stub
+				Log.w(TAG, "onException");
+
+    	        String jsonStr = "{\"isSuccess\" : false}";
+    	        JSONObject prmsToSend = null;
+    	        
+    	        try {
+    				prmsToSend = new JSONObject(jsonStr);
+    			}
+    	        catch (JSONException e) {
+    				// TODO Auto-generated catch block
+    				e.printStackTrace();
+    			}
+    	        
+    	        if (prmsToSend != null) {
+    	        	AndroidNDKHelper.SendMessageWithParameters("onLogInCompleted", prmsToSend);
+    	        } else {
+    	        	AndroidNDKHelper.SendMessageWithParameters("onLogInCompleted", null);
+    	        }
+			}
+
+			@Override
+			public void onFail(String reason) {
+				// TODO Auto-generated method stub
+				Log.w(TAG, String.format("onFail: %s", reason));
+
+    	        String jsonStr = "{\"isSuccess\" : false}";
+    	        JSONObject prmsToSend = null;
+    	        
+    	        try {
+    				prmsToSend = new JSONObject(jsonStr);
+    			}
+    	        catch (JSONException e) {
+    				// TODO Auto-generated catch block
+    				e.printStackTrace();
+    			}
+    	        
+    	        if (prmsToSend != null) {
+    	        	AndroidNDKHelper.SendMessageWithParameters("onLogInCompleted", prmsToSend);
+    	        } else {
+    	        	AndroidNDKHelper.SendMessageWithParameters("onLogInCompleted", null);
+    	        }
+			}
+
+			@Override
+			public void onNotAcceptingPermissions() {
+				// TODO Auto-generated method stub
+				Log.w(TAG, "onNotAcceptingPermissions");
+
+    	        String jsonStr = "{\"isSuccess\" : false}";
+    	        JSONObject prmsToSend = null;
+    	        
+    	        try {
+    				prmsToSend = new JSONObject(jsonStr);
+    			}
+    	        catch (JSONException e) {
+    				// TODO Auto-generated catch block
+    				e.printStackTrace();
+    			}
+    	        
+    	        if (prmsToSend != null) {
+    	        	AndroidNDKHelper.SendMessageWithParameters("onLogInCompleted", prmsToSend);
+    	        } else {
+    	        	AndroidNDKHelper.SendMessageWithParameters("onLogInCompleted", null);
+    	        }
+			}
+    	};
+
+    	mSimpleFacebook.login(onLoginListener);
+    }
+    
+    public void GetProfile(JSONObject prms) {
+    	OnProfileRequestListener onProfileListener = new OnProfileRequestListener() {         
+    	    @Override
+    	    public void onComplete(Profile profile) {
+    	        Log.i(TAG, "onComplete: profile id = " + profile.getId());
+    	        Log.i(TAG, "--firstname = " + profile.getFirstName());
+    	        Log.i(TAG, "--name = " + profile.getName());
+    	        
+    	        String jsonStr = "{\"isSuccess\" : true}";
+    	        JSONObject prmsToSend = null;
+    	        
+    	        try {
+    				prmsToSend = new JSONObject(jsonStr);
+    			}
+    	        catch (JSONException e) {
+    				// TODO Auto-generated catch block
+    				e.printStackTrace();
+    			}
+    	        
+    	        if (prmsToSend != null) {
+    	        	AndroidNDKHelper.SendMessageWithParameters("onGetProfileCompleted", prmsToSend);
+    	        } else {
+    	        	AndroidNDKHelper.SendMessageWithParameters("onGetProfileCompleted", null);
+    	        }
+    	    }
+
+			@Override
+			public void onThinking() {
+				// TODO Auto-generated method stub
+				Log.i(TAG, "onThinking");
+			}
+
+			@Override
+			public void onException(Throwable throwable) {
+				// TODO Auto-generated method stub
+				Log.i(TAG, "onException");
+				
+    	        String jsonStr = "{\"isSuccess\" : false}";
+    	        JSONObject prmsToSend = null;
+    	        
+    	        try {
+    				prmsToSend = new JSONObject(jsonStr);
+    			}
+    	        catch (JSONException e) {
+    				// TODO Auto-generated catch block
+    				e.printStackTrace();
+    			}
+    	        
+    	        if (prmsToSend != null) {
+    	        	AndroidNDKHelper.SendMessageWithParameters("onGetProfileCompleted", prmsToSend);
+    	        } else {
+    	        	AndroidNDKHelper.SendMessageWithParameters("onGetProfileCompleted", null);
+    	        }
+			}
+
+			@Override
+			public void onFail(String reason) {
+				// TODO Auto-generated method stub
+				Log.i(TAG, "onFail");
+				
+    	        String jsonStr = "{\"isSuccess\" : false}";
+    	        JSONObject prmsToSend = null;
+    	        
+    	        try {
+    				prmsToSend = new JSONObject(jsonStr);
+    			}
+    	        catch (JSONException e) {
+    				// TODO Auto-generated catch block
+    				e.printStackTrace();
+    			}
+    	        
+    	        if (prmsToSend != null) {
+    	        	AndroidNDKHelper.SendMessageWithParameters("onGetProfileCompleted", prmsToSend);
+    	        } else {
+    	        	AndroidNDKHelper.SendMessageWithParameters("onGetProfileCompleted", null);
+    	        }
+			}  
+    	};
+    	
+    	Properties properties = new Properties.Builder()
+        .add(Properties.ID)
+        .add(Properties.FIRST_NAME)
+        .add(Properties.NAME)
+        .add(Properties.COVER)
+        .add(Properties.WORK)
+        .add(Properties.EDUCATION)
+        .add(Properties.PICTURE)
+        .build();
+
+    	mSimpleFacebook.getProfile(properties, onProfileListener);
+    }
+    
+    ///////////////////////// END SIMPLE FACEBOOK //////////////////////////////
 	
     protected void onCreate(Bundle savedInstanceState){
 		
         super.onCreate(savedInstanceState);
 
-        //NEW
-        // Try to get your hash key
         try {
             PackageInfo info = getPackageManager().getPackageInfo(this.getPackageName(), PackageManager.GET_SIGNATURES);
             for (Signature signature : info.signatures) {
@@ -126,107 +327,8 @@ public class HelloWorld extends Cocos2dxActivity
         }
 
         AndroidNDKHelper.SetNDKReciever(this);
-        this.AddButton();
-        //END NEW
+        this.initSimleFacebook();
 	}
-
-    //NEW    
-    public void ChangeSomethingInCocos()
-    {
-        // If you want to change anything that cocos handles, please run it on GLThread
-        // Because cocos is a non threaded environment, it is required to queue stuff there
-        // Every call on NDK opens up a new thread, hence making inconsistency in cocos and NDK
-        
-        this.runOnGLThread(new Runnable()
-                           {
-            @Override
-            public void run()
-            {
-                // TODO Auto-generated method stub
-                AndroidNDKHelper.SendMessageWithParameters("ChangeLabelSelector", null);
-            }
-        });
-    }
-
-
-    public void SampleSelectorWithData(JSONObject prms)
-    {
-        Log.v("SampleSelector", "purchase something called");
-        Log.v("SampleSelector", "Passed params are : " + prms.toString());
-        
-        String CPPFunctionToBeCalled = null;
-        try
-        {
-            CPPFunctionToBeCalled = prms.getString("to_be_called");
-        }
-        catch (JSONException e)
-        {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
-        }
-        
-        AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        builder.setMessage("This is a sample popup on Android").
-        setTitle("Hello World!").
-        setNeutralButton("OK", null).show();
-        
-        String jsonStr = "{\"sample_dictionary\":{\"sample_array\":[\"1\",\"2\",\"3\",\"4\",\"5\",\"6\",\"7\",\"8\",\"9\",\"10\",\"11\"],\"sample_integer\":1234,\"sample_float\":12.34,\"sample_string\":\"a string\"}}";
-        JSONObject prmsToSend = null;
-        
-        try
-        {
-            prmsToSend = new JSONObject(jsonStr);
-        }
-        catch (JSONException e)
-        {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
-        }
-        
-        if (prmsToSend != null)
-        {
-            AndroidNDKHelper.SendMessageWithParameters(CPPFunctionToBeCalled, prmsToSend);
-        }
-        else
-        {
-            AndroidNDKHelper.SendMessageWithParameters(CPPFunctionToBeCalled, null);
-        }
-    }
-    
-    public void SampleSelector(JSONObject prms)
-    {
-        Log.v("SampleSelector", "purchase something called");
-        Log.v("SampleSelector", "Passed params are : " + prms.toString());
-        
-        String CPPFunctionToBeCalled = null;
-        try
-        {
-            CPPFunctionToBeCalled = prms.getString("to_be_called");
-        }
-        catch (JSONException e)
-        {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
-        }
-        
-        AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        builder.setMessage("This is a sample popup on Android").
-        setTitle("Hello World!").
-        setNeutralButton("OK", null).show();
-        
-        AndroidNDKHelper.SendMessageWithParameters(CPPFunctionToBeCalled, null);
-    }
-
-
-    //END NEW
-    
-    
-    
-    
-    
-    
-    
-    
     
     public Cocos2dxGLSurfaceView onCreateView() {
     	Cocos2dxGLSurfaceView glSurfaceView = new Cocos2dxGLSurfaceView(this);

@@ -10,7 +10,7 @@
 #include "IntroScene.h"
 #include <time.h>
 #include "TestPostGetScene.h"
-#include "HelloWorldScene.h"
+#include "TestAndroidFacebookScene.h"
 
 
 USING_NS_CC;
@@ -73,7 +73,7 @@ bool AppDelegate::applicationDidFinishLaunching() {
 	}
 	else
 	{
-		pScene = HelloWorld::scene(); // MenuScene::scene(); // TestPostGetScene::scene(); // IntroScene::scene(); //  MenuScene::scene(); //  MainGameScene::scene(); //
+		pScene = TestAndroidFacebookScene::scene(); // MenuScene::scene(); // TestPostGetScene::scene(); // IntroScene::scene(); //  MenuScene::scene(); //  MainGameScene::scene(); //
 	}
 
 	pDirector->runWithScene(pScene);
