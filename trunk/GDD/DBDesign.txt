@@ -1,0 +1,66 @@
+													DATABASE
+USER: 
+|---UserId---|---SingleScore---|---MutilScore---|---Diamonds---|---GamesWin---|---GamesLose---|---NicknameID---|
+Primary key: UserID
+Foreign key: NicknameID - NICKNAME
+Trigger: 	Complex MutilScore = GameWin*MarkGameWin + GameLose*MarkGameLose =,=!
+			MultiScore >= 0 | SingleScore >= 0
+			Diamonds >= 0
+
+			
+			
+NICKNAME:
+|---NicknameId---|---Nickname---|
+Primary key: NicknameId
+
+
+
+QUESTION:
+|---QuestionID---|---QuestionContent---|---AnswerA---|---AnswerB---|---AnswerC---|---AnswerD---|---Correct---|---SubjectId---|
+Primary key: QuestionID
+Foreign key: SubjectId - SUBJECT
+Trigger: 	Correct had to equal one of them ( A-A, A-B, A-C, A-D )
+
+
+
+SUBJECT:
+|---SubjectId---|---SubjectName---|---Active---|
+Primary key: SubjectId
+
+
+
+USER-RESULT:
+|---UserId---|---QuestionId---|---Time---|---Rate(Win/Lose)---|
+Primary key: UserId - QuestionId
+Foreign key: UserId - USER
+			 QuestionId - QUESTION
+
+or
+|---UserId---|---QuestionId---|---Time---|---Win---|---Lose---|
+Primary key: UserId - QuestionId
+Foreign key: UserId - USER
+			 QuestionId - QUESTION
+Trigger:	Win + Lose = Time
+
+
+
+GAME-RESULT-LEFT : happen when connection has broken, save result and tell user if has connection.
+|---UserId---|---Rival---|---UserScore---|---RivalScore---|
+Primary key: UserId - Rival
+Foreign key: UserId - USER
+			 Rival - USER		 
+
+or
+|---UserId---|---Rival---|---UserScore---|---RivalScore---|---MatchId---|
+Primary key: UserId - Rival
+Foreign key: UserId - USER
+			 Rival - USER	
+(
+	MATCH-DETAIL:
+	|---MatchId---|---QuestionId---|---Order---|---Winner(Id)---|
+	Primary key: MatchId - QuestionId
+	Foreign key: QuestionId - QUESTION
+				 Winner - USER
+	// Trigger: COUNT( QuestionId ) == Config( QuestionInPackage )
+)
+
