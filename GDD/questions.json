@@ -8,7 +8,7 @@
 			"Cau tra loi C", //2
 			"Cau tra loi D" //3
 		],
-		"right": 0 // 1->3
+		"right": 0 // 0->3
 	},
 	{
 		"quest": "Day la cau hoi 2?",
@@ -19,7 +19,7 @@
 			"Cau tra loi C", //2
 			"Cau tra loi D" //3
 		],
-		"right": 0 // 1->3
+		"right": 0 // 0->3
 	}
 	//...
 ]
