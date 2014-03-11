@@ -141,6 +141,7 @@ xcopy /Y /Q "$(ProjectDir)..\..\..\external\libwebsockets\win32\lib\*.*" "$(OutD
     <ClCompile Include="..\Classes\GameClientObjects.cpp" />
     <ClCompile Include="..\Classes\Global.cpp" />
     <ClCompile Include="..\Classes\GuideScene.cpp" />
+    <ClCompile Include="..\Classes\TestAndroidFacebookScene.cpp" />
     <ClCompile Include="..\Classes\IntroScene.cpp" />
     <ClCompile Include="..\Classes\jansson\dump.c" />
     <ClCompile Include="..\Classes\jansson\error.c" />
@@ -175,6 +176,7 @@ xcopy /Y /Q "$(ProjectDir)..\..\..\external\libwebsockets\win32\lib\*.*" "$(OutD
     <ClInclude Include="..\Classes\GameClientObjects.h" />
     <ClInclude Include="..\Classes\Global.h" />
     <ClInclude Include="..\Classes\GuideScene.h" />
+    <ClInclude Include="..\Classes\TestAndroidFacebookScene.h" />
     <ClInclude Include="..\Classes\IntroScene.h" />
     <ClInclude Include="..\Classes\jansson\hashtable.h" />
     <ClInclude Include="..\Classes\jansson\jansson.h" />

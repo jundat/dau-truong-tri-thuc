@@ -8,12 +8,13 @@
 
 #include "HelloWorldScene.h"
 #include "SimpleAudioEngine.h"
-#include "NDKHelper\NDKHelper.h"
+#include "NDKHelper.h"
 #include <string>
 using namespace std;
 
 using namespace cocos2d;
 using namespace CocosDenshion;
+
 
 
 CCScene* HelloWorld::scene()
@@ -47,23 +48,23 @@ bool HelloWorld::init()
 
     // add a "close" icon to exit the progress. it's an autorelease object
     CCMenuItemImage *pCloseItem = CCMenuItemImage::create(
-                                        "next.png",
-                                        "next.png",
+                                        "CloseNormal.png",
+                                        "CloseSelected.png",
                                         this,
                                         menu_selector(HelloWorld::menuCloseCallback) );
     
     // add a "play" icon to simulate a data passing example
     CCMenuItemImage *pNextItem = CCMenuItemImage::create(
-                                        "start.png",
-                                        "startDown.png",
+                                        "play.png",
+                                        "play.png",
                                         this,
                                         menu_selector(HelloWorld::menuNextCallback)
                                             );
     
-    pCloseItem->setPosition( ccp(200, 200) );
+    pCloseItem->setPosition( ccp(CCDirector::sharedDirector()->getWinSize().width - 20, 20) );
     
     // Adjust Chartboost button
-    pNextItem->setPosition( ccp(400, 200) );
+    pNextItem->setPosition( ccp(CCDirector::sharedDirector()->getWinSize().width - 80, 20) );
 
     // create menu, it's an autorelease object
     CCMenu* pMenu = CCMenu::create(pCloseItem, pNextItem, NULL);
@@ -87,7 +88,7 @@ bool HelloWorld::init()
     this->addChild(this->pLabel, 1);
 
     // add "HelloWorld" splash screen"
-    CCSprite* pSprite = CCSprite::create("menu_background.png");
+    CCSprite* pSprite = CCSprite::create("HelloWorld.png");
 
     // position the sprite on the center of the screen
     pSprite->setPosition( ccp(size.width/2, size.height/2) );
@@ -107,13 +108,11 @@ bool HelloWorld::init()
 // Selector that will change the label text
 void HelloWorld::ChangeLabelSelector(CCNode* sender, void *data)
 {
-	CCLOG("ChangeLabelSelector");
     this->pLabel->setString("World Changed!");
 }
 
 void HelloWorld::menuCloseCallback(CCObject* pSender)
 {
-	CCLOG("menuCloseCallback");
     // Register a selector in a global space
     // So that when our native environment will call the method with the string
     // It can respond to the selector
@@ -134,7 +133,6 @@ void HelloWorld::menuCloseCallback(CCObject* pSender)
 
 void HelloWorld::menuNextCallback(CCObject* pSender)
 {
-	CCLOG("menuNextCallback");
     // Register a selector in a global space
     // So that when our native environment will call the method with the string
     // It can respond to the selector
@@ -156,14 +154,12 @@ void HelloWorld::menuNextCallback(CCObject* pSender)
 // A selector that will respond to us, when native language will call it
 void HelloWorld::SampleSelector(CCNode *sender, void *data)
 {
-	CCLOG("SampleSelector");
     CCLog("Called from native environment");
 }
 
 // A selector with data that will respond to us, when native language will call it
 void HelloWorld::SampleSelectorWithData(CCNode *sender, void *data)
 {
-	CCLOG("SampleSelectorWithData");
     CCLog("Called from native environment");
     
     if (data != NULL)
