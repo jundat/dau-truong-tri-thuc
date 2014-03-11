@@ -1,0 +1,25 @@
+CONFIG
+
+WinScore : Number
+LoseScore : Number
+
+Question In Package : Number
+Time for package : Number( in second )
+
+NewUser:
+Diamonds : Number
+
+Help[Diamonds]:
+Skip : Number
+Skip 1 : Number
+Infinite Time : Number
+
+AIP[Diamonds]:
+10k : Number
+20k : Number
+50k : Number
+100k : Number
+
+WinDiamonds : Number
+LoseDiamonds : Number
+DrawDiamonds : Number
