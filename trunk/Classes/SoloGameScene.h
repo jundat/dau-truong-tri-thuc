@@ -48,6 +48,7 @@ public:
 	CCLabelTTF* m_lbQuestion;
 	CCLabelTTF* m_lbAnswers[4];
 	CCMenuItemImage* m_itAnswers[4];
+	CCMenu* 	m_menu;
 	CCSprite* m_sprGameResult;
 };
 
