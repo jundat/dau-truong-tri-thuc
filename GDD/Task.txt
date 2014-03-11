@@ -1,0 +1,16 @@
+Long
+- Solo
+	+ Connect facebook
+		* Facebook Id
+		* Avatar
+		* Name
+	+ Hoàn thiện API quan trọng
+		* Profile
+		* Score
+		* Config
+		* Leaderboard
+	+ Config công thức tính điểm từ server
+		(API Client-Server, Code)
+	+ Thêm gói trợ giúp: Infinite time
+	+ Random câu hỏi và lưu vết
+	+ Hoàn thành SOLO mode
