@@ -1,6 +1,6 @@
 //
 //  NDKHelper.cpp
-//  FlyAndFire-for-cocos2dx
+//  EasyNDK-for-cocos2dx
 //
 //  Created by Amir Ali Jiwani on 23/02/2013.
 //
@@ -24,7 +24,7 @@ void NDKHelper::RemoveAtIndex(int index)
     NDKHelper::selectorList.pop_back();
 }
 
-void NDKHelper::RemoveSelectorsInGroup(char *groupName)
+void NDKHelper::RemoveSelectorsInGroup(const char *groupName)
 {
     std::vector<int> markedIndices;
     
@@ -211,9 +211,9 @@ void NDKHelper::HandleMessage(json_t *methodName, json_t* methodParams)
     #include "../cocos2dx/platform/android/jni/JniHelper.h"
     #include <android/log.h>
     #include <jni.h>
-    #define  LOG_TAG    "FlyAndFire-for-cocos2dx"
+    #define  LOG_TAG    "EasyNDK-for-cocos2dx"
 
-    #define CLASS_NAME "com/chimgokien/flyandfire/classes/AndroidNDKHelper"
+    #define CLASS_NAME "com/jundat/helloworld/classes/AndroidNDKHelper"
 #endif
 
 #if (CC_TARGET_PLATFORM == CC_PLATFORM_IOS)
@@ -224,7 +224,7 @@ extern "C"
 {
     #if (CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID)
     // Method for recieving NDK messages from Java, Android
-    void Java_com_chimgokien_flyandfire_classes_AndroidNDKHelper_CPPNativeCallHandler(JNIEnv* env, jobject thiz, jstring json)
+    void Java_com_jundat_helloworld_classes_AndroidNDKHelper_CPPNativeCallHandler(JNIEnv* env, jobject thiz, jstring json)
     {
         string jsonString = JniHelper::jstring2string(json);
         const char *jsonCharArray = jsonString.c_str();

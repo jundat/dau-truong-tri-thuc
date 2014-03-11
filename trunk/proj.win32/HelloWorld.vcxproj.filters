@@ -10,6 +10,9 @@
     <Filter Include="Classes\jansson">
       <UniqueIdentifier>{083881b1-0ac0-4e4d-b1a8-d2a38de8e109}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Classes\NDKHelper">
+      <UniqueIdentifier>{c76c3c2b-dbcc-4f23-b2c8-2413e25ead10}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -102,6 +105,12 @@
     <ClCompile Include="..\Classes\WarGameChooseRoomScene.cpp">
       <Filter>Classes</Filter>
     </ClCompile>
+    <ClCompile Include="..\Classes\NDKHelper\NDKCallbackNode.cpp">
+      <Filter>Classes\NDKHelper</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\NDKHelper\NDKHelper.cpp">
+      <Filter>Classes\NDKHelper</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="main.h">
@@ -184,6 +193,12 @@
     </ClInclude>
     <ClInclude Include="..\Classes\WarGameChooseRoomScene.h">
       <Filter>Classes</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\NDKHelper\NDKCallbackNode.h">
+      <Filter>Classes\NDKHelper</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\NDKHelper\NDKHelper.h">
+      <Filter>Classes\NDKHelper</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
