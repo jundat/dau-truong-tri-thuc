@@ -23,3 +23,5 @@ AIP[Diamonds]:
 WinDiamonds : Number
 LoseDiamonds : Number
 DrawDiamonds : Number
+
+PairUserTimeOut : Number
