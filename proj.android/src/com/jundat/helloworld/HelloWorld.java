@@ -28,14 +28,18 @@ import java.security.NoSuchAlgorithmException;
 
 import org.cocos2dx.lib.Cocos2dxActivity;
 import org.cocos2dx.lib.Cocos2dxGLSurfaceView;
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import android.content.Intent;
-import android.content.pm.*;
+import android.content.pm.PackageInfo;
+import android.content.pm.PackageManager;
 import android.content.pm.PackageManager.NameNotFoundException;
+import android.content.pm.Signature;
 import android.os.Bundle;
-import android.util.*;
+import android.util.Base64;
+import android.util.Log;
 
 import com.jundat.helloworld.classes.AndroidNDKHelper;
 import com.sromku.simple.fb.*;
@@ -101,7 +105,7 @@ public class HelloWorld extends Cocos2dxActivity
         super.onActivityResult(requestCode, resultCode, data);
     } 
 
-    //
+    ////////////////////////////////////////////////////////////////
     
     public void LogIn(JSONObject prms) {
     	Log.i(TAG, "CALL LOG IN");
@@ -527,6 +531,189 @@ public class HelloWorld extends Cocos2dxActivity
     
     ///////////////////////// END SIMPLE FACEBOOK //////////////////////////////
 	
+
+    //publish image
+    //publish video
+    
+    public void PostScore(JSONObject prms) {
+    	Log.i(TAG, "CALL POST SCORE");
+    	    	
+    	OnPostScoreListener onPostScoreListener = new OnPostScoreListener() {
+
+			@Override
+			public void onComplete() {
+				// TODO Auto-generated method stub
+				Log.i(TAG, "onComplete");
+
+    	        String jsonStr = "{\"isSuccess\" : true}";
+    	        JSONObject prmsToSend = null;
+    	        
+    	        try {
+    				prmsToSend = new JSONObject(jsonStr);
+    			}
+    	        catch (JSONException e) {
+    				// TODO Auto-generated catch block
+    				e.printStackTrace();
+    			}
+    	        
+    	        if (prmsToSend != null) {
+    	        	AndroidNDKHelper.SendMessageWithParameters("onPostScoreCompleted", prmsToSend);
+    	        } else {
+    	        	AndroidNDKHelper.SendMessageWithParameters("onPostScoreCompleted", null);
+    	        }
+			}
+			
+			@Override
+			public void onThinking() {
+				// TODO Auto-generated method stub
+				Log.i(TAG, "onThinking");
+			}
+
+			@Override
+			public void onException(Throwable throwable) {
+				// TODO Auto-generated method stub
+				Log.i(TAG, "onException");
+
+    	        String jsonStr = "{\"isSuccess\" : false}";
+    	        JSONObject prmsToSend = null;
+    	        
+    	        try {
+    				prmsToSend = new JSONObject(jsonStr);
+    			}
+    	        catch (JSONException e) {
+    				// TODO Auto-generated catch block
+    				e.printStackTrace();
+    			}
+    	        
+    	        if (prmsToSend != null) {
+    	        	AndroidNDKHelper.SendMessageWithParameters("onPostScoreCompleted", prmsToSend);
+    	        } else {
+    	        	AndroidNDKHelper.SendMessageWithParameters("onPostScoreCompleted", null);
+    	        }
+			}
+
+			@Override
+			public void onFail(String reason) {
+				// TODO Auto-generated method stub
+				Log.i(TAG, "onFail");
+
+    	        String jsonStr = "{\"isSuccess\" : false}";
+    	        JSONObject prmsToSend = null;
+    	        
+    	        try {
+    				prmsToSend = new JSONObject(jsonStr);
+    			}
+    	        catch (JSONException e) {
+    				// TODO Auto-generated catch block
+    				e.printStackTrace();
+    			}
+    	        
+    	        if (prmsToSend != null) {
+    	        	AndroidNDKHelper.SendMessageWithParameters("onPostScoreCompleted", prmsToSend);
+    	        } else {
+    	        	AndroidNDKHelper.SendMessageWithParameters("onPostScoreCompleted", null);
+    	        }
+			}
+    	};
+    	
+		try {
+			int score = prms.getInt("score");
+			Log.i(TAG, "SCORE = " + score);
+			
+	    	mSimpleFacebook.postScore(score, onPostScoreListener);
+		} catch (JSONException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+    }
+    
+    public void GetScores(JSONObject prms) {
+    	
+    	
+    	OnScoresRequestListener onScoresRequestListener = new OnScoresRequestListener() {
+
+			@Override
+			public void onComplete(JSONArray result) {
+				// TODO Auto-generated method stub
+				Log.i(TAG, "onComplete");
+				
+				Log.i(TAG, "Number of scores = " + result.length());
+				
+				//Log.i(TAG, result.toString());
+				
+				try {
+					String jsonStr = "{ \"isSuccess\": true, \"scores\": " + result.toString() + "}";
+					Log.i(TAG, jsonStr);
+	    	        JSONObject prmsToSend = null;
+	    	        prmsToSend = new JSONObject(jsonStr);
+
+	    	        AndroidNDKHelper.SendMessageWithParameters("onGetScoresCompleted", prmsToSend);
+				} catch (JSONException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			}
+			
+			@Override
+			public void onThinking() {
+				// TODO Auto-generated method stub
+				Log.i(TAG, "onThinking");
+			}
+
+			@Override
+			public void onException(Throwable throwable) {
+				// TODO Auto-generated method stub
+				Log.i(TAG, "onException");
+
+    	        String jsonStr = "{\"isSuccess\" : false}";
+    	        JSONObject prmsToSend = null;
+    	        
+    	        try {
+    				prmsToSend = new JSONObject(jsonStr);
+    			}
+    	        catch (JSONException e) {
+    				// TODO Auto-generated catch block
+    				e.printStackTrace();
+    			}
+    	        
+    	        if (prmsToSend != null) {
+    	        	AndroidNDKHelper.SendMessageWithParameters("onGetScoresCompleted", prmsToSend);
+    	        } else {
+    	        	AndroidNDKHelper.SendMessageWithParameters("onGetScoresCompleted", null);
+    	        }
+			}
+
+			@Override
+			public void onFail(String reason) {
+				// TODO Auto-generated method stub
+				Log.i(TAG, "onFail");
+
+    	        String jsonStr = "{\"isSuccess\" : false}";
+    	        JSONObject prmsToSend = null;
+    	        
+    	        try {
+    				prmsToSend = new JSONObject(jsonStr);
+    			}
+    	        catch (JSONException e) {
+    				// TODO Auto-generated catch block
+    				e.printStackTrace();
+    			}
+    	        
+    	        if (prmsToSend != null) {
+    	        	AndroidNDKHelper.SendMessageWithParameters("onGetScoresCompleted", prmsToSend);
+    	        } else {
+    	        	AndroidNDKHelper.SendMessageWithParameters("onGetScoresCompleted", null);
+    	        }
+			}
+    	};
+    	
+    	mSimpleFacebook.getScores(onScoresRequestListener);
+    }
+    
+    
+    
+    ////////////////////////////////////////////////////////////////
+    
     protected void onCreate(Bundle savedInstanceState){
 		
         super.onCreate(savedInstanceState);
