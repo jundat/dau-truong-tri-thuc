@@ -56,6 +56,14 @@ bool TestAndroidFacebookScene::init()
 	itemPost3->setPosition(ccp(20, 1100));
 	menuRequest->addChild(itemPost3);
 
+	//Publish Feed
+	CCLabelTTF *labelPost4 = CCLabelTTF::create("Publish Feed", "Arial", 48);
+	labelPost4->setFontFillColor(ccc3(0,0,0));
+	CCMenuItemLabel *itemPost4 = CCMenuItemLabel::create(labelPost4, this, menu_selector(TestAndroidFacebookScene::PublishFeed));
+	itemPost4->setAnchorPoint(ccp(0.0f, 0.5f));
+	itemPost4->setPosition(ccp(20, 1040));
+	menuRequest->addChild(itemPost4);
+
 
 
 	this->setKeypadEnabled(true);
@@ -102,6 +110,39 @@ void TestAndroidFacebookScene::GetProfile( CCNode* pSender )
 	SendMessageWithParams(string("GetProfile"), NULL);
 }
 
+void TestAndroidFacebookScene::PublishFeed( CCNode* pSender )
+{
+	NDKHelper::AddSelector(TEST_GROUP_NAME,
+		"onPublishFeedCompleted",
+		callfuncND_selector(TestAndroidFacebookScene::onPublishFeedCompleted),
+		this);
+
+	//message
+	//name
+	//caption
+	//description
+	//picture
+	//link
+	string withDialog = "true";
+	string message = "This is the message";
+	string name = "This is the name";
+	string caption = "This is the caption";
+	string description = "This is the description";
+	string picture = "This is the picture";
+	string link = "This is the link";
+
+
+	CCDictionary* prms = CCDictionary::create();
+	prms->setObject(CCString::create(withDialog), "withDialog");
+	prms->setObject(CCString::create(message), "message");
+	prms->setObject(CCString::create(name), "name");
+	prms->setObject(CCString::create(caption), "caption");
+	prms->setObject(CCString::create(description), "description");
+	prms->setObject(CCString::create(picture), "picture");
+	prms->setObject(CCString::create(link), "link");
+	
+	SendMessageWithParams(string("PublishFeed"), prms);
+}
 
 //////////////////////////////////////////////////////////////////////////
 //Callback
@@ -161,5 +202,22 @@ void TestAndroidFacebookScene::onGetProfileCompleted( CCNode *sender, void *data
 		{
 			CCLOG("CPP Get Profile Completed: FALSE");
 		}		
+	}
+}
+
+void TestAndroidFacebookScene::onPublishFeedCompleted( CCNode *sender, void *data )
+{
+	if (data != NULL)
+	{
+		CCDictionary *convertedData = (CCDictionary *)data;
+		CCString* s = (CCString*)convertedData->objectForKey("isSuccess");
+		if (s->boolValue())
+		{
+			CCLOG("CPP Publish Feed Completed: TRUE");
+		} 
+		else
+		{
+			CCLOG("CPP Publish Feed Completed: FALSE");
+		}
 	}
 }

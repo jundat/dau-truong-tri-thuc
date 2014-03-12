@@ -17,12 +17,12 @@ Message:
 Response Message:
 	"{
 		version: "1.0",
-		winScore: "3",
-		loseScore: "-1",
-		skip: "3",
-		skip1: "1",
-		infinite: "1",
-		timeout: 10 // second
+		winScore: 3,
+		loseScore: -1,
+		diamondForSkip: 3,
+		diamondForExplusive: 1,
+		diamondForInfinite: 1,
+		connectionTimeout: 10 // second
 	}"
 
 
@@ -42,8 +42,7 @@ Message:
 
 Response Message:
 	"{
-		isSuccess: true,
-		diamond: "200"
+		isSuccess: true
 	}"
 
 1.1. Get User Profile
@@ -59,15 +58,6 @@ Response Message:
 		nickname: "Master",
 		email: "longpham.uit@gmail.com"
 	}"
-
-1.2. Logout
-Message:
-	"data={
-		fbId: "123456789"
-	}&method=set"
-
-Response Message:
-	""
 	
 -------------------------------------------------------------------
 2.0. Send SingleScore
@@ -111,18 +101,7 @@ Message:
 		score: 1234,
 		time: 123 // second
 		// Is need detail match ( sentence right/wrong)
-		detail:
-		[
-			{
-				quest1: 1,
-				result: true
-			},
-			{
-				quest2: 2,
-				result: false
-			}
-			//...
-		]
+		rights: [0, 1, 3] //nhung cau dung
 	}&method=set"
 
 Response Message:

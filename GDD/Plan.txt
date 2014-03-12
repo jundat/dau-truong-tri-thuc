@@ -1,0 +1,65 @@
+
+
+13/3
+__________________________________________
+Tuần 1:
+	- Data:
+		+ Single complete
+
+	- Server: Complete Single
+		+ Single server service
+			get config
+			send profile (fbId, random)
+			send score
+			get leaderboard
+		+  Multi
+			match 2 player
+
+	- Client: Complete Single
+		+ No resource
+		+ Leaderboard
+		+ Facebook / Random userid
+		+ No nạp tiền kim cương
+		+ Service:
+			get config
+			send profile
+			send score
+			leaderboard
+		+ List subjects
+		+ Send request Join game
+__________________________________________
+Tuần 2:
+	- Data:
+		+ Multi complete
+	- Server: Complete multi
+	- Client: Complete multi
+		+ No resource
+		+ Get match
+		+ Show match
+		+ Send result
+		+ Show result
+		+ Leaderboard
+
+__________________________________________
+Tuần 3:
+	- Data:
+		+ Full data
+	- Server:
+		+ Cài đặt trên VPS
+	- Đăng ký google account
+
+	Client:
+		+ Resource
+		+ Connect VPS
+		+ Kim cương (share, invite, quảng cáo, nạp tiền)
+
+__________________________________________
+Tuần 4:
+	- Test
+	- Fuck bitch
+	- Publish
+
+
+3/4
+
+

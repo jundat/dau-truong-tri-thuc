@@ -1,49 +1,69 @@
+
+
+
 													DATABASE
 USER: 
-|---UserId---|---SingleScore---|---MutilScore---|---Diamonds---|---GamesWin---|---GamesLose---|---NicknameID---|
+|---UserId---|---Name---|---SingleScore---|---MutilScore---|---Diamonds---|---GamesWin---|---GamesLose---|
 Primary key: UserID
-Foreign key: NicknameID - NICKNAME
 Trigger: 	Complex MutilScore = GameWin*MarkGameWin + GameLose*MarkGameLose =,=!
 			MultiScore >= 0 | SingleScore >= 0
 			Diamonds >= 0
+			KO cai dat trigger
 
-			
-			
-NICKNAME:
-|---NicknameId---|---Nickname---|
-Primary key: NicknameId
-
+Single result 
 
 
 QUESTION:
-|---QuestionID---|---QuestionContent---|---AnswerA---|---AnswerB---|---AnswerC---|---AnswerD---|---Correct---|---SubjectId---|
+|---QuestionID---|---QuestionContent---|---A---|---B---|---C---|---D---|---Correct---|---SubjectId---|
 Primary key: QuestionID
 Foreign key: SubjectId - SUBJECT
-Trigger: 	Correct had to equal one of them ( A-A, A-B, A-C, A-D )
+Correct had to equal one of them ( A, B, C, D )
 
+
+
+Xu li song song cac cau lenh sql
+SubjectId: Number
 
 
 SUBJECT:
-|---SubjectId---|---SubjectName---|---Active---|
+|---SubjectId---|---SubjectName---|---Active---|---NumberSentence---|---Prefix---|
 Primary key: SubjectId
 
 
 
 USER-RESULT:
-|---UserId---|---QuestionId---|---Time---|---Rate(Win/Lose)---|
-Primary key: UserId - QuestionId
-Foreign key: UserId - USER
-			 QuestionId - QUESTION
-
-or
-|---UserId---|---QuestionId---|---Time---|---Win---|---Lose---|
+|---UserId---|---QuestionId---|---Win---|---Lose---|
 Primary key: UserId - QuestionId
 Foreign key: UserId - USER
 			 QuestionId - QUESTION
 Trigger:	Win + Lose = Time
 
 
+Daily leaderboard on mem
+API load leaderboard pagging
 
+
+Accept min diamond if having cheat
+Accept max score if having cheat
+Leaderboard multi: wingame/totalgame && winsentence/totalsentence
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////
 GAME-RESULT-LEFT : happen when connection has broken, save result and tell user if has connection.
 |---UserId---|---Rival---|---UserScore---|---RivalScore---|
 Primary key: UserId - Rival
@@ -51,7 +71,7 @@ Foreign key: UserId - USER
 			 Rival - USER		 
 
 or
-|---UserId---|---Rival---|---UserScore---|---RivalScore---|---MatchId---|
+|---UserId---|---R ival---|---UserScore---|---RivalScore---|---MatchId---|
 Primary key: UserId - Rival
 Foreign key: UserId - USER
 			 Rival - USER	
