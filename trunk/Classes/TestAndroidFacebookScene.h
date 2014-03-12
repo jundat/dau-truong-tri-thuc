@@ -24,6 +24,8 @@ public:
 	void LogOut(CCNode* pSender);
 	void GetProfile(CCNode* pSender);
 	void PublishFeed(CCNode* pSender);
+	void PostScore(CCNode* pSender);
+	void GetScores(CCNode* pSender);
 
 
 	//callback
@@ -31,6 +33,8 @@ public:
 	void onLogOutCompleted(CCNode *sender, void *data);
 	void onGetProfileCompleted(CCNode *sender, void *data);
 	void onPublishFeedCompleted(CCNode *sender, void *data);
+	void onPostScoreCompleted(CCNode *sender, void *data);
+	void onGetScoresCompleted(CCNode *sender, void *data);
 };
 
 #endif // __HELLOWORLD_SCENE_H__

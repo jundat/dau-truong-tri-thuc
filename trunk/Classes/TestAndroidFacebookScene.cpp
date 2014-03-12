@@ -1,4 +1,4 @@
-#include "TestAndroidFacebookScene.h"
+﻿#include "TestAndroidFacebookScene.h"
 #include "MenuScene.h"
 #include "MyMacro.h"
 #include "NDKHelper\NDKHelper.h"
@@ -63,6 +63,23 @@ bool TestAndroidFacebookScene::init()
 	itemPost4->setAnchorPoint(ccp(0.0f, 0.5f));
 	itemPost4->setPosition(ccp(20, 1040));
 	menuRequest->addChild(itemPost4);
+
+	//Post score
+	CCLabelTTF *labelPost5 = CCLabelTTF::create("Post Score", "Arial", 48);
+	labelPost5->setFontFillColor(ccc3(0,0,0));
+	CCMenuItemLabel *itemPost5 = CCMenuItemLabel::create(labelPost5, this, menu_selector(TestAndroidFacebookScene::PostScore));
+	itemPost5->setAnchorPoint(ccp(0.0f, 0.5f));
+	itemPost5->setPosition(ccp(20, 980));
+	menuRequest->addChild(itemPost5);
+
+	//Get Scores
+	CCLabelTTF *labelPost6 = CCLabelTTF::create("Get Scores", "Arial", 48);
+	labelPost6->setFontFillColor(ccc3(0,0,0));
+	CCMenuItemLabel *itemPost6 = CCMenuItemLabel::create(labelPost6, this, menu_selector(TestAndroidFacebookScene::GetScores));
+	itemPost6->setAnchorPoint(ccp(0.0f, 0.5f));
+	itemPost6->setPosition(ccp(20, 920));
+	menuRequest->addChild(itemPost6);
+
 
 
 
@@ -155,6 +172,32 @@ void TestAndroidFacebookScene::PublishFeed( CCNode* pSender )
 	SendMessageWithParams(string("PublishFeed"), prms);
 }
 
+void TestAndroidFacebookScene::PostScore( CCNode* pSender )
+{
+	NDKHelper::AddSelector(TEST_GROUP_NAME,
+		"onPostScoreCompleted",
+		callfuncND_selector(TestAndroidFacebookScene::onPostScoreCompleted),
+		this);
+
+	string score = "2020";
+
+	CCDictionary* prms = CCDictionary::create();
+	prms->setObject(CCString::create(score), "score");
+
+	SendMessageWithParams(string("PostScore"), prms);
+}
+
+void TestAndroidFacebookScene::GetScores( CCNode* pSender )
+{
+	NDKHelper::AddSelector(TEST_GROUP_NAME,
+		"onGetScoresCompleted",
+		callfuncND_selector(TestAndroidFacebookScene::onGetScoresCompleted),
+		this);
+	
+	SendMessageWithParams(string("GetScores"), NULL);
+}
+
+
 //////////////////////////////////////////////////////////////////////////
 //Callback
 
@@ -225,10 +268,104 @@ void TestAndroidFacebookScene::onPublishFeedCompleted( CCNode *sender, void *dat
 		if (s->boolValue())
 		{
 			CCLOG("CPP Publish Feed Completed: TRUE");
+			s = (CCString*)convertedData->objectForKey("postId");
+			CCLOG("postId: %s", s->getCString());
 		} 
 		else
 		{
 			CCLOG("CPP Publish Feed Completed: FALSE");
+		}
+	}
+}
+
+void TestAndroidFacebookScene::onPostScoreCompleted( CCNode *sender, void *data )
+{
+	if (data != NULL)
+	{
+		CCDictionary *convertedData = (CCDictionary *)data;
+		CCString* s = (CCString*)convertedData->objectForKey("isSuccess");
+		if (s->boolValue())
+		{
+			CCLOG("CPP Post Score Completed: TRUE");
+		} 
+		else
+		{
+			CCLOG("CPP Post Score Completed: FALSE");
+		}
+	}
+}
+
+//////////////////////////////////////////////////////////////////////////
+/*
+
+{
+"scores":[
+{
+"score":2020,
+"user":{
+"id":"100006639370902",
+"name":"Cần Một Cái Tên"
+},
+"application":{
+"id":"526834920767265",
+"namespace":"dautruongtrithuc",
+"name":"Đấu Trường Tri Thức"
+}
+},
+{
+"score":0,
+"user":{
+"id":"100001986079146",
+"name":"Jundat Pham"
+},
+"application":{
+"id":"526834920767265",
+"namespace":"dautruongtrithuc",
+"name":"Đấu Trường Tri Thức"
+}
+}
+]
+}
+
+*/
+//////////////////////////////////////////////////////////////////////////
+
+void TestAndroidFacebookScene::onGetScoresCompleted( CCNode *sender, void *data )
+{
+	if (data != NULL)
+	{
+		CCDictionary *convertedData = (CCDictionary *)data;
+		CCString* s = (CCString*)convertedData->objectForKey("isSuccess");
+		if (s->boolValue())
+		{
+			CCLOG("CPP Get Scores Completed: TRUE");
+
+			CCArray *arrScore = (CCArray *)convertedData->objectForKey("scores");
+			for (int i = 0; i < arrScore->count(); ++i)
+			{
+				CCLOG("------ USER %d -------", i);
+				CCDictionary *element = (CCDictionary *)arrScore->objectAtIndex(i);
+				{
+					CCString* score = (CCString*)element->objectForKey("score");		CCLOG("%s", score->getCString());
+				
+					CCDictionary *user = (CCDictionary *)element->objectForKey("user");
+					{
+						CCString* user_id = (CCString*)user->objectForKey("id");		CCLOG("%s", user_id->getCString());
+						CCString* user_name = (CCString*)user->objectForKey("name");	CCLOG("%s", user_name->getCString());
+					}
+
+					CCDictionary *application = (CCDictionary *)element->objectForKey("application");
+					{
+						CCString* app_id = (CCString*)application->objectForKey("id");			CCLOG("%s", app_id->getCString());
+						CCString* app_namespace = (CCString*)application->objectForKey("namespace");		CCLOG("%s", app_namespace->getCString());
+						CCString* app_name = (CCString*)application->objectForKey("name");		CCLOG("%s", app_name->getCString());
+					}
+				}
+			}			
+		} 
+		else
+		{
+			CCLOG("CPP Get Scores Completed: FALSE");
 		}
 	}
 }
