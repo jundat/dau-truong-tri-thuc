@@ -76,16 +76,29 @@ public class HelloWorld extends Cocos2dxActivity
     ///////////////////////// BEGIN SIMPLE FACEBOOK //////////////////////////////
 	
 	protected static final String TAG = "JAVA_HELLO_WORLD";
+	
+	Permissions[] permissions = new Permissions[] {
+			Permissions.BASIC_INFO,
+			Permissions.USER_BIRTHDAY,
+		    Permissions.USER_PHOTOS,
+		    Permissions.EMAIL,
+		    Permissions.PUBLISH_ACTION
+		};
+	
 
+	Properties properties = new Properties.Builder()
+    .add(Properties.ID)
+    .add(Properties.FIRST_NAME)
+    .add(Properties.NAME)
+    .add(Properties.BIRTHDAY)
+    .add(Properties.PICTURE)
+    .build();
+
+	
 	//NEW SIMPLE FACEBOOK
 	SimpleFacebook mSimpleFacebook;
 
     private void initSimleFacebook() {
-    	Permissions[] permissions = new Permissions[] {
-    		    Permissions.USER_PHOTOS,
-    		    Permissions.EMAIL,
-    		    Permissions.PUBLISH_ACTION
-    		};
     	
     	SimpleFacebookConfiguration configuration = new SimpleFacebookConfiguration.Builder()
         .setAppId("526834920767265")
@@ -219,11 +232,20 @@ public class HelloWorld extends Cocos2dxActivity
     	OnProfileRequestListener onProfileListener = new OnProfileRequestListener() {         
     	    @Override
     	    public void onComplete(Profile profile) {
-    	        Log.i(TAG, "onComplete: profile id = " + profile.getId());
+    	        Log.i(TAG, "onCompletep");
+    	        Log.i(TAG, "--id = " + profile.getId());
     	        Log.i(TAG, "--firstname = " + profile.getFirstName());
     	        Log.i(TAG, "--name = " + profile.getName());
+    	        Log.i(TAG, "--birthday = " + profile.getBirthday());
+    	        Log.i(TAG, "--picture = " + profile.getPicture());
     	        
-    	        String jsonStr = "{\"isSuccess\" : true}";
+    	        String jsonStr = "{\"isSuccess\" : true, " +
+    	        		"\"id\": \"" + profile.getId() + "\"," +
+    	        		"\"firstName\": \"" + profile.getFirstName() + "\"," +
+    	        		"\"name\": \"" + profile.getName() + "\"," +
+    	        		"\"birthday\": \"" + profile.getBirthday() + "\"," +
+    	        		"\"picture\": \"" + profile.getPicture() + "\"" +
+    	        		"}";
     	        JSONObject prmsToSend = null;
     	        
     	        try {
@@ -294,16 +316,6 @@ public class HelloWorld extends Cocos2dxActivity
 			}  
     	};
     	
-    	Properties properties = new Properties.Builder()
-        .add(Properties.ID)
-        .add(Properties.FIRST_NAME)
-        .add(Properties.NAME)
-        .add(Properties.COVER)
-        .add(Properties.WORK)
-        .add(Properties.EDUCATION)
-        .add(Properties.PICTURE)
-        .build();
-
     	mSimpleFacebook.getProfile(properties, onProfileListener);
     }
     

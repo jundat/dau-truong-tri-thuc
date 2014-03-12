@@ -113,6 +113,13 @@ void TestAndroidFacebookScene::onGetProfileCompleted( CCNode *sender, void *data
 		if (s->boolValue())
 		{
 			CCLOG("CPP Get Profile Completed: TRUE");
+
+			CCString* s;
+			s = (CCString*)convertedData->objectForKey("id");			CCLOG("id = %s", s->getCString());
+			s = (CCString*)convertedData->objectForKey("firstName");	CCLOG("firstName = %s", s->getCString());
+			s = (CCString*)convertedData->objectForKey("name");			CCLOG("name = %s", s->getCString());
+			s = (CCString*)convertedData->objectForKey("birthday");		CCLOG("birthday = %s", s->getCString());
+			s = (CCString*)convertedData->objectForKey("picture");		CCLOG("picture = %s", s->getCString());
 		} 
 		else
 		{
