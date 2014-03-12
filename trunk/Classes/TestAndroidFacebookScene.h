@@ -21,11 +21,13 @@ public:
 
 	//menu
 	void LogIn(CCNode* pSender);
+	void LogOut(CCNode* pSender);
 	void GetProfile(CCNode* pSender);
 
 
 	//callback
 	void onLogInCompleted(CCNode *sender, void *data);
+	void onLogOutCompleted(CCNode *sender, void *data);
 	void onGetProfileCompleted(CCNode *sender, void *data);
 };
 

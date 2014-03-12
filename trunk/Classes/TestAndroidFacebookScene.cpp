@@ -48,6 +48,15 @@ bool TestAndroidFacebookScene::init()
 	itemPost2->setPosition(ccp(20, 1160));
 	menuRequest->addChild(itemPost2);
 
+	//Log Out
+	CCLabelTTF *labelPost3 = CCLabelTTF::create("Log Out", "Arial", 48);
+	labelPost3->setFontFillColor(ccc3(0,0,0));
+	CCMenuItemLabel *itemPost3 = CCMenuItemLabel::create(labelPost3, this, menu_selector(TestAndroidFacebookScene::LogOut));
+	itemPost3->setAnchorPoint(ccp(0.0f, 0.5f));
+	itemPost3->setPosition(ccp(20, 1100));
+	menuRequest->addChild(itemPost3);
+
+
 
 	this->setKeypadEnabled(true);
     return true;
@@ -71,6 +80,16 @@ void TestAndroidFacebookScene::LogIn( CCNode* pSender )
 		this);
 
 	SendMessageWithParams(string("LogIn"), NULL);
+}
+
+void TestAndroidFacebookScene::LogOut( CCNode* pSender )
+{
+	NDKHelper::AddSelector(TEST_GROUP_NAME,
+		"onLogOutCompleted",
+		callfuncND_selector(TestAndroidFacebookScene::onLogOutCompleted),
+		this);
+
+	SendMessageWithParams(string("LogOut"), NULL);
 }
 
 void TestAndroidFacebookScene::GetProfile( CCNode* pSender )
@@ -100,7 +119,24 @@ void TestAndroidFacebookScene::onLogInCompleted( CCNode *sender, void *data )
 		else
 		{
 			CCLOG("CPP Log In Completed: FALSE");
-		}		
+		}
+	}
+}
+
+void TestAndroidFacebookScene::onLogOutCompleted( CCNode *sender, void *data )
+{
+	if (data != NULL)
+	{
+		CCDictionary *convertedData = (CCDictionary *)data;
+		CCString* s = (CCString*)convertedData->objectForKey("isSuccess");
+		if (s->boolValue())
+		{
+			CCLOG("CPP Log Out Completed: TRUE");
+		} 
+		else
+		{
+			CCLOG("CPP Log Out Completed: FALSE");
+		}
 	}
 }
 

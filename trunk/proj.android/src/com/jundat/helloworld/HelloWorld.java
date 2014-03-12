@@ -46,6 +46,7 @@ import com.sromku.simple.fb.Permissions;
 import com.sromku.simple.fb.Properties;
 import com.sromku.simple.fb.SimpleFacebook;
 import com.sromku.simple.fb.SimpleFacebook.OnLoginListener;
+import com.sromku.simple.fb.SimpleFacebook.OnLogoutListener;
 import com.sromku.simple.fb.SimpleFacebook.OnProfileRequestListener;
 import com.sromku.simple.fb.SimpleFacebookConfiguration;
 import com.sromku.simple.fb.entities.Profile;
@@ -227,8 +228,93 @@ public class HelloWorld extends Cocos2dxActivity
 
     	mSimpleFacebook.login(onLoginListener);
     }
+
+    public void LogOut(JSONObject prms) {
+    	Log.i(TAG, "CALL LOG OUT");
+    	
+    	// logout listener
+    	OnLogoutListener onLogoutListener = new OnLogoutListener() {
+    	    @Override
+    	    public void onLogout() {
+    	        Log.i(TAG, "onLogout");
+
+    	        String jsonStr = "{\"isSuccess\" : true}";
+    	        JSONObject prmsToSend = null;
+    	        
+    	        try {
+    				prmsToSend = new JSONObject(jsonStr);
+    			}
+    	        catch (JSONException e) {
+    				// TODO Auto-generated catch block
+    				e.printStackTrace();
+    			}
+    	        
+    	        if (prmsToSend != null) {
+    	        	AndroidNDKHelper.SendMessageWithParameters("onLogOutCompleted", prmsToSend);
+    	        } else {
+    	        	AndroidNDKHelper.SendMessageWithParameters("onLogOutCompleted", null);
+    	        }
+    	    }
+
+			@Override
+			public void onThinking() {
+				// TODO Auto-generated method stub
+				Log.i(TAG, "onThinking");
+			}
+
+			@Override
+			public void onException(Throwable throwable) {
+				// TODO Auto-generated method stub
+				Log.i(TAG, "onException");
+
+    	        String jsonStr = "{\"isSuccess\" : false}";
+    	        JSONObject prmsToSend = null;
+    	        
+    	        try {
+    				prmsToSend = new JSONObject(jsonStr);
+    			}
+    	        catch (JSONException e) {
+    				// TODO Auto-generated catch block
+    				e.printStackTrace();
+    			}
+    	        
+    	        if (prmsToSend != null) {
+    	        	AndroidNDKHelper.SendMessageWithParameters("onLogOutCompleted", prmsToSend);
+    	        } else {
+    	        	AndroidNDKHelper.SendMessageWithParameters("onLogOutCompleted", null);
+    	        }
+			}
+
+			@Override
+			public void onFail(String reason) {
+				// TODO Auto-generated method stub
+				Log.i(TAG, "onFail");
+
+    	        String jsonStr = "{\"isSuccess\" : false}";
+    	        JSONObject prmsToSend = null;
+    	        
+    	        try {
+    				prmsToSend = new JSONObject(jsonStr);
+    			}
+    	        catch (JSONException e) {
+    				// TODO Auto-generated catch block
+    				e.printStackTrace();
+    			}
+    	        
+    	        if (prmsToSend != null) {
+    	        	AndroidNDKHelper.SendMessageWithParameters("onLogOutCompleted", prmsToSend);
+    	        } else {
+    	        	AndroidNDKHelper.SendMessageWithParameters("onLogOutCompleted", null);
+    	        }
+			}
+    	};
+    	
+    	mSimpleFacebook.logout(onLogoutListener);
+    }
     
     public void GetProfile(JSONObject prms) {
+    	Log.i(TAG, "CALL GET PROFILE");
+    	
     	OnProfileRequestListener onProfileListener = new OnProfileRequestListener() {         
     	    @Override
     	    public void onComplete(Profile profile) {
