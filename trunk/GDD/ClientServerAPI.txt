@@ -7,10 +7,29 @@ API:
 							SEND DATA
 Callback function: Success or Error
 -------------------------------------------------------------------
+
+0.0. Get server config
+Url: "/config/multi"
+Message:
+	"data={
+	}&method=set"
+
+Response Message:
+	"{
+		version: "1.0",
+		winScore: "3",
+		loseScore: "-1",
+		skip: "3",
+		skip1: "1",
+		infinite: "1",
+		timeout: 10 // second
+	}"
+
+
 -------------------------------------------------------------------
 
 
-1. Send User Profile
+1.0. Send User Profile
 Url:
 	"/profile"
 
@@ -23,10 +42,11 @@ Message:
 
 Response Message:
 	"{
-		isSuccess: true
+		isSuccess: true,
+		diamond: "200"
 	}"
 
-1.1 Get User Profile
+1.1. Get User Profile
 Message:
 	"data={
 		fbId: "123456789"
@@ -36,22 +56,72 @@ Response Message:
 	"{
 		fbId: "123456789",
 		fbName: "JundatPham",
+		nickname: "Master",
 		email: "longpham.uit@gmail.com"
 	}"
 
+1.2. Logout
+Message:
+	"data={
+		fbId: "123456789"
+	}&method=set"
+
+Response Message:
+	""
+	
 -------------------------------------------------------------------
-2. Send Friend List
+2.0. Send SingleScore
 Url:
-	"/friend"
+	"/score/single"
 
 Message:
 	"data={
+		appId: "DTTT"
 		fbId: "123456789",
-		friendList: 
+		score: 1234
+	}&method=set"
+
+Response Message:
+	"{
+		isSuccess: true
+	}"
+
+2.1. Get SingleScore
+Message:
+	"data={
+		appId: "DTTTT",
+		fbId: "123456789",
+	}&method=get"
+
+Response Message:
+	"{
+		score: 9999,
+		time: "1019338384"
+	}"
+
+2.2. Send MultiScore
+Url:
+	"/score/multi"
+
+Message:
+	"data={
+		appId: "DTTT"
+		fbId: "123456789",
+		matchId: "[B@111",
+		score: 1234,
+		time: 123 // second
+		// Is need detail match ( sentence right/wrong)
+		detail:
 		[
-			"1234",
-			"5678",
-			"91011"
+			{
+				quest1: 1,
+				result: true
+			},
+			{
+				quest2: 2,
+				result: false
+			}
+			//...
 		]
 	}&method=set"
 
@@ -60,100 +130,11 @@ Response Message:
 		isSuccess: true
 	}"
 
-2.1 Get Friend List
-Message:
-	"data={
-		appId: "App1",
-		fbId: "123456789"
-	}&method=get"
+---------------------------------------------------
 
-Response Message:
-	"{
-		list:
-		[
-			{
-				fbId: "1234",
-				fbName: "TanLong",
-				score: "756"
-			},
-			{
-				fbId: "4321",
-				fbName: "LongTan",
-				score: "234"
-			},
-			//....
-		]	
-	}"
-
--------------------------------------------------------------------
-3. Send Device Profile
+3.0. Get subject list
 Url:
-	"/device"
-
-Message:
-	"data={
-		fbId: "123456789",
-		deviceId: "Android9876",
-		deviceToken: "lk38dygasl8",
-		deviceConfig: "9484759560",
-		devicePhoneNumber: "0979163510"
-	}&method=set"
-
-Response Message:
-	"{
-		isSuccess: true
-	}"
-
-3.1 Get Device Profile
-Message:
-	"data={
-		fbId: "1234",
-		deviceId: "Device1"
-	}&method=get"
-
-Response Message:
-	"{
-		fbId: "123456789",
-		deviceId: "Device1",
-		deviceToken: "deviceToken1",
-		deviceConfig: "deviceConfig1",
-		devicePhoneNumber: "1284095376"
-	}"
-
--------------------------------------------------------------------
-4. Send Score
-Url:
-	"/score"
-
-Message:
-	"data={
-		appId: "DBPTK"
-		fbId: "123456789",
-		score: "1234"
-	}&method=set"
-
-Response Message:
-	"{
-		isSuccess: true
-	}"
-
-4.1 Get score
-Message:
-	"data={
-		appId: "App1",
-		fbId: "123456789",
-	}&method=get"
-
-Response Message:
-	"{
-		score: "9999",
-		time: "1019338384"
-	}"
-
-
-5. Get subject list
-Url:
-	"/subject"
+	"/question/subject"
 
 Message:
 	""
@@ -163,25 +144,26 @@ Response Message:
 		list:
 		[
 			{
-				subjectId: 1,
+				subjectId: "1",
 				subjectName: "Khoa học tự nhiên"
 			},
 			{
-				subjectId: 2,
+				subjectId: "2",
 				subjectName: "Khoa học xã hội"
 			}
 			//...
 		]
 	}"
 
-6. Join room
+	
+3.1. Join room
 Url:
-	"/join"
+	"/game/join"
 
 Message:
 	"{
 		fbId: "123456789",
-		subjectId: 2
+		subjectId: "2"
 	}"
 
 Response Message:
@@ -191,11 +173,77 @@ Response Message:
 		oppWin: 210,
 		oppLose: 90,
 	
-		quest: "Tổng thống Mỹ đầu tiên là ai?",
-		a: "Osama Biladen",
-		b: "Barack Obama",
-		c: "George Washington",
-		d: "John Kennedy",
-		right: 2
+		Quest:
+		[
+			{ quest: "Tổng thống Mỹ đầu tiên là ai?",
+				a: "Osama Biladen",
+				b: "Barack Obama",
+				c: "George Washington",
+				d: "John Kennedy",
+				right: 2
+			},
+			//
+		]
 	}"
 
+----------------------------------------------
+
+4.0. Get report multi
+Url : "/report/multi"
+
+Message:
+	"data={
+	}&method=get"
+
+Response Message:
+	"{
+		list:
+		[
+			{
+				user: "Anh Hieu Dep Trai",
+				order: 1
+			},
+			
+			{
+				user: "Cu Long De",
+				order: 2
+			},
+			
+			{
+				user: "Vu Chim Nho",
+				order: 3
+			},
+		],
+		
+		position: 9 // reading position on table
+	}"
+
+4.1. Get report single
+Url : "/report/single"
+
+Message:
+	"data={
+	}&method=get"
+
+Response Message:
+	"{
+		list:
+		[
+			{
+				user: "Anh Hieu Dep Trai",
+				order: 1
+			},
+			
+			{
+				user: "Cu Long De",
+				order: 2
+			},
+			
+			{
+				user: "Vu Chim Nho",
+				order: 3
+			},
+		],
+		
+		position: 9 // reading position on table
+	}"
