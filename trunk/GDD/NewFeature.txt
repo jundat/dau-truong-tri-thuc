@@ -1,0 +1,4 @@
+- Cho chọn 1 trong vài avatar
+- Cho set lại tên
+- dùng user, có nút cập nhật tài khoản để syn vs facebook
+

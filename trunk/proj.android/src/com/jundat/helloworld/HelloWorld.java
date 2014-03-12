@@ -28,46 +28,21 @@ import java.security.NoSuchAlgorithmException;
 
 import org.cocos2dx.lib.Cocos2dxActivity;
 import org.cocos2dx.lib.Cocos2dxGLSurfaceView;
-
-import android.os.Bundle;
-
-import com.facebook.Request;
-import com.facebook.Response;
-import com.facebook.Session;
-import com.facebook.SessionState;
-import com.facebook.UiLifecycleHelper;
-import com.facebook.model.GraphUser;
-import com.facebook.widget.FacebookDialog;
-import com.facebook.widget.FacebookDialog.ShareDialogFeature;
-
-//NEW
-import com.jundat.helloworld.classes.AndroidNDKHelper;
-import com.sromku.simple.fb.Permissions;
-import com.sromku.simple.fb.Properties;
-import com.sromku.simple.fb.SimpleFacebook;
-import com.sromku.simple.fb.SimpleFacebook.OnLoginListener;
-import com.sromku.simple.fb.SimpleFacebook.OnLogoutListener;
-import com.sromku.simple.fb.SimpleFacebook.OnProfileRequestListener;
-import com.sromku.simple.fb.SimpleFacebookConfiguration;
-import com.sromku.simple.fb.entities.Profile;
-
 import org.json.JSONException;
 import org.json.JSONObject;
-import android.app.AlertDialog;
+
 import android.content.Intent;
-import android.content.pm.PackageInfo;
-import android.content.pm.PackageManager;
+import android.content.pm.*;
 import android.content.pm.PackageManager.NameNotFoundException;
-import android.content.pm.Signature;
-import android.util.Base64;
-import android.util.Log;
-import android.view.View;
-import android.view.View.OnClickListener;
-import android.view.ViewGroup;
-import android.view.ViewGroup.LayoutParams;
-import android.widget.Button;
-import android.widget.FrameLayout;
-//END NEW
+import android.os.Bundle;
+import android.util.*;
+
+import com.jundat.helloworld.classes.AndroidNDKHelper;
+import com.sromku.simple.fb.*;
+import com.sromku.simple.fb.SimpleFacebook.*;
+import com.sromku.simple.fb.SimpleFacebookConfiguration;
+import com.sromku.simple.fb.entities.*;
+
 
 
 
@@ -83,7 +58,11 @@ public class HelloWorld extends Cocos2dxActivity
 			Permissions.USER_BIRTHDAY,
 		    Permissions.USER_PHOTOS,
 		    Permissions.EMAIL,
-		    Permissions.PUBLISH_ACTION
+		    Permissions.PUBLISH_ACTION,
+		    Permissions.PUBLISH_STREAM,
+		    Permissions.READ_REQUESTS,
+		    Permissions.USER_ACTIVITIES,
+		    Permissions.USER_STATUS
 		};
 	
 
@@ -403,6 +382,85 @@ public class HelloWorld extends Cocos2dxActivity
     	};
     	
     	mSimpleFacebook.getProfile(properties, onProfileListener);
+    }
+    
+    public void PublishFeed(JSONObject prms) {
+    	Log.i(TAG, "CALL PUBLISH FEED");
+    	
+    	boolean withDialog = false;
+    	String message = null, 
+    			name = null, 
+    			caption = null, 
+    			description = null, 
+    			picture = null, 
+    			link = null;
+    	
+    	try {
+    		withDialog 	= prms.getBoolean("withDialog");
+			message 	= prms.getString("message");
+			name 		= prms.getString("name");
+			caption 	= prms.getString("caption");
+			description = prms.getString("description");
+			picture 	= prms.getString("picture");
+			link 		= prms.getString("link");
+			
+			Log.i(TAG, "withDialog: " + withDialog);
+			Log.i(TAG, "message: " + message);
+			Log.i(TAG, "name: " + name);
+			Log.i(TAG, "caption: " + caption);
+			Log.i(TAG, "description: " + description);
+			Log.i(TAG, "picture: " + picture);
+			Log.i(TAG, "link: " + link);
+			
+		} catch (JSONException e) {
+			// TODO: handle exception
+			e.printStackTrace();
+		}
+    	
+    	OnPublishListener onPublishListener = new OnPublishListener() {
+    	    @Override
+    	    public void onComplete(String postId) {
+    	        Log.i(TAG, "onComplete: postId = " + postId);
+    	    }
+
+			@Override
+			public void onThinking() {
+				// TODO Auto-generated method stub
+				Log.i(TAG, "onThinking");
+			}
+
+			@Override
+			public void onException(Throwable throwable) {
+				// TODO Auto-generated method stub
+				Log.i(TAG, "onException: " + throwable.getMessage());
+			}
+
+			@Override
+			public void onFail(String reason) {
+				// TODO Auto-generated method stub
+				Log.i(TAG, "onFail: " + reason);
+			}
+    	};
+    	
+    	Feed feed = new Feed.Builder()
+        .setMessage(message)
+        .setName(name)
+        .setCaption(caption)
+        .setDescription(description)
+        .setPicture(picture)
+        .setLink(link)
+        //.addAction("Clone", "https://github.com/sromku/android-simple-facebook")
+	    //.addProperty("Full documentation", "http://sromku.github.io/android-simple-facebook", "http://sromku.github.io/android-simple-facebook")
+	    //.addProperty("Stars", "14")
+        .build();
+    	
+    	if (withDialog) {
+    		Log.i(TAG, "TRUE");
+    		mSimpleFacebook.publish(feed, onPublishListener);
+		} else {
+			Log.i(TAG, "FALSE");
+	    	mSimpleFacebook.publish(feed, onPublishListener);
+		}
     }
     
     ///////////////////////// END SIMPLE FACEBOOK //////////////////////////////

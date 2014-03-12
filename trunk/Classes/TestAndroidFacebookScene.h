@@ -23,12 +23,14 @@ public:
 	void LogIn(CCNode* pSender);
 	void LogOut(CCNode* pSender);
 	void GetProfile(CCNode* pSender);
+	void PublishFeed(CCNode* pSender);
 
 
 	//callback
 	void onLogInCompleted(CCNode *sender, void *data);
 	void onLogOutCompleted(CCNode *sender, void *data);
 	void onGetProfileCompleted(CCNode *sender, void *data);
+	void onPublishFeedCompleted(CCNode *sender, void *data);
 };
 
 #endif // __HELLOWORLD_SCENE_H__
