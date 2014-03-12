@@ -128,8 +128,14 @@ void TestAndroidFacebookScene::PublishFeed( CCNode* pSender )
 	string name = "This is the name";
 	string caption = "This is the caption";
 	string description = "This is the description";
-	string picture = "This is the picture";
-	string link = "This is the link";
+	string picture = "http://vfossa.vn/tailen/news/2012_01/knowledge.jpg";
+	string link = "https://play.google.com/store/apps/details?id=com.supercell.hayday";
+		
+	//more
+// 	string action = "Download";
+// 	string actionLink = "https://www.google.com.vn/#q=download";
+// 	string propertyName = "Star";
+// 	string propertyValue = "14";
 
 
 	CCDictionary* prms = CCDictionary::create();
@@ -140,6 +146,11 @@ void TestAndroidFacebookScene::PublishFeed( CCNode* pSender )
 	prms->setObject(CCString::create(description), "description");
 	prms->setObject(CCString::create(picture), "picture");
 	prms->setObject(CCString::create(link), "link");
+
+// 	prms->setObject(CCString::create(action), "action");
+// 	prms->setObject(CCString::create(actionLink), "actionLink");
+// 	prms->setObject(CCString::create(propertyName), "propertyName");
+// 	prms->setObject(CCString::create(propertyValue), "propertyValue");
 	
 	SendMessageWithParams(string("PublishFeed"), prms);
 }
