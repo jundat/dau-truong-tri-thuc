@@ -25,6 +25,7 @@ package com.jundat.helloworld;
 
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
+import java.util.List;
 
 import org.cocos2dx.lib.Cocos2dxActivity;
 import org.cocos2dx.lib.Cocos2dxGLSurfaceView;
@@ -708,6 +709,40 @@ public class HelloWorld extends Cocos2dxActivity
     	};
     	
     	mSimpleFacebook.getScores(onScoresRequestListener);
+    }
+    
+    public void Invite(JSONObject prms) {
+    	
+    	
+    	OnInviteListener onInviteListener = new OnInviteListener() {
+
+			@Override
+			public void onComplete(List<String> invitedFriends, String requestId) {
+				// TODO Auto-generated method stub
+				Log.i(TAG, "onComplete");
+				
+				
+			}
+    	   
+    	    @Override
+    	    public void onCancel() {
+    	        Log.i(TAG, "onCancel: Canceled the dialog");
+    	    }
+
+			@Override
+			public void onException(Throwable throwable) {
+				// TODO Auto-generated method stub
+				Log.i(TAG, "onException");
+			}
+
+			@Override
+			public void onFail(String reason) {
+				// TODO Auto-generated method stub
+				Log.i(TAG, "onFail");
+			}
+    	};
+    	
+    	mSimpleFacebook.invite("I invite you to use this app", onInviteListener);
     }
     
     
