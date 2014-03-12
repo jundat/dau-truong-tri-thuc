@@ -80,6 +80,14 @@ bool TestAndroidFacebookScene::init()
 	itemPost6->setPosition(ccp(20, 920));
 	menuRequest->addChild(itemPost6);
 
+	//Invite
+	CCLabelTTF *labelPost7 = CCLabelTTF::create("Invite", "Arial", 48);
+	labelPost7->setFontFillColor(ccc3(0,0,0));
+	CCMenuItemLabel *itemPost7 = CCMenuItemLabel::create(labelPost7, this, menu_selector(TestAndroidFacebookScene::Invite));
+	itemPost7->setAnchorPoint(ccp(0.0f, 0.5f));
+	itemPost7->setPosition(ccp(20, 860));
+	menuRequest->addChild(itemPost7);
+
 
 
 
@@ -195,6 +203,16 @@ void TestAndroidFacebookScene::GetScores( CCNode* pSender )
 		this);
 	
 	SendMessageWithParams(string("GetScores"), NULL);
+}
+
+void TestAndroidFacebookScene::Invite( CCNode* pSender )
+{
+	NDKHelper::AddSelector(TEST_GROUP_NAME,
+		"onInviteCompleted",
+		callfuncND_selector(TestAndroidFacebookScene::onInviteCompleted),
+		this);
+
+	SendMessageWithParams(string("Invite"), NULL);
 }
 
 
@@ -368,4 +386,9 @@ void TestAndroidFacebookScene::onGetScoresCompleted( CCNode *sender, void *data 
 			CCLOG("CPP Get Scores Completed: FALSE");
 		}
 	}
+}
+
+void TestAndroidFacebookScene::onInviteCompleted( CCNode *sender, void *data )
+{
+
 }
