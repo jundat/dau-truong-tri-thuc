@@ -386,6 +386,7 @@ public class HelloWorld extends Cocos2dxActivity
     
     public void PublishFeed(JSONObject prms) {
     	Log.i(TAG, "CALL PUBLISH FEED");
+    	Log.i(TAG, "Check if picture and link is exactly a link: http://...");
     	
     	boolean withDialog = false;
     	String message = null, 
@@ -394,6 +395,11 @@ public class HelloWorld extends Cocos2dxActivity
     			description = null, 
     			picture = null, 
     			link = null;
+    			
+//    	String 	action = null,
+//    			actionLink = null,
+//    			propertyName = null,
+//    			propertyValue = null;
     	
     	try {
     		withDialog 	= prms.getBoolean("withDialog");
@@ -404,6 +410,11 @@ public class HelloWorld extends Cocos2dxActivity
 			picture 	= prms.getString("picture");
 			link 		= prms.getString("link");
 			
+//			action 		= prms.getString("action");
+//			actionLink 	= prms.getString("actionLink");
+//			propertyName 	= prms.getString("propertyName");
+//			propertyValue 	= prms.getString("propertyValue");
+			
 			Log.i(TAG, "withDialog: " + withDialog);
 			Log.i(TAG, "message: " + message);
 			Log.i(TAG, "name: " + name);
@@ -412,15 +423,38 @@ public class HelloWorld extends Cocos2dxActivity
 			Log.i(TAG, "picture: " + picture);
 			Log.i(TAG, "link: " + link);
 			
+//			Log.i(TAG, "action: " + action);
+//			Log.i(TAG, "actionLink: " + actionLink);
+//			Log.i(TAG, "propertyName: " + propertyName);
+//			Log.i(TAG, "propertyValue: " + propertyValue);
+			
 		} catch (JSONException e) {
 			// TODO: handle exception
 			e.printStackTrace();
 		}
     	
     	OnPublishListener onPublishListener = new OnPublishListener() {
-    	    @Override
+    	    
+    		@Override
     	    public void onComplete(String postId) {
     	        Log.i(TAG, "onComplete: postId = " + postId);
+    	        
+    	        String jsonStr = "{\"isSuccess\" : true, \"postId\": \"" + postId + "\"}";
+    	        JSONObject prmsToSend = null;
+    	        
+    	        try {
+    				prmsToSend = new JSONObject(jsonStr);
+    			}
+    	        catch (JSONException e) {
+    				// TODO Auto-generated catch block
+    				e.printStackTrace();
+    			}
+    	        
+    	        if (prmsToSend != null) {
+    	        	AndroidNDKHelper.SendMessageWithParameters("onPublishFeedCompleted", prmsToSend);
+    	        } else {
+    	        	AndroidNDKHelper.SendMessageWithParameters("onPublishFeedCompleted", null);
+    	        }
     	    }
 
 			@Override
@@ -433,12 +467,46 @@ public class HelloWorld extends Cocos2dxActivity
 			public void onException(Throwable throwable) {
 				// TODO Auto-generated method stub
 				Log.i(TAG, "onException: " + throwable.getMessage());
+
+    	        String jsonStr = "{\"isSuccess\" : false, \"postId\": \"0\"}";
+    	        JSONObject prmsToSend = null;
+    	        
+    	        try {
+    				prmsToSend = new JSONObject(jsonStr);
+    			}
+    	        catch (JSONException e) {
+    				// TODO Auto-generated catch block
+    				e.printStackTrace();
+    			}
+    	        
+    	        if (prmsToSend != null) {
+    	        	AndroidNDKHelper.SendMessageWithParameters("onPublishFeedCompleted", prmsToSend);
+    	        } else {
+    	        	AndroidNDKHelper.SendMessageWithParameters("onPublishFeedCompleted", null);
+    	        }
 			}
 
 			@Override
 			public void onFail(String reason) {
 				// TODO Auto-generated method stub
 				Log.i(TAG, "onFail: " + reason);
+
+    	        String jsonStr = "{\"isSuccess\" : false, \"postId\": \"0\"}";
+    	        JSONObject prmsToSend = null;
+    	        
+    	        try {
+    				prmsToSend = new JSONObject(jsonStr);
+    			}
+    	        catch (JSONException e) {
+    				// TODO Auto-generated catch block
+    				e.printStackTrace();
+    			}
+    	        
+    	        if (prmsToSend != null) {
+    	        	AndroidNDKHelper.SendMessageWithParameters("onPublishFeedCompleted", prmsToSend);
+    	        } else {
+    	        	AndroidNDKHelper.SendMessageWithParameters("onPublishFeedCompleted", null);
+    	        }
 			}
     	};
     	
@@ -449,18 +517,12 @@ public class HelloWorld extends Cocos2dxActivity
         .setDescription(description)
         .setPicture(picture)
         .setLink(link)
-        //.addAction("Clone", "https://github.com/sromku/android-simple-facebook")
-	    //.addProperty("Full documentation", "http://sromku.github.io/android-simple-facebook", "http://sromku.github.io/android-simple-facebook")
-	    //.addProperty("Stars", "14")
+//        .addAction("Clone", "https://github.com/sromku/android-simple-facebook")
+//	    .addProperty("Full documentation", "http://sromku.github.io/android-simple-facebook", "http://sromku.github.io/android-simple-facebook")
+//	    .addProperty("Stars", "14")
         .build();
-    	
-    	if (withDialog) {
-    		Log.i(TAG, "TRUE");
-    		mSimpleFacebook.publish(feed, onPublishListener);
-		} else {
-			Log.i(TAG, "FALSE");
-	    	mSimpleFacebook.publish(feed, onPublishListener);
-		}
+    	    	
+    	mSimpleFacebook.publish(feed, onPublishListener);
     }
     
     ///////////////////////// END SIMPLE FACEBOOK //////////////////////////////
