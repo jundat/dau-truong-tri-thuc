@@ -26,7 +26,8 @@ public:
 	void PublishFeed(CCNode* pSender);
 	void PostScore(CCNode* pSender);
 	void GetScores(CCNode* pSender);
-	void Invite(CCNode* pSender);
+	void InviteAll(CCNode* pSender);
+	void GetAvatar(CCNode* pSender);
 
 	//callback
 	void onLogInCompleted(CCNode *sender, void *data);
@@ -35,7 +36,8 @@ public:
 	void onPublishFeedCompleted(CCNode *sender, void *data);
 	void onPostScoreCompleted(CCNode *sender, void *data);
 	void onGetScoresCompleted(CCNode *sender, void *data);
-	void onInviteCompleted(CCNode *sender, void *data);
+	void onInviteAllCompleted(CCNode *sender, void *data);
+	void onGetAvatarCompleted(CCNode* pSender, void *data);
 };
 
 #endif // __HELLOWORLD_SCENE_H__

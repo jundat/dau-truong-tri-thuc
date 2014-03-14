@@ -23,13 +23,6 @@ THE SOFTWARE.
 ****************************************************************************/
 package com.jundat.helloworld;
 
-import java.io.File;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.OutputStream;
-import java.net.MalformedURLException;
-import java.net.URL;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.List;
@@ -40,33 +33,34 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import android.annotation.TargetApi;
-import android.app.DownloadManager;
-import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.content.pm.PackageManager.NameNotFoundException;
 import android.content.pm.Signature;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.net.Uri;
-import android.os.Build;
 import android.os.Bundle;
-import android.os.Environment;
 import android.util.Base64;
 import android.util.Log;
 
 import com.jundat.helloworld.classes.AndroidNDKHelper;
-import com.sromku.simple.fb.*;
-import com.sromku.simple.fb.SimpleFacebook.*;
+import com.sromku.simple.fb.Permissions;
+import com.sromku.simple.fb.Properties;
+import com.sromku.simple.fb.SimpleFacebook;
+import com.sromku.simple.fb.SimpleFacebook.OnInviteListener;
+import com.sromku.simple.fb.SimpleFacebook.OnLoginListener;
+import com.sromku.simple.fb.SimpleFacebook.OnLogoutListener;
+import com.sromku.simple.fb.SimpleFacebook.OnPostScoreListener;
+import com.sromku.simple.fb.SimpleFacebook.OnProfileRequestListener;
+import com.sromku.simple.fb.SimpleFacebook.OnPublishListener;
+import com.sromku.simple.fb.SimpleFacebook.OnScoresRequestListener;
 import com.sromku.simple.fb.SimpleFacebookConfiguration;
-import com.sromku.simple.fb.entities.*;
+import com.sromku.simple.fb.entities.Feed;
+import com.sromku.simple.fb.entities.Profile;
 
 
 
 
-public class HelloWorld extends Cocos2dxActivity
+public class HelloWorld extends Cocos2dxActivity implements AsyncListener
 {
 	
     ///////////////////////// BEGIN SIMPLE FACEBOOK //////////////////////////////
@@ -545,16 +539,30 @@ public class HelloWorld extends Cocos2dxActivity
     	mSimpleFacebook.publish(feed, onPublishListener);
     }
     
-	public void SaveImage(JSONObject prms) {
-    	Log.i(TAG, "Save image");
+	public void GetAvatar(JSONObject prms) {
+    	Log.i(TAG, "Get Avatar");
     	
-    	new ImageDownloadAndSave().execute("");
+    	String fbId = null;
+    	int	width; 
+    	int height;
+    	
+    	try {
+			fbId 	= prms.getString("fbId");
+			width 	= prms.getInt("width");
+			height 	= prms.getInt("height");
+			
+			Log.i(TAG, "fbId: " + fbId);
+			Log.i(TAG, "width: " + width);
+			Log.i(TAG, "height: " + height);
+			
+			AvatarLoader avatarloader = new AvatarLoader(this, fbId, width, height);
+			avatarloader.execute("");
+		} catch (JSONException e) {
+			// TODO: handle exception
+			e.printStackTrace();
+		}
     }
     
-    
-    ///////////////////////// END SIMPLE FACEBOOK //////////////////////////////
-	
-
     //publish image
     //publish video
     
@@ -663,10 +671,10 @@ public class HelloWorld extends Cocos2dxActivity
 				Log.i(TAG, "Number of scores = " + result.length());
 				
 				//Log.i(TAG, result.toString());
+				String jsonStr = "{ \"isSuccess\": true, \"scores\": " + result.toString() + "}";
+				Log.i(TAG, jsonStr);
 				
 				try {
-					String jsonStr = "{ \"isSuccess\": true, \"scores\": " + result.toString() + "}";
-					Log.i(TAG, jsonStr);
 	    	        JSONObject prmsToSend = null;
 	    	        prmsToSend = new JSONObject(jsonStr);
 
@@ -733,8 +741,7 @@ public class HelloWorld extends Cocos2dxActivity
     	mSimpleFacebook.getScores(onScoresRequestListener);
     }
     
-    public void Invite(JSONObject prms) {
-    	
+    public void InviteAll(JSONObject prms) {
     	
     	OnInviteListener onInviteListener = new OnInviteListener() {
 
@@ -743,31 +750,115 @@ public class HelloWorld extends Cocos2dxActivity
 				// TODO Auto-generated method stub
 				Log.i(TAG, "onComplete");
 				
+				String jsonStr = "{ \"isSuccess\": true, \"requestId\": \"" +
+						requestId +	"\", " +
+						"\"invitedFriends\": [";
 				
+				for (int i = 0; i < invitedFriends.size(); i++) {
+					jsonStr += "\"" + invitedFriends.get(i) + "\"";
+					if(i < invitedFriends.size() - 1) {
+						jsonStr += ",";
+					}
+				}
+				jsonStr += "] }";				
+				Log.i(TAG, jsonStr);
+				
+				try {
+	    	        JSONObject prmsToSend = null;
+	    	        prmsToSend = new JSONObject(jsonStr);
+	    	        AndroidNDKHelper.SendMessageWithParameters("onInviteAllCompleted", prmsToSend);
+				} catch (JSONException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+					AndroidNDKHelper.SendMessageWithParameters("onInviteAllCompleted", null);
+				}
 			}
     	   
     	    @Override
     	    public void onCancel() {
     	        Log.i(TAG, "onCancel: Canceled the dialog");
+    	        
+    	        try {
+	    	        JSONObject prmsToSend = null;
+	    	        prmsToSend = new JSONObject("{\"isSuccess\": false}");
+
+	    	        AndroidNDKHelper.SendMessageWithParameters("onInviteAllCompleted", prmsToSend);
+				} catch (JSONException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+					AndroidNDKHelper.SendMessageWithParameters("onInviteAllCompleted", null);
+				}
     	    }
 
 			@Override
 			public void onException(Throwable throwable) {
 				// TODO Auto-generated method stub
 				Log.i(TAG, "onException");
+    	        
+    	        try {
+	    	        JSONObject prmsToSend = null;
+	    	        prmsToSend = new JSONObject("{\"isSuccess\": false}");
+
+	    	        AndroidNDKHelper.SendMessageWithParameters("onInviteAllCompleted", prmsToSend);
+				} catch (JSONException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+					AndroidNDKHelper.SendMessageWithParameters("onInviteAllCompleted", null);
+				}
 			}
 
 			@Override
 			public void onFail(String reason) {
 				// TODO Auto-generated method stub
 				Log.i(TAG, "onFail");
+    	        
+    	        try {
+	    	        JSONObject prmsToSend = null;
+	    	        prmsToSend = new JSONObject("{\"isSuccess\": false}");
+
+	    	        AndroidNDKHelper.SendMessageWithParameters("onInviteAllCompleted", prmsToSend);
+				} catch (JSONException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+					AndroidNDKHelper.SendMessageWithParameters("onInviteAllCompleted", null);
+				}
 			}
     	};
-    	
-    	mSimpleFacebook.invite("I invite you to use this app", onInviteListener);
+
+    	try {
+			String message = prms.getString("message");
+			Log.i(TAG, "MESSAGE = " + message);
+
+	    	mSimpleFacebook.invite(message, onInviteListener);
+		} catch (JSONException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}    	
     }
     
     
+    ///////////////////////////////////////////////////////////////
+
+	@Override
+	public void onAsyncComplete(String tag, String result) {
+		// TODO Auto-generated method stub
+		
+		if( "GetAvatar" == tag) {
+			Log.i("HELLO_WORLD", result);
+
+	        String jsonStr = "{\"isSuccess\" : true, \"path\": \"" + result + "\"}";
+	        JSONObject prmsToSend = null;
+	        
+	        try {
+				prmsToSend = new JSONObject(jsonStr);
+			}
+	        catch (JSONException e) {
+				e.printStackTrace();
+			}
+	        
+	        AndroidNDKHelper.SendMessageWithParameters("onGetAvatarCompleted", prmsToSend);
+		}
+	}     
     
     ////////////////////////////////////////////////////////////////
     
@@ -802,5 +893,6 @@ public class HelloWorld extends Cocos2dxActivity
 
     static {
         System.loadLibrary("cocos2dcpp");
-    }     
+    }
+
 }
