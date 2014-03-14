@@ -96,6 +96,14 @@ bool TestAndroidFacebookScene::init()
 	itemPost8->setPosition(ccp(20, 800));
 	menuRequest->addChild(itemPost8);
 
+	//Delete Saved Avatar
+	CCLabelTTF *labelPost9 = CCLabelTTF::create("Delete Saved Avatar", "Arial", 48);
+	labelPost9->setFontFillColor(ccc3(0,0,0));
+	CCMenuItemLabel *itemPost9 = CCMenuItemLabel::create(labelPost9, this, menu_selector(TestAndroidFacebookScene::DeleteSavedAvatar));
+	itemPost9->setAnchorPoint(ccp(0.0f, 0.5f));
+	itemPost9->setPosition(ccp(20, 740));
+	menuRequest->addChild(itemPost9);
+
 
 
 	this->setKeypadEnabled(true);
@@ -232,7 +240,7 @@ void TestAndroidFacebookScene::GetAvatar( CCNode* pSender )
 		callfuncND_selector(TestAndroidFacebookScene::onGetAvatarCompleted),
 		this);
 	
-	string fbId = "100006639370902";
+	string fbId = "100002844686620"; // "100006639370902";
 	string w = "128";
 	string h = "128";
 
@@ -242,6 +250,20 @@ void TestAndroidFacebookScene::GetAvatar( CCNode* pSender )
 	prms->setObject(CCString::create(h), "height");
 
 	SendMessageWithParams(string("GetAvatar"), prms);
+}
+
+void TestAndroidFacebookScene::DeleteSavedAvatar( CCNode* pSender )
+{
+	string fbId = "100002844686620"; // "100006639370902";
+	string w = "128";
+	string h = "128";
+
+	CCDictionary* prms = CCDictionary::create();
+	prms->setObject(CCString::create(fbId), "fbId");
+	prms->setObject(CCString::create(w), "width");
+	prms->setObject(CCString::create(h), "height");
+
+	SendMessageWithParams(string("DeleteSavedAvatar"), prms);
 }
 
 

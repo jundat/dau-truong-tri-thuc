@@ -17,16 +17,22 @@ import android.util.Log;
 public class AvatarLoader extends AsyncTask<String, Void, String> {
 	
 	AsyncListener listener;
+	String tag;
 	public String graphUrl;
 	public String fbId;
 	int w;
 	int h;
+	String dirToSave;
+	String fileToSave;
 	
-	public AvatarLoader(AsyncListener listener, String fbId, int w, int h) {
+	public AvatarLoader(AsyncListener listener, String tag, String fbId, int w, int h, String dirToSave, String fileToSave) {
 		this.listener = listener;
+		this.tag = tag;
 		this.fbId 	= fbId;
 		this.w = w;
 		this.h = h;
+		this.dirToSave = dirToSave;
+		this.fileToSave = fileToSave;
 		
 		graphUrl = "http://graph.facebook.com/" + fbId + "/picture?redirect=0&height=" + h + "&type=normal&width=" + w;
 		Log.i("AVATAR_LOADER", "GRAPH URL: " + graphUrl);
@@ -44,7 +50,7 @@ public class AvatarLoader extends AsyncTask<String, Void, String> {
 			String avatarUrl = dataObj.getString("url");
 			
 			ImageDownloadAndSave imd = 
-					new ImageDownloadAndSave(this.listener, avatarUrl, "HelloWorld", fbId + "_" + w + "_" + h + "jpg");
+					new ImageDownloadAndSave(this.listener, this.tag, avatarUrl, this.dirToSave, this.fileToSave);
 			imd.execute("");
 			
 			Log.i("AvatarURL: ", avatarUrl);

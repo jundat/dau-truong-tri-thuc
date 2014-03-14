@@ -23,6 +23,7 @@ THE SOFTWARE.
 ****************************************************************************/
 package com.jundat.helloworld;
 
+import java.io.File;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.List;
@@ -39,6 +40,7 @@ import android.content.pm.PackageManager;
 import android.content.pm.PackageManager.NameNotFoundException;
 import android.content.pm.Signature;
 import android.os.Bundle;
+import android.os.Environment;
 import android.util.Base64;
 import android.util.Log;
 
@@ -64,7 +66,7 @@ public class HelloWorld extends Cocos2dxActivity implements AsyncListener
 {
 	
     ///////////////////////// BEGIN SIMPLE FACEBOOK //////////////////////////////
-	
+	protected static final String DIR_TO_SAVE = "HelloWorld";
 	protected static final String TAG = "JAVA_HELLO_WORLD";
 	
 	Permissions[] permissions = new Permissions[] {
@@ -545,27 +547,74 @@ public class HelloWorld extends Cocos2dxActivity implements AsyncListener
     	String fbId = null;
     	int	width; 
     	int height;
+    	String fileToSave;
     	
     	try {
 			fbId 	= prms.getString("fbId");
 			width 	= prms.getInt("width");
 			height 	= prms.getInt("height");
-			
+			fileToSave = fbId + "_" + width + "_" + height + ".jpg";
+						
 			Log.i(TAG, "fbId: " + fbId);
 			Log.i(TAG, "width: " + width);
 			Log.i(TAG, "height: " + height);
 			
-			AvatarLoader avatarloader = new AvatarLoader(this, fbId, width, height);
+			AvatarLoader avatarloader = new AvatarLoader(this, "GetAvatar", fbId, width, height, DIR_TO_SAVE, fileToSave);
 			avatarloader.execute("");
 		} catch (JSONException e) {
 			// TODO: handle exception
 			e.printStackTrace();
 		}
     }
-    
-    //publish image
-    //publish video
-    
+
+	public void DeleteSavedAvatar(JSONObject prms) {
+    	Log.i(TAG, "Delete Saved Avatar");
+    	
+    	String fbId = null;
+    	int	width; 
+    	int height;
+    	String fileToSave;
+    	
+    	try {
+			fbId 	= prms.getString("fbId");
+			width 	= prms.getInt("width");
+			height 	= prms.getInt("height");
+			fileToSave = fbId + "_" + width + "_" + height + ".jpg";
+			
+			Log.i(TAG, "fbId: " + fbId);
+			Log.i(TAG, "width: " + width);
+			Log.i(TAG, "height: " + height);
+			
+			String sdCard = Environment.getExternalStorageDirectory().toString();
+	        File myDir = new File(sdCard, DIR_TO_SAVE);
+	
+	        /*  if specified not exist create new */
+	        if(!myDir.exists())
+	        {
+	            myDir.mkdir();
+	            Log.v(TAG, "No director found, return now");
+	            return;
+	        }
+	
+	        /* checks the file and if it already exist delete */
+	        File file = new File (myDir, fileToSave);
+
+			Log.i(TAG, "FilePath: " + file.getAbsolutePath());
+			
+	        if (file.exists ()) {
+	        	Log.v(TAG, "Already have file, delete now");
+	        	file.delete();
+	        	Log.v(TAG, "Delete Avatar Successfully.. :)");
+	        } else {
+	        	Log.v(TAG, "No file found, return now");
+	        }
+
+		} catch (JSONException e) {
+			// TODO: handle exception
+			e.printStackTrace();
+		}
+    }
+
     public void PostScore(JSONObject prms) {
     	Log.i(TAG, "CALL POST SCORE");
     	    	
@@ -837,6 +886,8 @@ public class HelloWorld extends Cocos2dxActivity implements AsyncListener
     }
     
     
+    
+    
     ///////////////////////////////////////////////////////////////
 
 	@Override
@@ -894,5 +945,4 @@ public class HelloWorld extends Cocos2dxActivity implements AsyncListener
     static {
         System.loadLibrary("cocos2dcpp");
     }
-
 }
