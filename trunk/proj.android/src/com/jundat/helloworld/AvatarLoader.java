@@ -3,7 +3,6 @@ package com.jundat.helloworld;
 
 import java.io.IOException;
 import java.io.InputStream;
-import java.io.InputStreamReader;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.Scanner;
@@ -49,8 +48,8 @@ public class AvatarLoader extends AsyncTask<String, Void, String> {
 			JSONObject dataObj = new JSONObject(response).getJSONObject("data");
 			String avatarUrl = dataObj.getString("url");
 			
-			ImageDownloadAndSave imd = 
-					new ImageDownloadAndSave(this.listener, this.tag, avatarUrl, this.dirToSave, this.fileToSave);
+			ImageDownloader imd = 
+					new ImageDownloader(this.listener, this.tag, avatarUrl, this.dirToSave, this.fileToSave);
 			imd.execute("");
 			
 			Log.i("AvatarURL: ", avatarUrl);

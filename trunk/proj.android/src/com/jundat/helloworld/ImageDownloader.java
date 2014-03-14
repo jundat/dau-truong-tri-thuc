@@ -8,11 +8,6 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.net.URLConnection;
 
-import org.json.JSONException;
-import org.json.JSONObject;
-
-import com.jundat.helloworld.classes.AndroidNDKHelper;
-
 import android.graphics.Bitmap;
 import android.os.AsyncTask;
 import android.os.Environment;
@@ -20,7 +15,7 @@ import android.util.Log;
 
 
 
-public class ImageDownloadAndSave extends AsyncTask<String, Void, Bitmap>
+public class ImageDownloader extends AsyncTask<String, Void, Bitmap>
 {
 	AsyncListener listener;
 	String tag;
@@ -28,7 +23,7 @@ public class ImageDownloadAndSave extends AsyncTask<String, Void, Bitmap>
 	String dirToSave;
 	String fileToSave;
 	
-	public ImageDownloadAndSave(AsyncListener listener, String tag, String url, String dirToSave, String fileToSave) {
+	public ImageDownloader(AsyncListener listener, String tag, String url, String dirToSave, String fileToSave) {
 		this.listener = listener;
 		this.tag = tag;
 		this.url = url;

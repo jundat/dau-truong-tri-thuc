@@ -120,7 +120,7 @@ void TestAndroidFacebookScene::keyBackClicked()
 //////////////////////////////////////////////////////////////////////////
 //Menu
 
-void TestAndroidFacebookScene::LogIn( CCNode* pSender )
+void TestAndroidFacebookScene::LogIn( CCObject* pSender )
 {
 	NDKHelper::AddSelector(TEST_GROUP_NAME,
 		"onLogInCompleted",
@@ -130,7 +130,7 @@ void TestAndroidFacebookScene::LogIn( CCNode* pSender )
 	SendMessageWithParams(string("LogIn"), NULL);
 }
 
-void TestAndroidFacebookScene::LogOut( CCNode* pSender )
+void TestAndroidFacebookScene::LogOut( CCObject* pSender )
 {
 	NDKHelper::AddSelector(TEST_GROUP_NAME,
 		"onLogOutCompleted",
@@ -140,7 +140,7 @@ void TestAndroidFacebookScene::LogOut( CCNode* pSender )
 	SendMessageWithParams(string("LogOut"), NULL);
 }
 
-void TestAndroidFacebookScene::GetProfile( CCNode* pSender )
+void TestAndroidFacebookScene::GetProfile( CCObject* pSender )
 {
 	NDKHelper::AddSelector(TEST_GROUP_NAME,
 		"onGetProfileCompleted",
@@ -150,7 +150,7 @@ void TestAndroidFacebookScene::GetProfile( CCNode* pSender )
 	SendMessageWithParams(string("GetProfile"), NULL);
 }
 
-void TestAndroidFacebookScene::PublishFeed( CCNode* pSender )
+void TestAndroidFacebookScene::PublishFeed( CCObject* pSender )
 {
 	NDKHelper::AddSelector(TEST_GROUP_NAME,
 		"onPublishFeedCompleted",
@@ -195,7 +195,7 @@ void TestAndroidFacebookScene::PublishFeed( CCNode* pSender )
 	SendMessageWithParams(string("PublishFeed"), prms);
 }
 
-void TestAndroidFacebookScene::PostScore( CCNode* pSender )
+void TestAndroidFacebookScene::PostScore( CCObject* pSender )
 {
 	NDKHelper::AddSelector(TEST_GROUP_NAME,
 		"onPostScoreCompleted",
@@ -210,7 +210,7 @@ void TestAndroidFacebookScene::PostScore( CCNode* pSender )
 	SendMessageWithParams(string("PostScore"), prms);
 }
 
-void TestAndroidFacebookScene::GetScores( CCNode* pSender )
+void TestAndroidFacebookScene::GetScores( CCObject* pSender )
 {
 	NDKHelper::AddSelector(TEST_GROUP_NAME,
 		"onGetScoresCompleted",
@@ -220,7 +220,7 @@ void TestAndroidFacebookScene::GetScores( CCNode* pSender )
 	SendMessageWithParams(string("GetScores"), NULL);
 }
 
-void TestAndroidFacebookScene::InviteAll( CCNode* pSender )
+void TestAndroidFacebookScene::InviteAll( CCObject* pSender )
 {
 	NDKHelper::AddSelector(TEST_GROUP_NAME,
 		"onInviteAllCompleted",
@@ -233,7 +233,7 @@ void TestAndroidFacebookScene::InviteAll( CCNode* pSender )
 	SendMessageWithParams(string("InviteAll"), prms);
 }
 
-void TestAndroidFacebookScene::GetAvatar( CCNode* pSender )
+void TestAndroidFacebookScene::GetAvatar( CCObject* pSender )
 {
 	NDKHelper::AddSelector(TEST_GROUP_NAME,
 		"onGetAvatarCompleted",
@@ -252,7 +252,7 @@ void TestAndroidFacebookScene::GetAvatar( CCNode* pSender )
 	SendMessageWithParams(string("GetAvatar"), prms);
 }
 
-void TestAndroidFacebookScene::DeleteSavedAvatar( CCNode* pSender )
+void TestAndroidFacebookScene::DeleteSavedAvatar( CCObject* pSender )
 {
 	string fbId = "100002844686620"; // "100006639370902";
 	string w = "128";

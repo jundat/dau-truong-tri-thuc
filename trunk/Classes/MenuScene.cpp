@@ -5,6 +5,7 @@
 #include "AudioManager.h"
 #include "DataManager.h"
 #include "GuideScene.h"
+#include "SettingScene.h"
 #include "WarGameChooseRoomScene.h"
 #include <time.h>
 
@@ -54,7 +55,7 @@ bool MenuScene::init()
 		"ImgMenuLeaderboardDown.png", 
 		"ImgMenuLeaderboardDown.png", 
 		MenuScene::scoreCallback, 
-		ccp(250, 1280-1000));
+		ccp(175, 1280-1000));
 
 	//facebook
 	MY_ADD_MENU_ITEM(itFacebook, 
@@ -62,7 +63,7 @@ bool MenuScene::init()
 		"ImgMenuFacebookDown.png", 
 		"ImgMenuFacebookDown.png", 
 		MenuScene::facebookCallback, 
-		ccp(400, 1280-1000));
+		ccp(325, 1280-1000));
 
 	//guide
 	MY_ADD_MENU_ITEM(itGuide, 
@@ -70,7 +71,15 @@ bool MenuScene::init()
 		"ImgMenuGuideDown.png", 
 		"ImgMenuFacebookDown.png", 
 		MenuScene::guideCallback, 
-		ccp(550, 1280-1000));
+		ccp(475, 1280-1000));
+
+	//setting
+	MY_ADD_MENU_ITEM(itSetting, 
+		"ImgMenuSetting.png", 
+		"ImgMenuSettingDown.png", 
+		"ImgMenuSettingDown.png", 
+		MenuScene::settingCallback, 
+		ccp(625, 1280-1000));
 
 
 	CCMenuItem* soundOn = CCMenuItemImage::create("sound_on.png", NULL, NULL);
@@ -158,5 +167,13 @@ void MenuScene::guideCallback( CCObject* pSender )
 	PLAY_BUTTON_EFFECT;
 
 	CCScene *pScene = CCTransitionFade::create(0.5, GuideScene::scene());
+	CCDirector::sharedDirector()->replaceScene(pScene);
+}
+
+void MenuScene::settingCallback( CCObject* pSender )
+{
+	PLAY_BUTTON_EFFECT;
+
+	CCScene *pScene = CCTransitionFade::create(0.5, SettingScene::scene());
 	CCDirector::sharedDirector()->replaceScene(pScene);
 }

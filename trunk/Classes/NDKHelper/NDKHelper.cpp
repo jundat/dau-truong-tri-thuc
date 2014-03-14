@@ -42,6 +42,27 @@ void NDKHelper::RemoveSelectorsInGroup(const char *groupName)
     }
 }
 
+void NDKHelper::RemoveSelector(const char *groupName,  const char *name )
+{
+	std::vector<int> markedIndices;
+
+	for (unsigned int i = 0; i < NDKHelper::selectorList.size(); ++i)
+	{
+		if(NDKHelper::selectorList[i].getName().compare(name) == 0)
+		{
+			if (NDKHelper::selectorList[i].getGroup().compare(groupName) == 0)
+			{
+				markedIndices.push_back(i);
+			}
+		}
+	}
+
+	for (unsigned int i = 0; i < markedIndices.size(); ++i)
+	{
+		NDKHelper::RemoveAtIndex(markedIndices[i]);
+	}
+}
+
 CCObject* NDKHelper::GetCCObjectFromJson(json_t *obj)
 {
     if (obj == NULL)

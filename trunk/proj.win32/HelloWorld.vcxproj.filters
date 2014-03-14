@@ -114,6 +114,9 @@
     <ClCompile Include="..\Classes\TestAndroidFacebookScene.cpp">
       <Filter>Classes</Filter>
     </ClCompile>
+    <ClCompile Include="..\Classes\SettingScene.cpp">
+      <Filter>Classes</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="main.h">
@@ -204,6 +207,9 @@
       <Filter>Classes\NDKHelper</Filter>
     </ClInclude>
     <ClInclude Include="..\Classes\TestAndroidFacebookScene.h">
+      <Filter>Classes</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\SettingScene.h">
       <Filter>Classes</Filter>
     </ClInclude>
   </ItemGroup>

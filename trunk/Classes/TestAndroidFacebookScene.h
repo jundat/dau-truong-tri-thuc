@@ -20,15 +20,15 @@ public:
 	virtual void keyBackClicked();
 
 	//menu
-	void LogIn(CCNode* pSender);
-	void LogOut(CCNode* pSender);
-	void GetProfile(CCNode* pSender);
-	void PublishFeed(CCNode* pSender);
-	void PostScore(CCNode* pSender);
-	void GetScores(CCNode* pSender);
-	void InviteAll(CCNode* pSender);
-	void GetAvatar(CCNode* pSender);
-	void DeleteSavedAvatar(CCNode* pSender);
+	void LogIn(CCObject* pSender);
+	void LogOut(CCObject* pSender);
+	void GetProfile(CCObject* pSender);
+	void PublishFeed(CCObject* pSender);
+	void PostScore(CCObject* pSender);
+	void GetScores(CCObject* pSender);
+	void InviteAll(CCObject* pSender);
+	void GetAvatar(CCObject* pSender);
+	void DeleteSavedAvatar(CCObject* pSender);
 
 	//callback
 	void onLogInCompleted(CCNode *sender, void *data);

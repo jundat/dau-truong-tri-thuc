@@ -20,6 +20,7 @@ public:
 	void scoreCallback(CCObject* pSender);
 	void facebookCallback(CCObject* pSender);
 	void guideCallback(CCObject* pSender);
+	void settingCallback(CCObject* pSender);
 	void soundCallback(CCObject* pSender);
 
 };
