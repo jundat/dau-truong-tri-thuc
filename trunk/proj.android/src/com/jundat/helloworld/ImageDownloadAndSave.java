@@ -8,6 +8,11 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.net.URLConnection;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import com.jundat.helloworld.classes.AndroidNDKHelper;
+
 import android.graphics.Bitmap;
 import android.os.AsyncTask;
 import android.os.Environment;
@@ -17,13 +22,23 @@ import android.util.Log;
 
 public class ImageDownloadAndSave extends AsyncTask<String, Void, Bitmap>
 {
+	AsyncListener listener;
+	String url;
+	String dirName;
+	String fileName;
+	
+	public ImageDownloadAndSave(AsyncListener listener, String url, String dirName, String fileName) {
+		this.listener = listener;
+		this.url = url;
+		this.dirName = dirName;
+		this.fileName = fileName;
+	}
+	
     @Override
     protected Bitmap doInBackground(String... arg0) 
     {
     	Log.i("DOWN_SAVE", "doInBackground");
-    	
-        downloadImagesToSdCard("http://www.coffeecup.com/images/icons/applications/web-image-studio_128x128.png", 
-        		"HelloWorld", "Pencil.png");
+        downloadImagesToSdCard(url, dirName, fileName);
         return null;
     }
 
@@ -55,6 +70,7 @@ public class ImageDownloadAndSave extends AsyncTask<String, Void, Bitmap>
 	        	Log.v("CREATE_DIR", "Create new file");
 	        }
 	        
+	        String filePath = file.getAbsolutePath();
 	        Log.i("PATH", file.getAbsolutePath());
 	
         	/* Open a connection */
@@ -82,7 +98,13 @@ public class ImageDownloadAndSave extends AsyncTask<String, Void, Bitmap>
 	        }
 	
 	        fos.close();
-	        Log.d("SAVE", "Image Saved in sdcard..");                      
+	        Log.d("SAVE", "Image Saved in sdcard..");
+	        
+	        /////////////////////////////////////////////////
+	        
+	        this.listener.onAsyncComplete("GetAvatar", filePath);
+	        
+        	/////////////////////////////////////////////////
 	    }
 	    catch(IOException io)
 	    {                  

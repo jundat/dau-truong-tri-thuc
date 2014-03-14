@@ -81,13 +81,20 @@ bool TestAndroidFacebookScene::init()
 	menuRequest->addChild(itemPost6);
 
 	//Invite
-	CCLabelTTF *labelPost7 = CCLabelTTF::create("Invite", "Arial", 48);
+	CCLabelTTF *labelPost7 = CCLabelTTF::create("Invite All", "Arial", 48);
 	labelPost7->setFontFillColor(ccc3(0,0,0));
-	CCMenuItemLabel *itemPost7 = CCMenuItemLabel::create(labelPost7, this, menu_selector(TestAndroidFacebookScene::Invite));
+	CCMenuItemLabel *itemPost7 = CCMenuItemLabel::create(labelPost7, this, menu_selector(TestAndroidFacebookScene::InviteAll));
 	itemPost7->setAnchorPoint(ccp(0.0f, 0.5f));
 	itemPost7->setPosition(ccp(20, 860));
 	menuRequest->addChild(itemPost7);
 
+	//Get Avatar
+	CCLabelTTF *labelPost8 = CCLabelTTF::create("Get Avatar", "Arial", 48);
+	labelPost8->setFontFillColor(ccc3(0,0,0));
+	CCMenuItemLabel *itemPost8 = CCMenuItemLabel::create(labelPost8, this, menu_selector(TestAndroidFacebookScene::GetAvatar));
+	itemPost8->setAnchorPoint(ccp(0.0f, 0.5f));
+	itemPost8->setPosition(ccp(20, 800));
+	menuRequest->addChild(itemPost8);
 
 
 
@@ -205,15 +212,39 @@ void TestAndroidFacebookScene::GetScores( CCNode* pSender )
 	SendMessageWithParams(string("GetScores"), NULL);
 }
 
-void TestAndroidFacebookScene::Invite( CCNode* pSender )
+void TestAndroidFacebookScene::InviteAll( CCNode* pSender )
 {
 	NDKHelper::AddSelector(TEST_GROUP_NAME,
-		"onInviteCompleted",
-		callfuncND_selector(TestAndroidFacebookScene::onInviteCompleted),
+		"onInviteAllCompleted",
+		callfuncND_selector(TestAndroidFacebookScene::onInviteAllCompleted),
 		this);
 
-	SendMessageWithParams(string("Invite"), NULL);
+	CCDictionary* prms = CCDictionary::create();
+	prms->setObject(CCString::create("THIS IS THE MESSAGE :v"), "message");
+
+	SendMessageWithParams(string("InviteAll"), prms);
 }
+
+void TestAndroidFacebookScene::GetAvatar( CCNode* pSender )
+{
+	NDKHelper::AddSelector(TEST_GROUP_NAME,
+		"onGetAvatarCompleted",
+		callfuncND_selector(TestAndroidFacebookScene::onGetAvatarCompleted),
+		this);
+	
+	string fbId = "100006639370902";
+	string w = "128";
+	string h = "128";
+
+	CCDictionary* prms = CCDictionary::create();
+	prms->setObject(CCString::create(fbId), "fbId");
+	prms->setObject(CCString::create(w), "width");
+	prms->setObject(CCString::create(h), "height");
+
+	SendMessageWithParams(string("GetAvatar"), prms);
+}
+
+
 
 
 //////////////////////////////////////////////////////////////////////////
@@ -388,7 +419,51 @@ void TestAndroidFacebookScene::onGetScoresCompleted( CCNode *sender, void *data 
 	}
 }
 
-void TestAndroidFacebookScene::onInviteCompleted( CCNode *sender, void *data )
+void TestAndroidFacebookScene::onInviteAllCompleted( CCNode *sender, void *data )
 {
+	if (data != NULL)
+	{
+		CCDictionary *convertedData = (CCDictionary *)data;
+		CCString* s = (CCString*)convertedData->objectForKey("isSuccess");
+		if (s->boolValue())
+		{
+			CCLOG("CPP Invite All Completed: TRUE");
+			CCString* requestId = (CCString*)convertedData->objectForKey("requestId");
+			CCLOG("requestId: %s", requestId->getCString());
 
+			CCArray *arrFriends = (CCArray *)convertedData->objectForKey("invitedFriends");
+			for (int i = 0; i < arrFriends->count(); ++i)
+			{
+				CCString* friendId = (CCString*)arrFriends->objectAtIndex(i);
+
+				CCLOG("CPP: %s", friendId->getCString());
+			}			
+		} 
+		else
+		{
+			CCLOG("CPP Invite All Completed: FALSE");
+		}
+	}
+}
+
+void TestAndroidFacebookScene::onGetAvatarCompleted( CCNode* pSender, void *data )
+{
+	if (data != NULL)
+	{
+		CCDictionary *convertedData = (CCDictionary *)data;
+		CCString* s = (CCString*)convertedData->objectForKey("isSuccess");
+		if (s->boolValue())
+		{
+			CCLOG("CPP Get Avatar Completed: TRUE");
+
+			CCString* path = (CCString*)convertedData->objectForKey("path");
+			CCSprite* sprAvatar = CCSprite::create(path->getCString());
+			sprAvatar->setPosition(ccp(64, 64));
+			this->addChild(sprAvatar);
+		} 
+		else
+		{
+			CCLOG("CPP Get Avatar Completed: FALSE");
+		}
+	}
 }
