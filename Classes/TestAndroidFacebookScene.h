@@ -28,6 +28,7 @@ public:
 	void GetScores(CCNode* pSender);
 	void InviteAll(CCNode* pSender);
 	void GetAvatar(CCNode* pSender);
+	void DeleteSavedAvatar(CCNode* pSender);
 
 	//callback
 	void onLogInCompleted(CCNode *sender, void *data);

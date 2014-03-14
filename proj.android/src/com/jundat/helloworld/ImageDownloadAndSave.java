@@ -23,22 +23,24 @@ import android.util.Log;
 public class ImageDownloadAndSave extends AsyncTask<String, Void, Bitmap>
 {
 	AsyncListener listener;
+	String tag;
 	String url;
-	String dirName;
-	String fileName;
+	String dirToSave;
+	String fileToSave;
 	
-	public ImageDownloadAndSave(AsyncListener listener, String url, String dirName, String fileName) {
+	public ImageDownloadAndSave(AsyncListener listener, String tag, String url, String dirToSave, String fileToSave) {
 		this.listener = listener;
+		this.tag = tag;
 		this.url = url;
-		this.dirName = dirName;
-		this.fileName = fileName;
+		this.dirToSave = dirToSave;
+		this.fileToSave = fileToSave;
 	}
 	
     @Override
     protected Bitmap doInBackground(String... arg0) 
     {
     	Log.i("DOWN_SAVE", "doInBackground");
-        downloadImagesToSdCard(url, dirName, fileName);
+        downloadImagesToSdCard(url, dirToSave, fileToSave);
         return null;
     }
 
@@ -64,8 +66,10 @@ public class ImageDownloadAndSave extends AsyncTask<String, Void, Bitmap>
 	        String fname = imageName;
 	        File file = new File (myDir, fname);
 	        if (file.exists ()) {
-	        	Log.v("CREATE_DIR", "Delete exist file");
-	        	file.delete();
+	        	Log.v("CREATE_DIR", "Already have file, send back now");
+	        	sendToCallback(file.getAbsolutePath());
+	        	
+	        	return;	        	
 	        } else {
 	        	Log.v("CREATE_DIR", "Create new file");
 	        }
@@ -102,17 +106,23 @@ public class ImageDownloadAndSave extends AsyncTask<String, Void, Bitmap>
 	        
 	        /////////////////////////////////////////////////
 	        
-	        this.listener.onAsyncComplete("GetAvatar", filePath);
+	        sendToCallback(filePath);
 	        
         	/////////////////////////////////////////////////
 	    }
 	    catch(IOException io)
 	    {                  
 	         io.printStackTrace();
+	         sendToCallback("");
 	    }
 	    catch(Exception e)
 	    {                     
 	        e.printStackTrace();
+	        sendToCallback("");
 	    }
 	}
+    
+    private void sendToCallback(String filePath) {
+    	 this.listener.onAsyncComplete(this.tag, filePath);
+    }
 }
