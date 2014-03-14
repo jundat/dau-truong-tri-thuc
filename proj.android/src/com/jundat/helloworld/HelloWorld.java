@@ -23,6 +23,13 @@ THE SOFTWARE.
 ****************************************************************************/
 package com.jundat.helloworld;
 
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.List;
@@ -33,12 +40,20 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import android.annotation.TargetApi;
+import android.app.DownloadManager;
+import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.content.pm.PackageManager.NameNotFoundException;
 import android.content.pm.Signature;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
+import android.os.Environment;
 import android.util.Base64;
 import android.util.Log;
 
@@ -529,6 +544,13 @@ public class HelloWorld extends Cocos2dxActivity
     	    	
     	mSimpleFacebook.publish(feed, onPublishListener);
     }
+    
+	public void SaveImage(JSONObject prms) {
+    	Log.i(TAG, "Save image");
+    	
+    	new ImageDownloadAndSave().execute("");
+    }
+    
     
     ///////////////////////// END SIMPLE FACEBOOK //////////////////////////////
 	
