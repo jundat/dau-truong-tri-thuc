@@ -45,6 +45,13 @@ do\
 
 
 
+
+//////////////////////////////////////////////////////////////////////////
+//DataManager
+
+
+
+
 //Create get/set function for integer value in DataManager
 #define MY_GETSET_INT_FUNC(funName, keyword, defaultValue)\
 public: int Get##funName(void) {\
@@ -61,6 +68,7 @@ public: void Add##funName(int addValue) {\
 }
 
 
+
 //Create get/set function for string value in DataManager
 #define MY_GETSET_STR_FUNC(funName, keyword, defaultValue)\
 public: std::string Get##funName(void) {\
@@ -70,6 +78,8 @@ public: void Set##funName(std::string var) {\
 	CCUserDefault::sharedUserDefault()->setStringForKey(#keyword, var);\
 	CCUserDefault::sharedUserDefault()->flush();\
 }
+
+
 
 
 //Create get/set function for float value in DataManager
@@ -84,6 +94,7 @@ public: void Set##funName(float var) {\
 
 
 
+
 //Create get/set function for boolean value in DataManager
 #define MY_GETSET_BOOL_FUNC(funName, keyword, defaultValue)\
 public: bool Get##funName(void) {\
@@ -95,6 +106,14 @@ public: void Set##funName(bool var) {\
 }
 
 
+
+
+//DataManager
+//////////////////////////////////////////////////////////////////////////
+//UI Macro
+
+
+
 //Add a CCMenuItemImage to this
 #define MY_ADD_MENU_ITEM(itName, sprNormal, sprSelect, sprDisable, callbackFunc, position)\
 	CCMenuItemImage* itName = CCMenuItemImage::create(sprNormal, sprSelect, sprDisable, this, menu_selector(callbackFunc));\
@@ -103,6 +122,15 @@ public: void Set##funName(bool var) {\
 	menu##itName->setPosition(CCPointZero);\
 	this->addChild(menu##itName);
 
+#define MY_CREATE_MENU_ITEM(itName, sprNormal, sprSelect, sprDisable, callbackFunc, position)\
+	CCMenuItemImage* itName = CCMenuItemImage::create(sprNormal, sprSelect, sprDisable, this, menu_selector(callbackFunc));\
+	itName->setPosition(position);\
+	CCMenu* menu##itName = CCMenu::create(itName, NULL);\
+	menu##itName->setPosition(CCPointZero);
+
+
+
+
 
 //Add a CCSprite to this
 #define MY_ADD_SPRITE(sprName, sprFile, position)\
@@ -110,45 +138,56 @@ public: void Set##funName(bool var) {\
 	sprName->setPosition(position);\
 	this->addChild(sprName);
 
+#define MY_CREATE_SPRITE(sprName, sprFile, position)\
+	CCSprite* sprName = CCSprite::create(sprFile);\
+	sprName->setPosition(position);
+
+
+
+
+
 
 //Add a CCLabelTTF to this
 #define MY_ADD_LABELTTF(lbName, str, fontName, fontSize, color, position)\
 	CCLabelTTF* lbName = CCLabelTTF::create(str, fontName, fontSize);\
 	lbName->setFontFillColor(color);\
 	lbName->setPosition(position);\
-	this->addChild(lbName);\
+	this->addChild(lbName);
+
+#define MY_CREATE_LABELTTF(lbName, str, fontName, fontSize, color, position)\
+	CCLabelTTF* lbName = CCLabelTTF::create(str, fontName, fontSize);\
+	lbName->setFontFillColor(color);\
+	lbName->setPosition(position);
 
 
-//////////////////////////////////////////////////////////////////////////
 
-
-#define MY_CREATE_MENU_ITEM(itName, sprNormal, sprSelect, sprDisable, callbackFunc, position)\
-	CCMenuItemImage* itName = CCMenuItemImage::create(sprNormal, sprSelect, sprDisable, this, menu_selector(callbackFunc));\
-	itName->setPosition(position);\
-	CCMenu* menu##itName = CCMenu::create(itName, NULL);\
-	menu##itName->setPosition(CCPointZero);\
-	
 
 
 //////////////////////////////////////////////////////////////////////////
 //							NETWORK										//
 //////////////////////////////////////////////////////////////////////////
 
+
+
 //
 // string url, CCObject* callbackObject, SEL_CallFuncND pSelector, string data 
 //
 #define MY_SEND_REQUEST( strUrl, callbackObject, callbackFunc, strData)\
-	do\
-	{\
-		CCHttpRequest* request = new CCHttpRequest();\
-		request->setRequestType(CCHttpRequest::kHttpPost);\
-		request->setUrl(strUrl);\
-		request->setResponseCallback(callbackObject, httpresponse_selector(callbackFunc));\
-		CCLOG("SendRequest: \n%s", strData);\
-		request->setRequestData(strData, strlen(strData));\
-		CCHttpClient::getInstance()->send(request);\
-		request->release();\
-	} while (0)
+do\
+{\
+	CCHttpRequest* request = new CCHttpRequest();\
+	request->setRequestType(CCHttpRequest::kHttpPost);\
+	request->setUrl(strUrl);\
+	request->setResponseCallback(callbackObject, httpresponse_selector(callbackFunc));\
+	CCLOG("SendRequest: \n%s", strData);\
+	request->setRequestData(strData, strlen(strData));\
+	CCHttpClient::getInstance()->send(request);\
+	request->release();\
+} while (0)
+
+
+
+
 
 
 

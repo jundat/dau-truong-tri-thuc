@@ -12,7 +12,6 @@
 #include "TestPostGetScene.h"
 #include "TestAndroidFacebookScene.h"
 
-
 USING_NS_CC;
 using namespace CocosDenshion;
 
@@ -73,7 +72,7 @@ bool AppDelegate::applicationDidFinishLaunching() {
 	}
 	else
 	{
-		pScene = TestAndroidFacebookScene::scene(); // MenuScene::scene(); // TestPostGetScene::scene(); // IntroScene::scene(); //  MenuScene::scene(); //  MainGameScene::scene(); //
+		pScene = MenuScene::scene(); // TestAndroidFacebookScene::scene(); // MenuScene::scene(); // TestPostGetScene::scene(); // IntroScene::scene(); //  MenuScene::scene(); //  MainGameScene::scene(); //
 	}
 
 	pDirector->runWithScene(pScene);

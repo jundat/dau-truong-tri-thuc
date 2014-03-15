@@ -38,8 +38,8 @@ public:
 	int m_curRightAnswer;
 	float m_clockCounter;
 	bool m_isRight;
-	bool m_isPause;
 	int m_curDisableChoose;
+	bool m_isUsedInfiniteTime;
 
 	CCLabelTTF* m_lbClock;
 	CCLabelTTF* m_lbDiamond;
@@ -48,6 +48,7 @@ public:
 	CCLabelTTF* m_lbQuestion;
 	CCLabelTTF* m_lbAnswers[4];
 	CCMenuItemImage* m_itAnswers[4];
+	CCMenuItemImage* m_itBack;
 	CCMenu* 	m_menu;
 	CCSprite* m_sprGameResult;
 };

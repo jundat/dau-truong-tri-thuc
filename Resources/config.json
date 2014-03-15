@@ -17,7 +17,6 @@
 
 	"DEFAULT_NAME" : "Việt Nam",
 
-
 	"FONT_NORMAL" : "Roboto-Medium.ttf",
 	"FONT_LEADERBOARD" : "Villa.ttf",
 
@@ -25,8 +24,7 @@
 	"APP_ID" : "Exeption_DTTT",
 	"DEFAULT_USER_NAME" : "Việt Nam",
 	"AVATAR_SIZE" :	128,
-
-
+	
 
 	"DEFAULT_DIAMON" : 200,
 	"DIAMON_PER_LIFE" : 10,
@@ -36,11 +34,11 @@
 	"TIME_TO_REFRESH_FRIENDS" : 86400,
 
 
-	"SOLO_TIME_FOR_QUESTION" : 20,
+	"SOLO_TIME_FOR_QUESTION" : 30,
 	"SOLO_ADD_SCORE" : 10,
 	"SOLO_SUB_SCORE" : 10,
 
-	"WAR_TIME_FOR_QUESTION" : 20,
+	"WAR_TIME_FOR_QUESTION" : 30,
 	"WAR_ADD_SCORE" : 10,
 	"WAR_SUB_SCORE" : 10
 }

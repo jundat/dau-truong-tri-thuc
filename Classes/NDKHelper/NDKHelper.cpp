@@ -15,6 +15,7 @@ vector<NDKCallbackNode> NDKHelper::selectorList;
 
 void NDKHelper::AddSelector(const char *groupName, const char *name, SEL_CallFuncND selector, CCNode* target)
 {
+	CCLOG("NDKHelper::Add selector: %s (in group %s)", name, groupName);
     NDKHelper::selectorList.push_back(NDKCallbackNode(groupName, name, selector, target));
 }
 
@@ -59,6 +60,7 @@ void NDKHelper::RemoveSelector(const char *groupName,  const char *name )
 
 	for (unsigned int i = 0; i < markedIndices.size(); ++i)
 	{
+		CCLOG("NDKHelper::Remove selector: %s (in group %s)", name, groupName);
 		NDKHelper::RemoveAtIndex(markedIndices[i]);
 	}
 }
@@ -209,20 +211,21 @@ void NDKHelper::HandleMessage(json_t *methodName, json_t* methodParams)
     {
         if (NDKHelper::selectorList[i].getName().compare(methodNameStr) == 0)
         {
-            CCObject *dataToPass = NDKHelper::GetCCObjectFromJson(methodParams);
-            
+			CCObject *dataToPass = NULL;
+            dataToPass = NDKHelper::GetCCObjectFromJson(methodParams);
+            CCLOG("HandleMessage: 1");
             if (dataToPass != NULL)
                 dataToPass->retain();
-            
+            CCLOG("HandleMessage: 2");
             SEL_CallFuncND sel = NDKHelper::selectorList[i].getSelector();
             CCNode *target = NDKHelper::selectorList[i].getTarget();
             
             CCFiniteTimeAction* action = CCSequence::create(CCCallFuncND::create(target, sel, (void*)dataToPass), NULL);
             
             target->runAction(action);
-            
+            CCLOG("HandleMessage: 3");
             if (dataToPass != NULL)
-                dataToPass->autorelease();
+                dataToPass->autorelease(); CCLOG("HandleMessage: 4");
             break;
         }
     }

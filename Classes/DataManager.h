@@ -27,17 +27,17 @@ public:
 	//////////////////////////////////////////////////////////////////////////
 	//Facebook
 
-	MY_GETSET_STR_FUNC(FbPhotoPath, "FB_ID", std::string("NULL"));
-	MY_GETSET_STR_FUNC(FbID, "FB_ID", std::string("NULL"));
-	MY_GETSET_STR_FUNC(FbUserName, "FB_USERNAME", std::string("NULL"));
-	MY_GETSET_STR_FUNC(FbFullName, "FB_FULL_NAME", std::string("NULL"));
+	MY_GETSET_STR_FUNC(FbPhotoPath, "FB_ID", std::string(""));
+	MY_GETSET_STR_FUNC(FbID, "FB_ID", std::string(""));
+	MY_GETSET_STR_FUNC(FbUserName, "FB_USERNAME", std::string(""));
+	MY_GETSET_STR_FUNC(FbFullName, "FB_FULL_NAME", std::string(""));
 
 	//////////////////////////////////////////////////////////////////////////
 	//Normal Account
 
 	MY_GETSET_STR_FUNC(Name, "NAME", std::string(CONF_STR(DEFAULT_USER_NAME)));
-	MY_GETSET_STR_FUNC(UserName, "USER_NAME", std::string("NULL"));
-	MY_GETSET_STR_FUNC(Password, "PASSWORD", std::string("NULL"));
+	MY_GETSET_STR_FUNC(UserName, "USER_NAME", std::string(""));
+	MY_GETSET_STR_FUNC(Password, "PASSWORD", std::string(""));
 
 	//////////////////////////////////////////////////////////////////////////
 	//In game
