@@ -13,7 +13,14 @@ public:
     virtual bool init();  
     static cocos2d::CCScene* scene();
     CREATE_FUNC(MenuScene);
+
+public:
+	CCMenu* m_menu;
+
+public:
 	
+	void onShowDialog();
+	void onCloseDialog();
 	virtual void keyBackClicked();
     void playSoloCallback(CCObject* pSender);
 	void playWarCallback(CCObject* pSender);	
@@ -23,6 +30,10 @@ public:
 	void settingCallback(CCObject* pSender);
 	void soundCallback(CCObject* pSender);
 
+
+	void onLogInCompleted(CCNode *sender, void *data);
+	void onGetProfileCompleted( CCNode *sender, void *data );
+	void onGetAvatarCompleted( CCNode* pSender, void *data );
 };
 
 #endif // __MENU_SCENE_H__

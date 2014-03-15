@@ -286,6 +286,8 @@ void TestAndroidFacebookScene::onLogInCompleted( CCNode *sender, void *data )
 		{
 			CCLOG("CPP Log In Completed: FALSE");
 		}
+
+		NDKHelper::RemoveSelector(TEST_GROUP_NAME, "onLogInCompleted");
 	}
 }
 
@@ -303,6 +305,8 @@ void TestAndroidFacebookScene::onLogOutCompleted( CCNode *sender, void *data )
 		{
 			CCLOG("CPP Log Out Completed: FALSE");
 		}
+
+		NDKHelper::RemoveSelector(TEST_GROUP_NAME, "onLogOutCompleted");
 	}
 }
 
@@ -326,7 +330,9 @@ void TestAndroidFacebookScene::onGetProfileCompleted( CCNode *sender, void *data
 		else
 		{
 			CCLOG("CPP Get Profile Completed: FALSE");
-		}		
+		}
+
+		NDKHelper::RemoveSelector(TEST_GROUP_NAME, "onGetProfileCompleted");
 	}
 }
 
@@ -346,6 +352,8 @@ void TestAndroidFacebookScene::onPublishFeedCompleted( CCNode *sender, void *dat
 		{
 			CCLOG("CPP Publish Feed Completed: FALSE");
 		}
+
+		NDKHelper::RemoveSelector(TEST_GROUP_NAME, "onPublishFeedCompleted");
 	}
 }
 
@@ -363,43 +371,10 @@ void TestAndroidFacebookScene::onPostScoreCompleted( CCNode *sender, void *data 
 		{
 			CCLOG("CPP Post Score Completed: FALSE");
 		}
+
+		NDKHelper::RemoveSelector(TEST_GROUP_NAME, "onPostScoreCompleted");
 	}
 }
-
-//////////////////////////////////////////////////////////////////////////
-/*
-
-{
-"scores":[
-{
-"score":2020,
-"user":{
-"id":"100006639370902",
-"name":"Cần Một Cái Tên"
-},
-"application":{
-"id":"526834920767265",
-"namespace":"dautruongtrithuc",
-"name":"Đấu Trường Tri Thức"
-}
-},
-{
-"score":0,
-"user":{
-"id":"100001986079146",
-"name":"Jundat Pham"
-},
-"application":{
-"id":"526834920767265",
-"namespace":"dautruongtrithuc",
-"name":"Đấu Trường Tri Thức"
-}
-}
-]
-}
-
-*/
-//////////////////////////////////////////////////////////////////////////
 
 void TestAndroidFacebookScene::onGetScoresCompleted( CCNode *sender, void *data )
 {
@@ -438,6 +413,8 @@ void TestAndroidFacebookScene::onGetScoresCompleted( CCNode *sender, void *data 
 		{
 			CCLOG("CPP Get Scores Completed: FALSE");
 		}
+
+		NDKHelper::RemoveSelector(TEST_GROUP_NAME, "onGetScoresCompleted");
 	}
 }
 
@@ -465,6 +442,8 @@ void TestAndroidFacebookScene::onInviteAllCompleted( CCNode *sender, void *data 
 		{
 			CCLOG("CPP Invite All Completed: FALSE");
 		}
+
+		NDKHelper::RemoveSelector(TEST_GROUP_NAME, "onInviteAllCompleted");
 	}
 }
 
@@ -487,5 +466,7 @@ void TestAndroidFacebookScene::onGetAvatarCompleted( CCNode* pSender, void *data
 		{
 			CCLOG("CPP Get Avatar Completed: FALSE");
 		}
+
+		NDKHelper::RemoveSelector(TEST_GROUP_NAME, "onGetAvatarCompleted");
 	}
 }

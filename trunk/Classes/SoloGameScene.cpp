@@ -1,4 +1,4 @@
-#include "SoloGameScene.h"
+﻿#include "SoloGameScene.h"
 #include "AudioManager.h"
 #include "MenuScene.h"
 #include "DataManager.h"
@@ -30,16 +30,24 @@ bool SoloGameScene::init()
 	m_curRightAnswer = -1;
 	m_clockCounter = CONF_INT(SOLO_TIME_FOR_QUESTION);
 	m_isRight = false;
-	m_isPause = false;
 	m_curDisableChoose = 4;
+	m_isUsedInfiniteTime = false;
 
 	MY_ADD_SPRITE(bg, "game_background.png", ccp(400, 640));
 	
-	MY_ADD_SPRITE(avatar, "avatar.png", ccp(86, 1280-86));
+	MY_ADD_SPRITE(defaultAvatar, "avatar.png", ccp(86, 1280-86));
+
+	string photoPath = DataManager::sharedDataManager()->GetFbPhotoPath();
+	if (photoPath.length() > 0)
+	{
+		MY_ADD_SPRITE(fbAvatar, photoPath.c_str(), ccp(86, 1280-86));
+		fbAvatar->setScale((defaultAvatar->getContentSize().width - 7) / CONF_INT(AVATAR_SIZE));
+	}
 
 	string name = DataManager::sharedDataManager()->GetName();
-	name = MY_LIMIT_STR(name, 12, "..");
-	MY_ADD_LABELTTF(lbName, name.c_str(), CONF_STR(FONT_NORMAL), 36, ccBLACK, ccp(86, 1280-195));
+	name = MY_LIMIT_STR(name, 22, "");
+	MY_ADD_LABELTTF(lbName, name.c_str(), CONF_STR(FONT_NORMAL), 36, ccBLACK, ccp(12, 1280-195));
+	lbName->setAnchorPoint(ANCHOR_LEFT);
 
 	MY_ADD_SPRITE(score, "score.png", ccp(203, 1280-41));
 	MY_ADD_LABELTTF(_lbScore, CCString::createWithFormat("%d", m_curScore)->getCString(), CONF_STR(FONT_NORMAL), 48, ccBLACK, ccp(240, 1280-46));
@@ -59,13 +67,21 @@ bool SoloGameScene::init()
 	_lbClock->setAnchorPoint(ANCHOR_MID);
 	m_lbClock = _lbClock;
 
+	m_menu = CCMenu::create();
+	m_menu->setPosition(CCPointZero);
+	this->addChild(m_menu);
+
 	MY_ADD_MENU_ITEM(itBack, "back.png", "backDown.png", "backDown.png", SoloGameScene::menuCallback, ccp(60, 60));
-	
+	m_itBack = itBack;
+
 	//HELP
 
-	MY_ADD_MENU_ITEM(itHelp1, "help1.png", "help1Down.png", "help1Down.png", SoloGameScene::itHelp1Callback, ccp(740, 1280-60));
-	MY_ADD_MENU_ITEM(itHelp2, "help2.png", "help2Down.png", "help2Down.png", SoloGameScene::itHelp2Callback, ccp(640, 1280-60));
-	MY_ADD_MENU_ITEM(itHelp3, "help3.png", "help3Down.png", "help3Down.png", SoloGameScene::itHelp3Callback, ccp(540, 1280-60));
+	MY_CREATE_MENU_ITEM(itHelp1, "help1.png", "help1Down.png", "help1Down.png", SoloGameScene::itHelp1Callback, ccp(740, 1280-60));
+	m_menu->addChild(itHelp1);
+	MY_CREATE_MENU_ITEM(itHelp2, "help2.png", "help2Down.png", "help2Down.png", SoloGameScene::itHelp2Callback, ccp(640, 1280-60));
+	m_menu->addChild(itHelp2);
+	MY_CREATE_MENU_ITEM(itHelp3, "help3.png", "help3Down.png", "help3Down.png", SoloGameScene::itHelp3Callback, ccp(540, 1280-60));
+	m_menu->addChild(itHelp3);
 
 	initItems();
 
@@ -109,11 +125,6 @@ void SoloGameScene::keyBackClicked()
 
 void SoloGameScene::answerCallback( CCObject* pSender )
 {
-	if (m_isPause)
-	{
-		return;
-	}
-	
 	this->unschedule(schedule_selector(SoloGameScene::scheduleClock));
 
 	CCMenuItemImage* it = (CCMenuItemImage*) pSender;
@@ -122,14 +133,12 @@ void SoloGameScene::answerCallback( CCObject* pSender )
 
 	if (tag == m_curRightAnswer)
 	{
-		//CCMessageBox("RIGHT", "ANSWER");
 		PLAY_GET_BOMB_EFFECT;
 		m_curScore += CONF_INT(SOLO_ADD_SCORE);
 		m_isRight = true;
 	}
 	else
 	{
-		//CCMessageBox("WRONG", "ANSWER");
 		PLAY_OUT_PORP_EFFECT;
 		m_curScore -= CONF_INT(SOLO_SUB_SCORE);
 		if(m_curScore < 0) m_curScore = 0;
@@ -145,6 +154,7 @@ void SoloGameScene::nextQuestion(CCObject* pSender)
 {
 	//UI
 	m_sprGameResult->setVisible(false);
+	m_menu->setEnabled(true);
 	for (int i = 0; i < 4; ++i)
 	{
 		m_itAnswers[i]->setEnabled(true);
@@ -156,8 +166,8 @@ void SoloGameScene::nextQuestion(CCObject* pSender)
 	m_curQuestionNumber++;
 	initLevel(m_curQuestionNumber);
 
-	m_isPause = false;
 	m_curDisableChoose = 0;
+	m_isUsedInfiniteTime = false;
 	m_clockCounter = CONF_INT(SOLO_TIME_FOR_QUESTION);
 	this->schedule(schedule_selector(SoloGameScene::scheduleClock), 0.5f);
 }
@@ -177,11 +187,8 @@ void SoloGameScene::initItems()
 		m_itAnswers[i] = CCMenuItemImage::create("answer.png", "answer_down.png", "answer_disable.png", this, menu_selector(SoloGameScene::answerCallback));
 		m_itAnswers[i]->setPosition(ccp(400, 1280-843 - i*94));
 		m_itAnswers[i]->setTag(i);
+		m_menu->addChild(m_itAnswers[i]);
 	}
-
-	CCMenu* menu = CCMenu::create(m_itAnswers[0], m_itAnswers[1], m_itAnswers[2], m_itAnswers[3], NULL);
-	menu->setPosition(CCPointZero);
-	this->addChild(menu);
 
 	for (int i = 0; i < 4; ++i)
 	{
@@ -210,22 +217,21 @@ void SoloGameScene::initLevel( int level )
 
 void SoloGameScene::itHelp1Callback( CCObject* pSender )
 {
-	if (m_isPause)
-	{
-		return;
-	}
-	
-	//CCMessageBox("Help1", "Info");
 	int diamond = DataManager::sharedDataManager()->GetDiamond();
 	if (diamond < CONF_INT(DIAMON_PER_HELP1))
 	{
 		PLAY_OUT_PORP_EFFECT;
+		m_lbDiamond->runAction(CCSequence::createWithTwoActions(
+			CCScaleTo::create(0.2f, 1.5f),
+			CCScaleTo::create(0.2f, 1.0f)
+			));
 		return;
 	}
 	
 	if (m_curDisableChoose >= 2)
 	{
 		PLAY_OUT_PORP_EFFECT;
+		CCMessageBox("Chỉ được bỏ tối đa 2 câu!", "Thông tin");
 		return;
 	}
 	
@@ -253,24 +259,48 @@ void SoloGameScene::itHelp1Callback( CCObject* pSender )
 
 void SoloGameScene::itHelp2Callback( CCObject* pSender )
 {
-	CCMessageBox("not implement", "Info");
+	if (m_isUsedInfiniteTime)
+	{
+		PLAY_OUT_PORP_EFFECT;
+		m_lbClock->runAction(CCSequence::createWithTwoActions(
+			CCScaleTo::create(0.2f, 1.5f),
+			CCScaleTo::create(0.2f, 1.0f)
+			));
+		return;
+	}
+	
+	int diamond = DataManager::sharedDataManager()->GetDiamond();
+	if (diamond < CONF_INT(DIAMON_PER_HELP2))
+	{
+		PLAY_OUT_PORP_EFFECT;
+		m_lbDiamond->runAction(CCSequence::createWithTwoActions(
+			CCScaleTo::create(0.2f, 1.5f),
+			CCScaleTo::create(0.2f, 1.0f)
+			));
+		return;
+	}
+
+	DataManager::sharedDataManager()->AddDiamond(- CONF_INT(DIAMON_PER_HELP2));
+	m_lbDiamond->setString(CCString::createWithFormat("%d", DataManager::sharedDataManager()->GetDiamond())->getCString());
+	PLAY_GET_BOMB_EFFECT;
+
+	m_isUsedInfiniteTime = true;
+	m_lbClock->setString("X");
+	this->unschedule(schedule_selector(SoloGameScene::scheduleClock));
 }
 
 void SoloGameScene::itHelp3Callback( CCObject* pSender )
 {
-	if (m_isPause)
-	{
-		return;
-	}
-
-	//CCMessageBox("Help3", "Info");
 	int diamond = DataManager::sharedDataManager()->GetDiamond();
 	if (diamond < CONF_INT(DIAMON_PER_HELP3))
 	{
 		PLAY_OUT_PORP_EFFECT;
+		m_lbDiamond->runAction(CCSequence::createWithTwoActions(
+			CCScaleTo::create(0.2f, 1.5f),
+			CCScaleTo::create(0.2f, 1.0f)
+			));
 		return;
 	}
-
 
 	DataManager::sharedDataManager()->AddDiamond(- CONF_INT(DIAMON_PER_HELP3));
 	m_lbDiamond->setString(CCString::createWithFormat("%d", DataManager::sharedDataManager()->GetDiamond())->getCString());
@@ -294,13 +324,16 @@ void SoloGameScene::scheduleClock( float dt )
 		m_lbScore -= CONF_INT(SOLO_SUB_SCORE);
 		if(m_curScore < 0) m_curScore = 0;
 		m_isRight = false;
+
+		PLAY_RING_EFFECT;
 		animationRightChoose();
 	}
 }
 
 void SoloGameScene::animationRightChoose()
 {
-	m_isPause = true;
+	m_itBack->setEnabled(false);
+	m_menu->setEnabled(false);
 
 	m_itAnswers[m_curRightAnswer]->runAction(
 			CCSequence::createWithTwoActions(
@@ -319,6 +352,7 @@ void SoloGameScene::animationRightChoose()
 
 void SoloGameScene::onFinishAnimationRightChoose()
 {
+	m_itBack->setEnabled(true);
 	m_sprGameResult->setVisible(true);
 	
 	CCLabelTTF* changeScore = dynamic_cast<CCLabelTTF*>(m_sprGameResult->getChildByTag(1));

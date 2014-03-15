@@ -141,6 +141,7 @@ xcopy /Y /Q "$(ProjectDir)..\..\..\external\libwebsockets\win32\lib\*.*" "$(OutD
     <ClCompile Include="..\Classes\GameClientObjects.cpp" />
     <ClCompile Include="..\Classes\Global.cpp" />
     <ClCompile Include="..\Classes\GuideScene.cpp" />
+    <ClCompile Include="..\Classes\QuitDialog.cpp" />
     <ClCompile Include="..\Classes\SettingScene.cpp" />
     <ClCompile Include="..\Classes\TestAndroidFacebookScene.cpp" />
     <ClCompile Include="..\Classes\IntroScene.cpp" />
@@ -163,6 +164,7 @@ xcopy /Y /Q "$(ProjectDir)..\..\..\external\libwebsockets\win32\lib\*.*" "$(OutD
     <ClCompile Include="..\Classes\ScoreScene.cpp" />
     <ClCompile Include="..\Classes\SendRequestScene.cpp" />
     <ClCompile Include="..\Classes\TestPostGetScene.cpp" />
+    <ClCompile Include="..\Classes\TutorialScene.cpp" />
     <ClCompile Include="..\Classes\WarGameChooseRoomScene.cpp" />
     <ClCompile Include="main.cpp" />
   </ItemGroup>
@@ -177,6 +179,7 @@ xcopy /Y /Q "$(ProjectDir)..\..\..\external\libwebsockets\win32\lib\*.*" "$(OutD
     <ClInclude Include="..\Classes\GameClientObjects.h" />
     <ClInclude Include="..\Classes\Global.h" />
     <ClInclude Include="..\Classes\GuideScene.h" />
+    <ClInclude Include="..\Classes\QuitDialog.h" />
     <ClInclude Include="..\Classes\SettingScene.h" />
     <ClInclude Include="..\Classes\TestAndroidFacebookScene.h" />
     <ClInclude Include="..\Classes\IntroScene.h" />
@@ -196,6 +199,7 @@ xcopy /Y /Q "$(ProjectDir)..\..\..\external\libwebsockets\win32\lib\*.*" "$(OutD
     <ClInclude Include="..\Classes\ScoreScene.h" />
     <ClInclude Include="..\Classes\SendRequestScene.h" />
     <ClInclude Include="..\Classes\TestPostGetScene.h" />
+    <ClInclude Include="..\Classes\TutorialScene.h" />
     <ClInclude Include="..\Classes\WarGameChooseRoomScene.h" />
     <ClInclude Include="main.h" />
   </ItemGroup>

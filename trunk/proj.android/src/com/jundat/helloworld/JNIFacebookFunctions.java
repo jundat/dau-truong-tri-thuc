@@ -60,6 +60,7 @@ public class JNIFacebookFunctions implements AsyncListener{
     .add(Properties.ID)
     .add(Properties.FIRST_NAME)
     .add(Properties.NAME)
+    .add(Properties.USER_NAME)
     .add(Properties.BIRTHDAY)
     .add(Properties.PICTURE)
     .build();
@@ -312,6 +313,7 @@ public class JNIFacebookFunctions implements AsyncListener{
     	        Log.i(TAG, "--id = " + profile.getId());
     	        Log.i(TAG, "--firstname = " + profile.getFirstName());
     	        Log.i(TAG, "--name = " + profile.getName());
+    	        Log.i(TAG, "--username = " + profile.getUsername());
     	        Log.i(TAG, "--birthday = " + profile.getBirthday());
     	        Log.i(TAG, "--picture = " + profile.getPicture());
     	        
@@ -319,6 +321,7 @@ public class JNIFacebookFunctions implements AsyncListener{
     	        		"\"id\": \"" + profile.getId() + "\"," +
     	        		"\"firstName\": \"" + profile.getFirstName() + "\"," +
     	        		"\"name\": \"" + profile.getName() + "\"," +
+    	        		"\"username\": \"" + profile.getUsername() + "\"," +
     	        		"\"birthday\": \"" + profile.getBirthday() + "\"," +
     	        		"\"picture\": \"" + profile.getPicture() + "\"" +
     	        		"}";
