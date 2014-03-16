@@ -148,35 +148,36 @@ CCLayer* TutorialScene::initLayerContent(int pageIndex)
 	CCLayer* layerLevel= CCLayer::create();
 	layerLevel->setPosition(CCPointZero);
 
-	char* fileName = "";
+	CCSprite* background;
 
 	switch(pageIndex)
 	{
 	case 0:
-		fileName = "st1.png";
+		background = CCSprite::create("st1.png");
 		break;
 	case 1:
-		fileName = "st2.png";
+		background = CCSprite::create("st2.png");
 		break;
 	case 2:
-		fileName = "st3.png";
+		background = CCSprite::create("st3.png");
 		break;
 	case 3:
-		fileName = "st4.png";
+		background = CCSprite::create("st4.png");
 		break;
 	case 4:
-		fileName = "st5.png";
+		background = CCSprite::create("st5.png");
 		break;
 	case 5:
-		fileName = "st6.png";
+		background = CCSprite::create("st6.png");
 		break;
 	case 6:
-		fileName = "st7.png";
+		background = CCSprite::create("st7.png");
 		break;
-
+	default:
+		background = CCSprite::create("st1.png");
 	}
 
-	CCSprite* background = CCSprite::create(fileName);
+	
 	background->setPosition(ccp(768-384, 1280-440));
 	layerLevel->addChild(background);
 

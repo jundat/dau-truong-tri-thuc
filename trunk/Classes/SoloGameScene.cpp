@@ -26,7 +26,7 @@ bool SoloGameScene::init()
     }
 	
 	m_curScore = DataManager::sharedDataManager()->GetSoloScore();
-	m_curQuestionNumber = DataManager::sharedDataManager()->GetSoloLastQuestionIndex();
+	m_curQuestionNumber = DataManager::sharedDataManager()->GetSoloQuestionNumber();
 	m_curRightAnswer = -1;
 	m_clockCounter = CONF_INT(SOLO_TIME_FOR_QUESTION);
 	m_isRight = false;
@@ -36,14 +36,14 @@ bool SoloGameScene::init()
 	MY_ADD_SPRITE(bg, "game_background.png", ccp(400, 640));
 	
 	MY_ADD_SPRITE(defaultAvatar, "avatar.png", ccp(86, 1280-86));
-
+	
 	string photoPath = DataManager::sharedDataManager()->GetFbPhotoPath();
 	if (photoPath.length() > 0)
 	{
 		MY_ADD_SPRITE(fbAvatar, photoPath.c_str(), ccp(86, 1280-86));
 		fbAvatar->setScale((defaultAvatar->getContentSize().width - 7) / CONF_INT(AVATAR_SIZE));
 	}
-
+	
 	string name = DataManager::sharedDataManager()->GetName();
 	name = MY_LIMIT_STR(name, 22, "");
 	MY_ADD_LABELTTF(lbName, name.c_str(), CONF_STR(FONT_NORMAL), 36, ccBLACK, ccp(12, 1280-195));
@@ -96,7 +96,9 @@ bool SoloGameScene::init()
 	m_sprGameResult->addChild(changeScore);
 
 	MY_CREATE_MENU_ITEM(itNext, "next.png", "next.png", "next.png", SoloGameScene::nextQuestion, ccp(400, m_sprGameResult->getContentSize().height/2));
-	m_sprGameResult->addChild(menuitNext);
+	CCMenu* nextMenu = CCMenu::create(itNext, NULL);
+	nextMenu->setPosition(CCPointZero);
+	m_sprGameResult->addChild(nextMenu);
 
 	nextQuestion(NULL);
 	
@@ -162,10 +164,12 @@ void SoloGameScene::nextQuestion(CCObject* pSender)
 		m_itAnswers[i]->unselected();
 	}
 	
-	DataManager::sharedDataManager()->SetSoloLastQuestionIndex(m_curQuestionNumber);
-	m_curQuestionNumber++;
-	initLevel(m_curQuestionNumber);
+	initRandomLevel();
 
+	m_curQuestionNumber++;
+	DataManager::sharedDataManager()->SetSoloQuestionNumber(m_curQuestionNumber);
+	m_lbNumber->setString(CCString::createWithFormat("%d", m_curQuestionNumber)->getCString());
+	
 	m_curDisableChoose = 0;
 	m_isUsedInfiniteTime = false;
 	m_clockCounter = CONF_INT(SOLO_TIME_FOR_QUESTION);
@@ -200,20 +204,18 @@ void SoloGameScene::initItems()
 	}
 }
 
-void SoloGameScene::initLevel( int level )
+void SoloGameScene::initRandomLevel()
 {
-	LevelData* ld = LevelManager::shareLevelLoader()->getLevel(level);
+	LevelData* ld = LevelManager::shareLevelLoader()->randomUnusedLevel();
 	
 	m_lbQuestion->setString(ld->m_quest.c_str());
 	m_curRightAnswer = ld->m_right; //0 -> 3
-	m_lbNumber->setString(CCString::createWithFormat("%d", level)->getCString());
 
 	for (int i = 0; i < 4; ++i)
 	{
 		m_lbAnswers[i]->setString(ld->m_arrChoice[i].c_str());
 	}
 }
-
 
 void SoloGameScene::itHelp1Callback( CCObject* pSender )
 {

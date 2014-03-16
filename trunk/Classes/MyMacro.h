@@ -124,9 +124,7 @@ public: void Set##funName(bool var) {\
 
 #define MY_CREATE_MENU_ITEM(itName, sprNormal, sprSelect, sprDisable, callbackFunc, position)\
 	CCMenuItemImage* itName = CCMenuItemImage::create(sprNormal, sprSelect, sprDisable, this, menu_selector(callbackFunc));\
-	itName->setPosition(position);\
-	CCMenu* menu##itName = CCMenu::create(itName, NULL);\
-	menu##itName->setPosition(CCPointZero);
+	itName->setPosition(position);
 
 
 

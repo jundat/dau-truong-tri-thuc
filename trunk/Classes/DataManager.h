@@ -27,7 +27,7 @@ public:
 	//////////////////////////////////////////////////////////////////////////
 	//Facebook
 
-	MY_GETSET_STR_FUNC(FbPhotoPath, "FB_ID", std::string(""));
+	MY_GETSET_STR_FUNC(FbPhotoPath, "FB_PHOTO_PATH", std::string(""));
 	MY_GETSET_STR_FUNC(FbID, "FB_ID", std::string(""));
 	MY_GETSET_STR_FUNC(FbUserName, "FB_USERNAME", std::string(""));
 	MY_GETSET_STR_FUNC(FbFullName, "FB_FULL_NAME", std::string(""));
@@ -47,7 +47,7 @@ public:
 
 	//SOLO
 	MY_GETSET_INT_FUNC(SoloScore, "SOLO_SCORE", 0);
-	MY_GETSET_INT_FUNC(SoloLastQuestionIndex, "SOLO_LAST_QUESTION_INDEX", 0);
+	MY_GETSET_INT_FUNC(SoloQuestionNumber, "SOLO_QUESTION_NUMBER", 0);
 	MY_GETSET_INT_FUNC(SoloNumberOfFinishedQuestion, "SOLO_NUMBER_OF_FINISHED_QUESTION", 0);
 	MY_GETSET_INT_FUNC(SoloNumberOfRightQuestion, "SOLO_NUMBER_OF_RIGHT_QUESTION", 0);
 	

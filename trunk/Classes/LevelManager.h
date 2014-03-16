@@ -17,7 +17,8 @@ using namespace std;
 class LevelData : public CCObject {
 public:
 	LevelData(){};
-	LevelData(string quest, string a, string b, string c, string d, int right) {
+	LevelData(int id, string quest, string a, string b, string c, string d, int right) {
+		m_id = id;
 		m_quest = string(quest);
 
 		m_arrChoice[0] = string(a);
@@ -31,6 +32,7 @@ public:
 	LevelData Clone() {
 		LevelData newLd;
 
+		newLd.m_id = m_id;
 		newLd.m_quest = string(this->m_quest);
 		
 		newLd.m_arrChoice[0] = string(this->m_arrChoice[0]);
@@ -43,8 +45,8 @@ public:
 		return newLd;
 	}
 
-	static LevelData* create(string quest, string a, string b, string c, string d, int answer) {
-		LevelData* ld = new LevelData( quest,  a,  b,  c,  d,  answer);
+	static LevelData* create(int id, string quest, string a, string b, string c, string d, int answer) {
+		LevelData* ld = new LevelData(id, quest,  a,  b,  c,  d,  answer);
 		ld->autorelease();
 		return ld;
 	}
@@ -65,6 +67,7 @@ public:
 		CCObject::copyWithZone(pZone);
 		// copy member data
 		
+		pRet->m_id = m_id;
 		pRet->m_quest = string(m_quest);
 		pRet->m_arrChoice[0] = string(m_arrChoice[0]);
 		pRet->m_arrChoice[1] = string(m_arrChoice[1]);
@@ -77,7 +80,8 @@ public:
 	}
 
 	const char* toString() {
-		CCString* s = CCString::createWithFormat("Quest: %s\nA: %s\nB: %s\nC: %s\nD: %s\nAnswer: %d",
+		CCString* s = CCString::createWithFormat("%d - Quest: %s\nA: %s\nB: %s\nC: %s\nD: %s\nAnswer: %d",
+			m_id,
 			m_quest.c_str(),
 			m_arrChoice[0].c_str(),
 			m_arrChoice[1].c_str(),
@@ -88,6 +92,7 @@ public:
 		return s->getCString();
 	}
 
+	int m_id;
 	string m_quest;
 	string m_arrChoice[4];
 	int m_right;
@@ -104,9 +109,11 @@ public:
 
 	static LevelManager* shareLevelLoader();
 	LevelData* getLevel(int level);
+	LevelData* randomUnusedLevel();
 	
 public:
 	CCDictionary* m_dict;
+	CCArray* m_arrUnsedId;
 
 protected:
 	static LevelManager* s_instance;

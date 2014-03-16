@@ -20,7 +20,7 @@ public:
 	void menuCallback(CCObject* pSender);
 	virtual void keyBackClicked();
 	void nextQuestion(CCObject* pSender);
-	void initLevel(int level);
+	void initRandomLevel();
 	void initItems();
 	void answerCallback(CCObject* pSender);
 	void animationRightChoose();
