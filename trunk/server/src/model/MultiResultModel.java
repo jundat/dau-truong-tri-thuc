@@ -97,12 +97,13 @@ public class MultiResultModel implements BaseModel{
         this.result.setWins( um.multiResult.result.getWins() );
         this.result.setLoses( um.multiResult.result.getLoses() );
         this.result.setScore( um.multiResult.result.getScore() );
-
-        PrintWriter pw      =   resp.getWriter();
-        String dataStr      =   this.toData();
-        pw.println( dataStr );
-        pw.flush();
-        pw.close();
+        
+        try (PrintWriter pw = resp.getWriter()) 
+        {
+            String dataStr      =   this.toData();
+            pw.println( dataStr );
+            pw.flush();
+        }
     }
     
     public Boolean setScore( HttpServletRequest req, HttpServletResponse resp ) {

@@ -4,18 +4,18 @@
  */
 package webservlet;
 
-import config.ConfigServerModel;
 import java.io.IOException;
+import java.io.PrintWriter;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import model.SingleReportModel;
 
 /**
  *
  * @author Mrkupi
  */
-public class ConfigController extends ServerServlet {
-
+public class SingleReportController extends webservlet.ServerServlet{
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
     }
@@ -25,9 +25,13 @@ public class ConfigController extends ServerServlet {
         doProcess(req, resp);
     }
 
-    private void doProcess(HttpServletRequest req, HttpServletResponse resp) throws IOException{
-        
-        ConfigServerModel.getInst().getConfig(req, resp);
-        System.out.print(req.getRequestURI() + " Get config data");
+    private void doProcess(HttpServletRequest req, HttpServletResponse resp) throws IOException {
+        SingleReportModel single    =   SingleReportModel.getInstance();
+        String dataStr              =   single.toData();
+        try (PrintWriter pw = resp.getWriter()) 
+        {
+            pw.println( dataStr );
+            pw.flush();
+        }
     }
 }

@@ -71,7 +71,7 @@ public class WebServer {
 //        handler.addServletWithMapping("webservlet.JoinGame", "/game/join");
 //        
 //        // Handler leaderboard
-//        handler.addServletWithMapping("webservlet.ReportSingle", "/report/single");
+        handler.addServletWithMapping("webservlet.SingleReportController", "/report/single");
 //        handler.addServletWithMapping("webservlet.ReportMulti", "/report/multi");
         
         server.setStopAtShutdown(true);

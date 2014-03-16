@@ -99,10 +99,11 @@ public class SubjectModel implements BaseModel{
         if( counter > 0 )
         {
             dataStr     +=  " ]}";
-            PrintWriter pw      =   resp.getWriter();
-            pw.println( dataStr );
-            pw.flush();
-            pw.close();
+            try (PrintWriter pw = resp.getWriter()) 
+            {
+                pw.println( dataStr );
+                pw.flush();
+            }
         }
     }
 }

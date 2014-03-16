@@ -7,7 +7,6 @@ package model;
 import db.MySqlConnection_Rd;
 import db.MySqlConnection_W;
 import db.Utils.*;
-import entities.User;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.HashMap;
@@ -20,11 +19,13 @@ import libCore.Util;
 import org.json.simple.JSONValue;
 import share.ShareConstants;
 
+import java.lang.Comparable;
+
 /**
  *
  * @author Mrkupi
  */
-public class UserModel implements BaseModel{
+public class UserModel implements BaseModel {
     
     public String uid;
     public String name;
@@ -141,5 +142,4 @@ public class UserModel implements BaseModel{
         
         return true;
     }
-
 }

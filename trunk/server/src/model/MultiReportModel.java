@@ -17,19 +17,19 @@ import share.ShareConstants;
  *
  * @author Mrkupi
  */
-public final class SingleReportModel implements BaseModel{
+public final class MultiReportModel implements BaseModel{
     private List<UserModel> users;
-    private static SingleReportModel inst;
+    private static MultiReportModel inst;
     static
     {
-        inst    =   new SingleReportModel();
+        inst    =   new MultiReportModel();
     }
     
-    public static SingleReportModel getInstance() {
+    public static MultiReportModel getInstance() {
         return inst;
     }
     
-    private SingleReportModel() {
+    private MultiReportModel() {
         getData();
     }
 
@@ -37,7 +37,7 @@ public final class SingleReportModel implements BaseModel{
     public void getData() {
         users           =   new ArrayList<>();
         
-        DataTable dt    =   MySqlConnection_Rd.getInstance().selectCmdWhere(ShareConstants.TABLE_USER + ", " + ShareConstants.TABLE_SINGLERESULT, " USER.singleresultid = SINGLERESULT.singleresultid ", ShareConstants.USER_ID, ShareConstants.USER_NAME, 
+        DataTable dt    =   MySqlConnection_Rd.getInstance().selectCmdWhere(ShareConstants.TABLE_USER + ", " + ShareConstants.TABLE_MULTIRESULT, " USER.multiresultid = MULTIRESULT.multiresultid ", ShareConstants.USER_ID, ShareConstants.USER_NAME, 
                 ShareConstants.USER_AVATAR, ShareConstants.USER_JEWELRY, ShareConstants.RESULT_WIN, ShareConstants.RESULT_LOSE, ShareConstants.RESULT_SCORE );
         if( dt != null && dt.size() > 0 ) {
             for( int i = 0; i < dt.size(); ++i ) {
@@ -49,9 +49,9 @@ public final class SingleReportModel implements BaseModel{
                 userModel.name      =   dr.get( ShareConstants.USER_NAME ).toString();
                 userModel.avatar    =   dr.get( ShareConstants.USER_AVATAR ).toString();
                 userModel.jewelry   =   Integer.parseInt( dr.get( ShareConstants.USER_JEWELRY).toString() );
-                userModel.singleResult.result.setWins( Integer.parseInt( dr.get(ShareConstants.RESULT_WIN).toString() ));
-                userModel.singleResult.result.setLoses( Integer.parseInt( dr.get(ShareConstants.RESULT_LOSE).toString() ));
-                userModel.singleResult.result.setScore( Integer.parseInt( dr.get(ShareConstants.RESULT_SCORE).toString() ));
+                userModel.multiResult.result.setWins( Integer.parseInt( dr.get(ShareConstants.RESULT_WIN).toString() ));
+                userModel.multiResult.result.setLoses( Integer.parseInt( dr.get(ShareConstants.RESULT_LOSE).toString() ));
+                userModel.multiResult.result.setScore( Integer.parseInt( dr.get(ShareConstants.RESULT_SCORE).toString() ));
                 
                 users.add(userModel);
             }
@@ -91,9 +91,9 @@ public final class SingleReportModel implements BaseModel{
             @Override 
             public int compare(UserModel um1, UserModel um2) {
 
-                if(um1.singleResult.result.getScore() > um2.singleResult.result.getScore())
+                if(um1.multiResult.result.getScore() > um2.multiResult.result.getScore())
                     return -1;
-                else if(um1.singleResult.result.getScore() < um2.singleResult.result.getScore())
+                else if(um1.multiResult.result.getScore() < um2.multiResult.result.getScore())
                     return 1;
                 else return 0;
             }
@@ -112,9 +112,9 @@ public final class SingleReportModel implements BaseModel{
             UserModel um    =   this.users.get(i);
             if( um.uid.equals( userId ) ) {
                 finded  =   true;
-                um.singleResult.result.setScore( userModel.singleResult.result.getScore() );
-                um.singleResult.result.setWins( userModel.singleResult.result.getWins() );
-                um.singleResult.result.setLoses( userModel.singleResult.result.getLoses() );
+                um.multiResult.result.setScore( userModel.multiResult.result.getScore() );
+                um.multiResult.result.setWins( userModel.multiResult.result.getWins() );
+                um.multiResult.result.setLoses( userModel.multiResult.result.getLoses() );
             }
         }
         
