@@ -213,19 +213,33 @@ void NDKHelper::HandleMessage(json_t *methodName, json_t* methodParams)
         {
 			CCObject *dataToPass = NULL;
             dataToPass = NDKHelper::GetCCObjectFromJson(methodParams);
-            CCLOG("HandleMessage: 1");
+
             if (dataToPass != NULL)
                 dataToPass->retain();
-            CCLOG("HandleMessage: 2");
+
             SEL_CallFuncND sel = NDKHelper::selectorList[i].getSelector();
             CCNode *target = NDKHelper::selectorList[i].getTarget();
-            
-            CCFiniteTimeAction* action = CCSequence::create(CCCallFuncND::create(target, sel, (void*)dataToPass), NULL);
-            
-            target->runAction(action);
-            CCLOG("HandleMessage: 3");
+
+			CCLOG("Target: Reference %d", target->getReference());
+
+			if (target->getReference() > 0)
+			{
+				CCLOG("Run selector: %s::%s", 
+					NDKHelper::selectorList[i].getGroup().c_str(), NDKHelper::selectorList[i].getName().c_str());
+				CCFiniteTimeAction* action = CCSequence::create(CCCallFuncND::create(target, sel, (void*)dataToPass), NULL);
+				target->runAction(action);
+			}
+			else
+			{
+				CCLOG("NULL selector, remove: %s::%s", 
+					NDKHelper::selectorList[i].getGroup().c_str(), NDKHelper::selectorList[i].getName().c_str());
+
+				NDKHelper::RemoveSelector(NDKHelper::selectorList[i].getGroup().c_str(),
+					NDKHelper::selectorList[i].getName().c_str());
+			}
+
             if (dataToPass != NULL)
-                dataToPass->autorelease(); CCLOG("HandleMessage: 4");
+                dataToPass->autorelease();
             break;
         }
     }

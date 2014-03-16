@@ -24,12 +24,19 @@ LevelManager::LevelManager(void)
 	questionList = json_loads(s.c_str(), strlen(s.c_str()), &error);
 	int number = json_array_size(questionList);
 
+	m_arrUnsedId = new CCArray();
+	m_arrUnsedId->retain();
+
 	for(int i = 0; i < number; i++)
 	{
+		CCString* strId = CCString::createWithFormat("%d", i+1);
+		m_arrUnsedId->addObject(strId);
+
 		json_t *question = json_array_get(questionList, i);
  		json_t* answers = json_object_get(question, "answers");
 
 		LevelData* ld = LevelData::create(
+			i+1,
 			json_string_value(json_object_get(question, "quest")),
 			json_string_value(json_array_get(answers, 0)),
 			json_string_value(json_array_get(answers, 1)),
@@ -58,4 +65,17 @@ LevelData* LevelManager::getLevel( int level )
 {
 	LevelData* ld = (LevelData*)m_dict->objectForKey(level);
 	return ld;
+}
+
+LevelData* LevelManager::randomUnusedLevel()
+{
+	int number = m_arrUnsedId->count();
+
+	int rd = (int)(CCRANDOM_0_1() * number); //0 -> (number-1)
+
+	CCString* strChooseLevel = (CCString*)m_arrUnsedId->objectAtIndex(rd);
+	int chooseLevel = strChooseLevel->intValue();
+	m_arrUnsedId->removeObjectAtIndex(rd); //remove used id
+
+	return getLevel(chooseLevel);
 }
