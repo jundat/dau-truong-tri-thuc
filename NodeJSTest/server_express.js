@@ -78,6 +78,20 @@ app.post('/join', function(req, res){
 });
 
 
+app.post('/config', function(req, res){
+	var obj = {
+		version: "1.0",
+		winScore: 10,
+		loseScore: -5,
+		diamondForSkip: 20,
+		diamondForExclusive: 10,
+		diamondForInfinite: 10,
+		connectionTimeout: 10
+	};
+
+    res.send(obj);
+});
+
 
 
 
