@@ -6,8 +6,11 @@
 #include "MyMacro.h"
 #include "Global.h"
 #include <time.h>
-USING_NS_CC;
+#include <vector>
+#include "jansson/jansson.h"
 
+USING_NS_CC;
+using namespace std;
 
 class DataManager
 {
@@ -23,6 +26,12 @@ public:
 	
 	tm*		GetTime(const char* key);
 	void	SetTime(const char* key, tm* time);
+
+
+	//////////////////////////////////////////////////////////////////////////
+	//Save list int
+	json_t*			SetQuestionIdObject(vector<PairIntInt*>* listPairIntInt);
+	json_t*			GetQuestionIdObject();
 
 	//////////////////////////////////////////////////////////////////////////
 	//Facebook
@@ -41,6 +50,7 @@ public:
 
 	//////////////////////////////////////////////////////////////////////////
 	//In game
+
 	
 	//COMMON
 	MY_GETSET_INT_FUNC(Diamond, "DIAMOND", CONF_INT(DEFAULT_DIAMON));
