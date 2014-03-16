@@ -11,13 +11,14 @@
 #include <time.h>
 #include "TutorialScene.h"
 #include "QuitDialog.h"
+#include "MoreDiamondDialog.h"
 
 USING_NS_CC;
 USING_NS_CC_EXT;
 
 
 
-#define FACEBOOK_RETRY_TIMES	4
+#define FACEBOOK_RETRY_TIMES	1
 
 
 
@@ -72,14 +73,14 @@ bool MenuScene::init()
 		ccp(175, 1280-1000));
 	m_menu->addChild(itScore);
 
-	//facebook
-	MY_CREATE_MENU_ITEM(itFacebook, 
-		"ImgMenuFacebook.png", 
-		"ImgMenuFacebookDown.png", 
-		"ImgMenuFacebookDown.png", 
-		MenuScene::facebookCallback, 
+	//more diamond
+	MY_CREATE_MENU_ITEM(itMoreDiamond, 
+		"moreDiamond.png", 
+		"moreDiamondDown.png", 
+		"moreDiamondDown.png", 
+		MenuScene::moreDiamondCallback, 
 		ccp(325, 1280-1000));
-	m_menu->addChild(itFacebook);
+	m_menu->addChild(itMoreDiamond);
 
 	//guide
 	MY_CREATE_MENU_ITEM(itGuide, 
@@ -98,6 +99,15 @@ bool MenuScene::init()
 		MenuScene::settingCallback, 
 		ccp(625, 1280-1000));
 	m_menu->addChild(itSetting);
+	
+	//facebook
+	MY_CREATE_MENU_ITEM(itFacebook, 
+		"facebook.png", 
+		"facebookDown.png", 
+		"facebookDown.png",
+		MenuScene::facebookCallback, 
+		ccp(622, 1280-1220));
+	m_menu->addChild(itFacebook);
 
 
 	CCMenuItem* soundOn = CCMenuItemImage::create("sound_on.png", NULL, NULL);
@@ -125,11 +135,13 @@ bool MenuScene::init()
 void MenuScene::onShowDialog()
 {
 	m_menu->setEnabled(false);
+	this->setKeypadEnabled(false);
 }
 
 void MenuScene::onCloseDialog()
 {
 	m_menu->setEnabled(true);
+	this->setKeypadEnabled(true);
 }
 
 void MenuScene::keyBackClicked()
@@ -163,6 +175,15 @@ void MenuScene::scoreCallback( CCObject* pSender )
 
 	CCScene *pScene = CCTransitionFade::create(0.5, ScoreScene::scene());
 	CCDirector::sharedDirector()->replaceScene(pScene);
+}
+
+void MenuScene::moreDiamondCallback( CCObject* pSender )
+{
+	PLAY_BUTTON_EFFECT;
+
+	MoreDiamondDialog* dialog = MoreDiamondDialog::create();
+	this->addChild(dialog, 10);
+	this->onShowDialog();
 }
 
 void MenuScene::soundCallback( CCObject* pSender )
@@ -345,12 +366,8 @@ void MenuScene::onGetAvatarCompleted( CCNode* pSender, void *data )
 
 			DataManager::sharedDataManager()->SetFbPhotoPath(path->getCString());
 
-			//move to leaderboard
-			scoreCallback(NULL);
-
-			//CCSprite* sprAvatar = CCSprite::create(path->getCString());
-			//sprAvatar->setPosition(ccp(64, 64));
-			//this->addChild(sprAvatar);
+			//show ways to get more diamond
+			moreDiamondCallback(NULL);
 		} 
 		else
 		{

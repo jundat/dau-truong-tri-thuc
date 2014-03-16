@@ -90,6 +90,11 @@ public: float Get##funName(void) {\
 public: void Set##funName(float var) {\
 	CCUserDefault::sharedUserDefault()->setFloatForKey(#keyword, var);\
 	CCUserDefault::sharedUserDefault()->flush();\
+}\
+public: void Add##funName(float addValue) {\
+	int oldValue = Get##funName();\
+	CCUserDefault::sharedUserDefault()->setFloatForKey(#keyword, (oldValue + addValue));\
+	CCUserDefault::sharedUserDefault()->flush();\
 }
 
 
@@ -101,7 +106,7 @@ public: bool Get##funName(void) {\
 	return CCUserDefault::sharedUserDefault()->getBoolForKey(#keyword, defaultValue);\
 }\
 public: void Set##funName(bool var) {\
-	CCUserDefault::sharedUserDefault()->setFloatForKey(#keyword, var);\
+	CCUserDefault::sharedUserDefault()->setBoolForKey(#keyword, var);\
 	CCUserDefault::sharedUserDefault()->flush();\
 }
 
@@ -126,6 +131,25 @@ public: void Set##funName(bool var) {\
 	CCMenuItemImage* itName = CCMenuItemImage::create(sprNormal, sprSelect, sprDisable, this, menu_selector(callbackFunc));\
 	itName->setPosition(position);
 
+
+
+//Add a CCMenuItemLabel to this
+#define MY_ADD_MENU_ITEM_LABEL(itName, str, fontName, fontSize, color, callbackFunc, anchor, position)\
+	CCLabelTTF* lb##itName = CCLabelTTF::create(str, fontName, fontSize);\
+	lb##itName->setFontFillColor(color);\
+	CCMenuItemLabel* itName = CCMenuItemLabel::create(lb##itName, this, menu_selector(callbackFunc));\
+	itName->setAnchorPoint(anchor);\
+	itName->setPosition(position);\
+	CCMenu* menu##itName = CCMenu::create(itName, NULL);\
+	menu##itName->setPosition(CCPointZero);\
+	this->addChild(menu##itName);
+
+#define MY_CREATE_MENU_ITEM_LABEL(itName, str, fontName, fontSize, color, callbackFunc, anchor, position)\
+	CCLabelTTF* lb##itName = CCLabelTTF::create(str, fontName, fontSize);\
+	lb##itName->setFontFillColor(color);\
+	CCMenuItemLabel* itName = CCMenuItemLabel::create(lb##itName, this, menu_selector(callbackFunc));\
+	itName->setAnchorPoint(anchor);\
+	itName->setPosition(position);
 
 
 

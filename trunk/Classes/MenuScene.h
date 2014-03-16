@@ -25,10 +25,11 @@ public:
     void playSoloCallback(CCObject* pSender);
 	void playWarCallback(CCObject* pSender);	
 	void scoreCallback(CCObject* pSender);
-	void facebookCallback(CCObject* pSender);
+	void moreDiamondCallback(CCObject* pSender);
 	void guideCallback(CCObject* pSender);
 	void settingCallback(CCObject* pSender);
 	void soundCallback(CCObject* pSender);
+	void facebookCallback(CCObject* pSender);
 
 
 	void onLogInCompleted(CCNode *sender, void *data);
