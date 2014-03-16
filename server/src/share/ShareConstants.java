@@ -20,7 +20,7 @@ public class ShareConstants {
     // User
     public static String USER_ID        =   "userid";
     public static String USER_NAME      =   "name";
-    public static String USER_AVATAR    =   "avartar";
+    public static String USER_AVATAR    =   "avatar";
     public static String USER_SINGLE    =   "singleresultid";
     public static String USER_MULTI     =   "multiresultid";
     public static String USER_JEWELRY   =   "jewelry";
