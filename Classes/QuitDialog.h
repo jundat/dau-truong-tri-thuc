@@ -11,6 +11,7 @@ public:
     CREATE_FUNC(QuitDialog);
 
 public:
+	virtual void keyBackClicked();
 	void yesCallback(CCObject* pSender);
 	void noCallback( CCObject* pSender );
 };

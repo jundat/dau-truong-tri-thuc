@@ -13,9 +13,8 @@ bool QuitDialog::init()
         return false;
     }
 
-	CCPoint pexit = ccp(250, 1280 - 760);
-	CCPoint pask = ccp(800-250, 1280 - 760);
-	float textScale = 0.6f;
+	CCPoint pexit = ccp(250, 1280 - 820);
+	CCPoint pask = ccp(800-250, 1280 - 820);
 
 
 	CCScale9Sprite* dialog = CCScale9Sprite::create("dialog.png");
@@ -28,7 +27,6 @@ bool QuitDialog::init()
 		"yesDown.png",
 		this,
 		menu_selector(QuitDialog::yesCallback));
-	exitButton->setScale(textScale);
 	exitButton->setPosition(pexit);
 
 
@@ -37,7 +35,6 @@ bool QuitDialog::init()
 		"noDown.png",
 		this,
 		menu_selector(QuitDialog::noCallback));
-	askButton->setScale(textScale);
 	askButton->setPosition(pask);
 
 	CCMenu* menu = CCMenu::create(exitButton, askButton, NULL);
@@ -46,9 +43,10 @@ bool QuitDialog::init()
 
 	CCLabelTTF* labelTitle = CCLabelTTF::create("Bạn có muốn\nthoát game?", "Roboto-Medium.ttf", 48);
 	labelTitle->setFontFillColor(ccc3(56, 56, 56));
-	labelTitle->setPosition(ccp(800/2, 1280/2 + 120));
+	labelTitle->setPosition(ccp(400, 660));
 	this->addChild(labelTitle);
 
+	this->setKeypadEnabled(true);
     return true;
 }
 
@@ -64,4 +62,9 @@ void QuitDialog::noCallback( CCObject* pSender )
 	parent->setTouchEnabled(true);
 	parent->onCloseDialog();
 	this->removeFromParent();
+}
+
+void QuitDialog::keyBackClicked()
+{
+	noCallback(NULL);
 }

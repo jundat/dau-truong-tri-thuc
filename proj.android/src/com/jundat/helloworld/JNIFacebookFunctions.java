@@ -13,8 +13,8 @@ import org.json.JSONObject;
 import android.content.Intent;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
-import android.content.pm.Signature;
 import android.content.pm.PackageManager.NameNotFoundException;
+import android.content.pm.Signature;
 import android.os.Environment;
 import android.util.Base64;
 import android.util.Log;
@@ -23,7 +23,6 @@ import com.jundat.helloworld.classes.AndroidNDKHelper;
 import com.sromku.simple.fb.Permissions;
 import com.sromku.simple.fb.Properties;
 import com.sromku.simple.fb.SimpleFacebook;
-import com.sromku.simple.fb.SimpleFacebookConfiguration;
 import com.sromku.simple.fb.SimpleFacebook.OnInviteListener;
 import com.sromku.simple.fb.SimpleFacebook.OnLoginListener;
 import com.sromku.simple.fb.SimpleFacebook.OnLogoutListener;
@@ -31,6 +30,7 @@ import com.sromku.simple.fb.SimpleFacebook.OnPostScoreListener;
 import com.sromku.simple.fb.SimpleFacebook.OnProfileRequestListener;
 import com.sromku.simple.fb.SimpleFacebook.OnPublishListener;
 import com.sromku.simple.fb.SimpleFacebook.OnScoresRequestListener;
+import com.sromku.simple.fb.SimpleFacebookConfiguration;
 import com.sromku.simple.fb.entities.Feed;
 import com.sromku.simple.fb.entities.Profile;
 
@@ -41,7 +41,7 @@ public class JNIFacebookFunctions implements AsyncListener{
     ///////////////////////// BEGIN SIMPLE FACEBOOK //////////////////////////////
 	
 	protected static final String DIR_TO_SAVE = "HelloWorld";
-	protected static final String TAG = "JAVA_HELLO_WORLD";
+	protected static final String TAG = "JAVA";
 	
 	Permissions[] permissions = new Permissions[] {
 			Permissions.BASIC_INFO,
@@ -883,8 +883,34 @@ public class JNIFacebookFunctions implements AsyncListener{
 		}    	
     }
     
-      
     
+    
+    
+    /////////////////////////////// Non-facebook functions /////////////////////////////////
+    
+	public void Rate(JSONObject prms)
+	{
+		Log.i(TAG, "Rate app");
+		AppRater.showRateDialog(this.mainActivity, null, this);
+	}
+	
+	public void onRateCompleted(String responseType) {
+		String jsonStr = "{\"isSuccess\" : true, " +
+        		"\"responseType\": \"" + responseType + "\"" +
+        		"}";
+        JSONObject prmsToSend = null;
+        
+        try {
+			prmsToSend = new JSONObject(jsonStr);
+		}
+        catch (JSONException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+        
+    	AndroidNDKHelper.SendMessageWithParameters("onRateCompleted", prmsToSend);
+	}
+	
     ///////////////////////////////////////////////////////////////
 
 	@Override

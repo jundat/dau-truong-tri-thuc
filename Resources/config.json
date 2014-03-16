@@ -1,4 +1,7 @@
 {
+	"URL_RATE" : "https://www.facebook.com/hiep.truong.984",
+
+
 	"URL_PROFILE" : "127.0.0.1:8025/profile",
 	"URL_DEVICE" : "127.0.0.1:8025/device",
 	"URL_FRIEND" : "127.0.0.1:8025/friend",
@@ -20,7 +23,7 @@
 	"DEFAULT_NAME" : "Việt Nam",
 
 	"FONT_NORMAL" : "Roboto-Medium.ttf",
-	"FONT_LEADERBOARD" : "Villa.ttf",
+	"FONT_LEADERBOARD" : "Roboto-Medium.ttf",
 
 	"NUMBER_FRIEND_TO_GET" :	100,
 	"APP_ID" : "Exeption_DTTT",
@@ -32,6 +35,11 @@
 	"DIAMOND_FOR_EXCLUSIVE" : 10,
 	"DIAMOND_FOR_INFINITE" : 10,
 	"DIAMOND_FOR_SKIP" : 10,
+
+	"DIAMOND_FOR_RATE" : 200,
+	"DIAMOND_FOR_INVITE" : 20,
+	"DIAMOND_FOR_SHARE" : 200,
+
 	"TIME_TO_REFRESH_FRIENDS" : 86400,
 
 
@@ -41,5 +49,9 @@
 
 	"WAR_TIME_FOR_QUESTION" : 20,
 	"WAR_ADD_SCORE" : 10,
-	"WAR_SUB_SCORE" : -5
+	"WAR_SUB_SCORE" : -5,
+
+
+
+	"INVITE_MESSAGE" : "Vào Đấu Trường Tri Thức, thách đố nhau không?"
 }
