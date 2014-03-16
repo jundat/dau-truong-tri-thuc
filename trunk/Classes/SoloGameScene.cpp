@@ -136,13 +136,13 @@ void SoloGameScene::answerCallback( CCObject* pSender )
 	if (tag == m_curRightAnswer)
 	{
 		PLAY_GET_BOMB_EFFECT;
-		m_curScore += CONF_INT(SOLO_ADD_SCORE);
+		m_curScore += DataManager::sharedDataManager()->GetSoloAddScore();
 		m_isRight = true;
 	}
 	else
 	{
 		PLAY_OUT_PORP_EFFECT;
-		m_curScore -= CONF_INT(SOLO_SUB_SCORE);
+		m_curScore += DataManager::sharedDataManager()->GetSoloSubScore();
 		if(m_curScore < 0) m_curScore = 0;
 		m_isRight = false;
 	}
@@ -227,7 +227,8 @@ void SoloGameScene::initRandomLevel(int number)
 void SoloGameScene::itHelp1Callback( CCObject* pSender )
 {
 	int diamond = DataManager::sharedDataManager()->GetDiamond();
-	if (diamond < CONF_INT(DIAMON_PER_HELP1))
+	int diamond_for_exclusive = DataManager::sharedDataManager()->GetDiamondForExclusive();
+	if (diamond < diamond_for_exclusive)
 	{
 		PLAY_OUT_PORP_EFFECT;
 		m_lbDiamond->runAction(CCSequence::createWithTwoActions(
@@ -257,7 +258,7 @@ void SoloGameScene::itHelp1Callback( CCObject* pSender )
 				m_itAnswers[rd]->setEnabled(false);
 				m_curDisableChoose++;
 				
-				DataManager::sharedDataManager()->AddDiamond(- CONF_INT(DIAMON_PER_HELP1));
+				DataManager::sharedDataManager()->AddDiamond(- diamond_for_exclusive);
 				m_lbDiamond->setString(CCString::createWithFormat("%d", DataManager::sharedDataManager()->GetDiamond())->getCString());
 				PLAY_GET_BOMB_EFFECT;
 				isOK = true;
@@ -279,7 +280,8 @@ void SoloGameScene::itHelp2Callback( CCObject* pSender )
 	}
 	
 	int diamond = DataManager::sharedDataManager()->GetDiamond();
-	if (diamond < CONF_INT(DIAMON_PER_HELP2))
+	int diamond_for_infite = DataManager::sharedDataManager()->GetDiamondForInfinite();
+	if (diamond < diamond_for_infite)
 	{
 		PLAY_OUT_PORP_EFFECT;
 		m_lbDiamond->runAction(CCSequence::createWithTwoActions(
@@ -289,7 +291,7 @@ void SoloGameScene::itHelp2Callback( CCObject* pSender )
 		return;
 	}
 
-	DataManager::sharedDataManager()->AddDiamond(- CONF_INT(DIAMON_PER_HELP2));
+	DataManager::sharedDataManager()->AddDiamond(- diamond_for_infite);
 	m_lbDiamond->setString(CCString::createWithFormat("%d", DataManager::sharedDataManager()->GetDiamond())->getCString());
 	PLAY_GET_BOMB_EFFECT;
 
@@ -301,7 +303,8 @@ void SoloGameScene::itHelp2Callback( CCObject* pSender )
 void SoloGameScene::itHelp3Callback( CCObject* pSender )
 {
 	int diamond = DataManager::sharedDataManager()->GetDiamond();
-	if (diamond < CONF_INT(DIAMON_PER_HELP3))
+	int diamond_for_skip = DataManager::sharedDataManager()->GetDiamondForSkip();
+	if (diamond < diamond_for_skip)
 	{
 		PLAY_OUT_PORP_EFFECT;
 		m_lbDiamond->runAction(CCSequence::createWithTwoActions(
@@ -311,7 +314,7 @@ void SoloGameScene::itHelp3Callback( CCObject* pSender )
 		return;
 	}
 
-	DataManager::sharedDataManager()->AddDiamond(- CONF_INT(DIAMON_PER_HELP3));
+	DataManager::sharedDataManager()->AddDiamond(- diamond_for_skip);
 	m_lbDiamond->setString(CCString::createWithFormat("%d", DataManager::sharedDataManager()->GetDiamond())->getCString());
 	PLAY_GET_BOMB_EFFECT;
 
@@ -330,7 +333,7 @@ void SoloGameScene::scheduleClock( float dt )
 	{
 		this->unschedule(schedule_selector(SoloGameScene::scheduleClock));
 
-		m_lbScore -= CONF_INT(SOLO_SUB_SCORE);
+		m_lbScore += DataManager::sharedDataManager()->GetSoloSubScore();
 		if(m_curScore < 0) m_curScore = 0;
 		m_isRight = false;
 
@@ -370,11 +373,11 @@ void SoloGameScene::onFinishAnimationRightChoose()
 	{
 		if (m_isRight)
 		{
-			changeScore->setString(CCString::createWithFormat("+%d", CONF_INT(SOLO_ADD_SCORE))->getCString());
+			changeScore->setString(CCString::createWithFormat("+%d", DataManager::sharedDataManager()->GetSoloAddScore())->getCString());
 		} 
 		else
 		{
-			changeScore->setString(CCString::createWithFormat("-%d", CONF_INT(SOLO_SUB_SCORE))->getCString());
+			changeScore->setString(CCString::createWithFormat("%d", DataManager::sharedDataManager()->GetSoloSubScore())->getCString());
 		}
 	}
 }

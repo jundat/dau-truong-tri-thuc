@@ -28,6 +28,7 @@ AppDelegate::~AppDelegate()
 bool AppDelegate::applicationDidFinishLaunching() {
 
 	ConfigLoader::shareConfigLoader();
+	ConfigLoader::shareConfigLoader()->getConfigFromServer();
 	LevelManager::shareLevelLoader();
 
 	GameClientManager::sharedGameClientManager()->setUrls(

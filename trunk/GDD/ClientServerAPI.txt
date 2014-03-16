@@ -12,7 +12,7 @@ Callback function: Success or Error
 Url: "/config/multi"
 Message:
 	"data={
-	}&method=set"
+	}&method=get"
 
 Response Message:
 	"{

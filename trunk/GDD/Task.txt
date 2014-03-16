@@ -11,6 +11,13 @@ Long
 		* Leaderboard
 	+ Config công thức tính điểm từ server
 		(API Client-Server, Code)
+	+ Tính điểm sau mỗi câu
+	+ Tăng kim cương
+		* Rate app
+		* Share status
+		* Invite friend
 	+ Thêm gói trợ giúp: Infinite time
 	+ Random câu hỏi và lưu vết
+	+ Hiển thị learderboard
+	+ Lấy data leaderboard từ server
 	+ Hoàn thành SOLO mode

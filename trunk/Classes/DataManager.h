@@ -34,6 +34,18 @@ public:
 	json_t*			GetQuestionIdObject();
 
 	//////////////////////////////////////////////////////////////////////////
+	//Config from server
+	
+	MY_GETSET_INT_FUNC(SoloAddScore, "SOLO_ADD_SCORE", CONF_INT(SOLO_ADD_SCORE));
+	MY_GETSET_INT_FUNC(SoloSubScore, "SOLO_SUB_SCORE", CONF_INT(SOLO_SUB_SCORE));
+
+	MY_GETSET_INT_FUNC(DiamondForSkip, "DIAMOND_FOR_SKIP", CONF_INT(DIAMOND_FOR_SKIP));
+	MY_GETSET_INT_FUNC(DiamondForInfinite, "DIAMOND_FOR_INFINITE", CONF_INT(DIAMOND_FOR_INFINITE));
+	MY_GETSET_INT_FUNC(DiamondForExclusive, "DIAMOND_FOR_EXCLUSIVE", CONF_INT(DIAMOND_FOR_EXCLUSIVE));
+
+
+
+	//////////////////////////////////////////////////////////////////////////
 	//Facebook
 
 	MY_GETSET_STR_FUNC(FbPhotoPath, "FB_PHOTO_PATH", std::string(""));
