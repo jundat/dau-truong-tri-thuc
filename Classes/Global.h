@@ -6,6 +6,19 @@
 
 
 //////////////////////////////////////////////////////////////////////////
+
+class PairIntInt {
+public:
+	int keyRd;
+	int valueId;
+
+	PairIntInt(int krd, int vid) {
+		keyRd = krd;
+		valueId = vid;
+	}
+};
+
+//////////////////////////////////////////////////////////////////////////
 //MACRO
 
 #define CONF_BOOL(config)		ConfigLoader::shareConfigLoader()->getBoolValue(#config)

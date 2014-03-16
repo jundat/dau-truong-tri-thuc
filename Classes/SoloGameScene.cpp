@@ -71,7 +71,7 @@ bool SoloGameScene::init()
 	m_menu->setPosition(CCPointZero);
 	this->addChild(m_menu);
 
-	MY_ADD_MENU_ITEM(itBack, "back.png", "backDown.png", "backDown.png", SoloGameScene::menuCallback, ccp(60, 60));
+	MY_ADD_MENU_ITEM(itBack, "back.png", "backDown.png", "back.png", SoloGameScene::menuCallback, ccp(60, 60));
 	m_itBack = itBack;
 
 	//HELP
@@ -164,12 +164,12 @@ void SoloGameScene::nextQuestion(CCObject* pSender)
 		m_itAnswers[i]->unselected();
 	}
 	
-	initRandomLevel();
-
 	m_curQuestionNumber++;
 	DataManager::sharedDataManager()->SetSoloQuestionNumber(m_curQuestionNumber);
 	m_lbNumber->setString(CCString::createWithFormat("%d", m_curQuestionNumber)->getCString());
 	
+	initRandomLevel(m_curQuestionNumber);
+
 	m_curDisableChoose = 0;
 	m_isUsedInfiniteTime = false;
 	m_clockCounter = CONF_INT(SOLO_TIME_FOR_QUESTION);
@@ -204,16 +204,23 @@ void SoloGameScene::initItems()
 	}
 }
 
-void SoloGameScene::initRandomLevel()
+void SoloGameScene::initRandomLevel(int number)
 {
-	LevelData* ld = LevelManager::shareLevelLoader()->randomUnusedLevel();
+	LevelData* ld = LevelManager::shareLevelLoader()->getLevelInRandom(number);
 	
-	m_lbQuestion->setString(ld->m_quest.c_str());
-	m_curRightAnswer = ld->m_right; //0 -> 3
-
-	for (int i = 0; i < 4; ++i)
+	if (ld != NULL)
 	{
-		m_lbAnswers[i]->setString(ld->m_arrChoice[i].c_str());
+		m_lbQuestion->setString(ld->m_quest.c_str());
+		m_curRightAnswer = ld->m_right; //0 -> 3
+
+		for (int i = 0; i < 4; ++i)
+		{
+			m_lbAnswers[i]->setString(ld->m_arrChoice[i].c_str());
+		}
+	} 
+	else
+	{
+		CCMessageBox("Bạn đã hoàn thành game!", "Chúc mừng");
 	}
 }
 

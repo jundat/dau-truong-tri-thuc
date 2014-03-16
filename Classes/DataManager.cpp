@@ -59,3 +59,54 @@ tm* DataManager::GetTime( const char* key )
 		return _tm;	
 	}
 }
+
+json_t* DataManager::SetQuestionIdObject( vector<PairIntInt*>* listPairIntInt )
+{
+	vector<PairIntInt*>::iterator it;
+	
+	string strToSave = string("{");
+	int id = 0;
+
+	for (it = listPairIntInt->begin(); it != listPairIntInt->end(); ++it)
+	{
+		id++;
+		PairIntInt* p = (PairIntInt* ) (*it);
+		
+		strToSave.append(CCString::createWithFormat("\"%d\": %d,", id, p->valueId)->getCString());
+	}
+
+	strToSave.append("\"null\": 0}");
+	CCLOG("SET: %s", strToSave.c_str() );
+
+	CCUserDefault::sharedUserDefault()->setStringForKey("VECTOR_QUESTION_ID", strToSave);
+	CCUserDefault::sharedUserDefault()->flush();
+
+	json_t *questionObject;
+	json_error_t error;
+
+	questionObject = json_loads(strToSave.c_str(), strlen(strToSave.c_str()), &error);	
+
+	return questionObject;
+}
+
+json_t* DataManager::GetQuestionIdObject()
+{
+	string strQuestionList = CCUserDefault::sharedUserDefault()->getStringForKey("VECTOR_QUESTION_ID", "{}");
+	CCLOG("GET: %s", strQuestionList.c_str());
+
+	if (strQuestionList.compare("{}") == 0)
+	{
+		CCLOG("{}: First time get question id list");
+		return NULL;
+	} 
+	else
+	{
+		json_t *questionObject;
+		json_error_t error;
+
+		questionObject = json_loads(strQuestionList.c_str(), strlen(strQuestionList.c_str()), &error);
+
+		return questionObject;
+	}
+}
+

@@ -6,12 +6,14 @@
 #include "Global.h"
 #include "MyMacro.h"
 #include "cocos2d.h"
+#include "jansson/jansson.h"
 
 USING_NS_CC;
 using namespace std;
 
 
 #define LEVEL_FILE		"questions.json"
+
 
 
 class LevelData : public CCObject {
@@ -108,15 +110,21 @@ public:
 	}
 
 	static LevelManager* shareLevelLoader();
-	LevelData* getLevel(int level);
-	LevelData* randomUnusedLevel();
+	LevelData* getLevelInRandom(int idx);
 	
 public:
 	CCDictionary* m_dict;
-	CCArray* m_arrUnsedId;
+	json_t* m_questionsObject;
 
 protected:
+	LevelData* getLevel(int level);
 	static LevelManager* s_instance;
+
+public:
+	static bool sortPairIntInt (PairIntInt* a, PairIntInt* b) 
+	{
+		return (a->keyRd < b->keyRd);
+	};
 };
 
 

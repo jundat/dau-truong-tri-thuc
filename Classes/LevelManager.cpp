@@ -1,6 +1,9 @@
 #include "LevelManager.h"
+#include "DataManager.h"
 #include "cocos2d.h"
 #include "jansson/jansson.h"
+#include <vector>
+#include <algorithm>    // std::sort
 
 USING_NS_CC;
 using namespace std;
@@ -24,14 +27,12 @@ LevelManager::LevelManager(void)
 	questionList = json_loads(s.c_str(), strlen(s.c_str()), &error);
 	int number = json_array_size(questionList);
 
-	m_arrUnsedId = new CCArray();
-	m_arrUnsedId->retain();
+	//random list
+	vector<PairIntInt*> *listPairs;
+	listPairs = new vector<PairIntInt*>();
 
 	for(int i = 0; i < number; i++)
 	{
-		CCString* strId = CCString::createWithFormat("%d", i+1);
-		m_arrUnsedId->addObject(strId);
-
 		json_t *question = json_array_get(questionList, i);
  		json_t* answers = json_object_get(question, "answers");
 
@@ -46,6 +47,18 @@ LevelManager::LevelManager(void)
 			);
 
 		m_dict->setObject(ld, i+1);
+
+		//random list
+		int rd = (int)(CCRANDOM_0_1() * (number + 1));
+		listPairs->push_back(new PairIntInt(rd, i+1));
+	}
+
+	m_questionsObject = DataManager::sharedDataManager()->GetQuestionIdObject();
+	if (m_questionsObject == NULL)
+	{
+		//sort
+		std::sort (listPairs->begin(), listPairs->end(), LevelManager::sortPairIntInt);
+		m_questionsObject = DataManager::sharedDataManager()->SetQuestionIdObject(listPairs);
 	}
 
 	CCLOG("--------- LEVEL LOAD END ---------");
@@ -67,15 +80,20 @@ LevelData* LevelManager::getLevel( int level )
 	return ld;
 }
 
-LevelData* LevelManager::randomUnusedLevel()
+LevelData* LevelManager::getLevelInRandom(int idx)
 {
-	int number = m_arrUnsedId->count();
+	string key = string(CCString::createWithFormat("%d", idx)->getCString());
+	
+	CCLOG("GET LEVEL: %s", key.c_str());
 
-	int rd = (int)(CCRANDOM_0_1() * number); //0 -> (number-1)
+	json_t* quest = json_object_get(m_questionsObject, key.c_str());
 
-	CCString* strChooseLevel = (CCString*)m_arrUnsedId->objectAtIndex(rd);
-	int chooseLevel = strChooseLevel->intValue();
-	m_arrUnsedId->removeObjectAtIndex(rd); //remove used id
-
-	return getLevel(chooseLevel);
+	if (quest != NULL)
+	{
+		int level = (int)json_number_value(quest);
+		CCLOG("GET LEVEL: index %d -> level %d", idx, level);
+		return getLevel(level);
+	} 
+	
+	return NULL;
 }
