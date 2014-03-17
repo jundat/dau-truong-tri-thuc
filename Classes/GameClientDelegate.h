@@ -20,7 +20,7 @@ public:
 	virtual void onSendDeviceProfileCompleted( bool isSuccess ){}
 	virtual void onGetDeviceProfileCompleted(bool isSuccess, DeviceProfile* deviceProfile){}
 
-	virtual void onSendScoreCompleted( bool isSuccess, int newScore ){}
+	virtual void onSendScoreCompleted( bool isSuccess ){}
 	virtual void onGetScoreCompleted( bool isSuccess, int score, std::string time ){}
 
 // 	virtual void onSendItemsCompleted( bool isSuccess, int newScore ){}

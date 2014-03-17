@@ -99,7 +99,29 @@ void MoreDiamondDialog::inviteCallback( CCObject* pSender )
 
 void MoreDiamondDialog::shareCallback( CCObject* pSender )
 {
-	CCMessageBox("share", "info");
+	NDKHelper::AddSelector("MORE_DIAMOND_DIALOG",
+		"onPublishFeedCompleted",
+		callfuncND_selector(MoreDiamondDialog::onPublishFeedCompleted),
+		this);
+
+	string withDialog = "true";
+	string message = "Game này được, có bạn chơi cùng thì khỏi chê!";
+	string name = "The Croods";
+	string caption = "Thánh thức cùng bạn bè";
+	string description = "Game hay, thuộc thể loại này nọ...";
+	string picture = "http://vfossa.vn/tailen/news/2012_01/knowledge.jpg";
+	string link = "https://play.google.com/store/apps/details?id=com.supercell.hayday";
+	
+	CCDictionary* prms = CCDictionary::create();
+	prms->setObject(CCString::create(withDialog), "withDialog");
+	prms->setObject(CCString::create(message), "message");
+	prms->setObject(CCString::create(name), "name");
+	prms->setObject(CCString::create(caption), "caption");
+	prms->setObject(CCString::create(description), "description");
+	prms->setObject(CCString::create(picture), "picture");
+	prms->setObject(CCString::create(link), "link");
+
+	SendMessageWithParams(string("PublishFeed"), prms);
 }
 
 //
@@ -170,7 +192,29 @@ void MoreDiamondDialog::onInviteAllCompleted( CCNode *sender, void *data )
 	}
 }
 
-void MoreDiamondDialog::onShareCompleted( CCNode *sender, void *data )
+void MoreDiamondDialog::onPublishFeedCompleted( CCNode *sender, void *data )
 {
+	if (data != NULL)
+	{
+		CCDictionary *convertedData = (CCDictionary *)data;
+		CCString* s = (CCString*)convertedData->objectForKey("isSuccess");
+		if (s->boolValue())
+		{
+			CCLOG("CPP Publish Feed Completed: TRUE");
+			
+			CCMessageBox(
+				CCString::createWithFormat("Bạn được nhận +%d kim cương.", CONF_INT(DIAMOND_FOR_SHARE))->getCString(),
+				"Thưởng");
+			DataManager::sharedDataManager()->AddDiamond(CONF_INT(DIAMOND_FOR_SHARE));
 
+			m_itlbShare->setEnabled(false);
+			m_itlbShare->setOpacity(100);
+		} 
+		else
+		{
+			CCLOG("CPP Publish Feed Completed: FALSE");
+		}
+
+		NDKHelper::RemoveSelector("MORE_DIAMOND_DIALOG", "onPublishFeedCompleted");
+	}
 }

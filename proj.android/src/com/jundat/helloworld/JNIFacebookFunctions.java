@@ -409,11 +409,6 @@ public class JNIFacebookFunctions implements AsyncListener{
     			description = null, 
     			picture = null, 
     			link = null;
-    			
-//    	String 	action = null,
-//    			actionLink = null,
-//    			propertyName = null,
-//    			propertyValue = null;
     	
     	try {
     		withDialog 	= prms.getBoolean("withDialog");
@@ -424,11 +419,6 @@ public class JNIFacebookFunctions implements AsyncListener{
 			picture 	= prms.getString("picture");
 			link 		= prms.getString("link");
 			
-//			action 		= prms.getString("action");
-//			actionLink 	= prms.getString("actionLink");
-//			propertyName 	= prms.getString("propertyName");
-//			propertyValue 	= prms.getString("propertyValue");
-			
 			Log.i(TAG, "withDialog: " + withDialog);
 			Log.i(TAG, "message: " + message);
 			Log.i(TAG, "name: " + name);
@@ -436,11 +426,6 @@ public class JNIFacebookFunctions implements AsyncListener{
 			Log.i(TAG, "description: " + description);
 			Log.i(TAG, "picture: " + picture);
 			Log.i(TAG, "link: " + link);
-			
-//			Log.i(TAG, "action: " + action);
-//			Log.i(TAG, "actionLink: " + actionLink);
-//			Log.i(TAG, "propertyName: " + propertyName);
-//			Log.i(TAG, "propertyValue: " + propertyValue);
 			
 		} catch (JSONException e) {
 			// TODO: handle exception
@@ -531,9 +516,6 @@ public class JNIFacebookFunctions implements AsyncListener{
         .setDescription(description)
         .setPicture(picture)
         .setLink(link)
-//        .addAction("Clone", "https://github.com/sromku/android-simple-facebook")
-//	    .addProperty("Full documentation", "http://sromku.github.io/android-simple-facebook", "http://sromku.github.io/android-simple-facebook")
-//	    .addProperty("Stars", "14")
         .build();
     	    	
     	mSimpleFacebook.publish(feed, onPublishListener);
@@ -883,6 +865,25 @@ public class JNIFacebookFunctions implements AsyncListener{
 		}    	
     }
     
+  //OK
+//    public void shareStatus() {
+//
+//		//share by Facebook App
+//    	if (FacebookDialog.canPresentShareDialog(this.mainActivity.getApplicationContext(), ShareDialogFeature.SHARE_DIALOG)) {
+//        	FacebookDialog shareDialog = new FacebookDialog.ShareDialogBuilder(this.mainActivity)
+//        		.setCaption("caption")
+//        		.setDescription("description")
+//    	        .setLink("http://www.cocos2d-x.org/")
+//    	        .setPicture("http://www.cocos2d-x.org/attachments/download/801")
+//    	        .build();
+//        	
+//    		uiHelper.trackPendingDialogCall(shareDialog.present());
+//		} else {
+//		//share by web dialog
+//			
+//		}
+//    	
+//    }
     
     
     

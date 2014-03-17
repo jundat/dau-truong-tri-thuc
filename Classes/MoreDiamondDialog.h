@@ -23,7 +23,7 @@ public:
 
 	void onRateCompleted( CCNode *sender, void *data );
 	void onInviteAllCompleted( CCNode *sender, void *data );
-	void onShareCompleted( CCNode *sender, void *data );
+	void onPublishFeedCompleted( CCNode *sender, void *data );
 
 	void exitCallback( CCObject* pSender );
 };

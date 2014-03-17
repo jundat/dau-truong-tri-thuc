@@ -92,13 +92,21 @@ void ConfigLoader::_onGetConfigCompleted( CCHttpClient *sender, CCHttpResponse *
 {
 	/*
 	"{
-		version: "1.0",
-		winScore: 3,
-		loseScore: -1,
-		diamondForSkip: 3,
-		diamondForExplusive: 1,
-		diamondForInfinite: 1,
-		connectionTimeout: 10 // second
+			"HelpExclusive":1,
+		"JewelryDraw":0,
+		"TimePackage":100,
+		"QuestionPackage":5,
+		"Jewelry20k":10,
+		"Jewelry100k":250,
+		"JewelryLose":1,
+			"HelpSkip":3,
+		"Jewelry50k":150,
+		"JewelryWin":3,
+			"LoseScore":-3,
+			"WinScore":10,
+		"Jewelry10k":50,
+			"HelpInfinite":1,
+		"PairTimeOut":5
 	}"
 	*/
 
@@ -124,37 +132,31 @@ void ConfigLoader::_onGetConfigCompleted( CCHttpClient *sender, CCHttpResponse *
 
 		json_error_t error;
 
-		json_t *version;
 		json_t *winScore;
 		json_t *loseScore;
 		json_t *diamondForSkip;
 		json_t *diamondForExplusive;
 		json_t *diamondForInfinite;
-		json_t *connectionTimeout;
 
 		m_serverConfigObject = json_loads(str.c_str(), strlen(str.c_str()), &error);
 
 		//-------------------
 		//get
 
-		version = json_object_get(m_serverConfigObject, "version");
-		winScore = json_object_get(m_serverConfigObject, "winScore");
-		loseScore = json_object_get(m_serverConfigObject, "loseScore");
-		diamondForSkip = json_object_get(m_serverConfigObject, "diamondForSkip");
-		diamondForExplusive = json_object_get(m_serverConfigObject, "diamondForExplusive");
-		diamondForInfinite = json_object_get(m_serverConfigObject, "diamondForInfinite");
-		connectionTimeout = json_object_get(m_serverConfigObject, "connectionTimeout");
+		winScore = json_object_get(m_serverConfigObject, "WinScore");
+		loseScore = json_object_get(m_serverConfigObject, "LoseScore");
+		diamondForSkip = json_object_get(m_serverConfigObject, "HelpSkip");
+		diamondForExplusive = json_object_get(m_serverConfigObject, "HelpExclusive");
+		diamondForInfinite = json_object_get(m_serverConfigObject, "HelpInfinite");
 
 		//-------------------
 		//show
 
-		CCLOG("version: %s", json_string_value(version));
 		CCLOG("winScore: %d", (int)json_number_value(winScore));
 		CCLOG("loseScore: %d", (int)json_number_value(loseScore));
 		CCLOG("diamondForSkip: %d", (int)json_number_value(diamondForSkip));
 		CCLOG("diamondForExplusive: %d", (int)json_number_value(diamondForExplusive));
 		CCLOG("diamondForInfinite: %d", (int)json_number_value(diamondForInfinite));
-		CCLOG("connectionTimeout: %d", (int)json_number_value(connectionTimeout));
 
 		//-------------------
 		//save
