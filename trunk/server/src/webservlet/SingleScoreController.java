@@ -35,7 +35,7 @@ public class SingleScoreController extends ServerServlet{
             bResult = singleModel.setScore(req, resp);
             try (PrintWriter pw = resp.getWriter()) 
             {
-                String strResult    =   String.format("{ isSuccess : %s }", bResult );
+                String strResult    =   String.format("{ \"isSuccess\" : %s }", bResult );
                 pw.println( strResult );
                 pw.flush();
             }
