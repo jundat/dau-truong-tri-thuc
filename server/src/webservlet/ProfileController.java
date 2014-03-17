@@ -36,7 +36,7 @@ public class ProfileController extends ServerServlet {
         else {
             Boolean result      =   uModel.acceptNewUser(req, resp);
             
-            String resultStr    =   String.format("{ isSuccess: %s }", result );
+            String resultStr    =   String.format("{ \"isSuccess\" : %s }", result );
             try (PrintWriter pw = resp.getWriter()) 
             {
                 pw.println( resultStr );

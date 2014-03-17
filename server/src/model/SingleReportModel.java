@@ -74,14 +74,14 @@ public final class SingleReportModel implements BaseModel{
             UserModel user       =   clone.get(i);
             String userStr;
             if( i < (nSize - 1) ) {
-                userStr         =   String.format( "{ user:\"%s\", order:%s },", user.name, i );
+                userStr         =   String.format( "{ \"user\":\"%s\", \"order\":%s },", user.name, i );
             }
             else 
-                userStr         =   String.format( "{ user:\"%s\", order:%s }", user.name, i );
+                userStr         =   String.format( "{ \"user\":\"%s\", \"order\":%s }", user.name, i );
             dataStr         +=  userStr;
         }
         
-        dataStr             =   String.format( "{ list:[ %s ]}", dataStr);
+        dataStr             =   String.format( "{ \"list\":[ %s ]}", dataStr);
         
         return dataStr;
     }

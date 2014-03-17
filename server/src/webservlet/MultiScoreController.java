@@ -35,7 +35,7 @@ public class MultiScoreController extends webservlet.ServerServlet{
             bResult = multiModel.setScore(req, resp);
             try (PrintWriter pw = resp.getWriter()) 
             {
-                String strResult    =   String.format("{ isSuccess : %s }", bResult );
+                String strResult    =   String.format("{ \"isSuccess\" : %s }", bResult );
                 pw.println( strResult );
                 pw.flush();
             }

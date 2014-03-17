@@ -70,7 +70,7 @@ public class SingleResultModel implements BaseModel{
 
     @Override
     public String toData() {
-        Map<String, Object> data    =   new HashMap<String, Object>();
+        Map<String, Object> data    =   new HashMap<>();
         
         data.put( ShareConstants.SINGLERESULT_ID, result.getId() );
         data.put( ShareConstants.RESULT_WIN, result.getWins() );

@@ -79,7 +79,7 @@ public class SubjectModel implements BaseModel{
         DataTable dt = MySqlConnection_Rd.getInstance().selectAll( ShareConstants.TABLE_SUBJECT, ShareConstants.SUBJECT_ID, ShareConstants.SUBJECT_NAME, 
                 ShareConstants.SUBJECT_ACTIVE, ShareConstants.SUBJECT_NSENTENCE, ShareConstants.SUBJECT_PREFIX );
         
-        String dataStr  =   "{ list:[";
+        String dataStr  =   "{ \"list\":[";
         if( dt != null && dt.size() > 0 ) {
             for( int i = 0; i < dt.size(); ++i )
             {
