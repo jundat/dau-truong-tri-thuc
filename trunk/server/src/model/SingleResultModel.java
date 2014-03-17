@@ -129,6 +129,10 @@ public class SingleResultModel implements BaseModel{
             if( this.result.getScore() < clientScore ) {
                 // Update score database
                 this.result.setScore( clientScore );
+                um.singleResult.result.setScore( clientScore );
+                
+                // Update in leaderboard
+                SingleReportModel.getInstance().updateUser(uid, um);
                 
                 String[] colums =   { ShareConstants.RESULT_SCORE };
                 String[] types  =   { String.valueOf(clientScore) };

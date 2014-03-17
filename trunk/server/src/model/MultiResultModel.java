@@ -128,6 +128,10 @@ public class MultiResultModel implements BaseModel{
             if( this.result.getScore() < clientScore ) {
                 // Update score database
                 this.result.setScore( clientScore );
+                um.multiResult.result.setScore( clientScore );
+                
+                // Update in leaderboard
+                MultiReportModel.getInstance().updateUser(uid, um);
                 
                 String[] colums =   { ShareConstants.RESULT_SCORE };
                 String[] types  =   { String.valueOf(clientScore) };

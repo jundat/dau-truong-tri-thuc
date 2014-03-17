@@ -19,7 +19,6 @@ import libCore.Util;
 import org.json.simple.JSONValue;
 import share.ShareConstants;
 
-import java.lang.Comparable;
 
 /**
  *
@@ -102,6 +101,10 @@ public class UserModel implements BaseModel {
         
         int result  =   MySqlConnection_W.getInstance().insertTable( ShareConstants.TABLE_USER, Util.toStringDB(uid),  Util.toStringDB(name), 
                  Util.toStringDB(avatar),  Util.toStringDB(singleResult.result.getId()),  Util.toStringDB(multiResult.result.getId()), String.valueOf(jewelry) );
+        
+        SingleReportModel.getInstance().addNewUser(this);
+        MultiReportModel.getInstance().addNewUser(this);
+        
         if( result <= 0 )
             return false;
         
