@@ -52,7 +52,7 @@ void GameClientManager::sendUserProfile( std::string fbId, std::string fbName, s
 	request->setResponseCallback(this, httpresponse_selector(GameClientManager::_onSendUserProfileCompleted));
 
 	// write the post data
-	CCString* strData = CCString::createWithFormat("data={ fbId: \"%s\", fbName: \"%s\", email: \"%s\" }&method=set",
+	CCString* strData = CCString::createWithFormat("data={ \"fbId\": \"%s\", \"fbName\": \"%s\", \"email\": \"%s\" }&method=set",
 		fbId.c_str(),
 		fbName.c_str(),
 		email.c_str());
@@ -74,12 +74,12 @@ void GameClientManager::_onSendUserProfileCompleted( CCHttpClient *sender, CCHtt
 	}
 
 	//Show info
-	CCLOG("------- BEGIN %s -------", response->getHttpRequest()->getTag());
+	CCLOG("------- BEGIN [%s] -------", response->getHttpRequest()->getTag());
 	CCLOG("Status: [%i]", response->getResponseCode());
 
 	if (!response->isSucceed())
 	{
-		CCLOG("Request failed: %s", response->getErrorBuffer());
+		CCLOG("Request failed: [%s]", response->getErrorBuffer());
 		m_clientDelegate->onSendUserProfileCompleted(false);
 	}
 	else
@@ -87,11 +87,11 @@ void GameClientManager::_onSendUserProfileCompleted( CCHttpClient *sender, CCHtt
 		std::vector<char> *buffer = response->getResponseData();
 		std::string str(buffer->begin(), buffer->end());
 		
-		CCLOG("Content: %s", str.c_str());
+		CCLOG("Content: [%s]", str.c_str());
 		m_clientDelegate->onSendUserProfileCompleted(true);
 	}
 
-	CCLOG("------- END %s -------", response->getHttpRequest()->getTag());
+	CCLOG("------- END [%s] -------", response->getHttpRequest()->getTag());
 }
 
 void GameClientManager::getUserProfile(std::string fbId )
@@ -105,7 +105,7 @@ void GameClientManager::getUserProfile(std::string fbId )
 	request->setResponseCallback(this, httpresponse_selector(GameClientManager::_onGetUserProfileCompleted));
 
 	// write the post data
-	CCString* strData = CCString::createWithFormat("data={ fbId: \"%s\" }&method=get",
+	CCString* strData = CCString::createWithFormat("data={ \"fbId\": \"%s\" }&method=get",
 		fbId.c_str()
 		);
 
@@ -127,12 +127,12 @@ void GameClientManager::_onGetUserProfileCompleted( CCHttpClient *sender, CCHttp
 	}
 
 	//Show info
-	CCLOG("------- BEGIN %s -------", response->getHttpRequest()->getTag());
+	CCLOG("------- BEGIN [%s] -------", response->getHttpRequest()->getTag());
 	CCLOG("Status: [%i]", response->getResponseCode());
 
 	if (!response->isSucceed())
 	{
-		CCLOG("Request failed: %s", response->getErrorBuffer());
+		CCLOG("Request failed: [%s]", response->getErrorBuffer());
 		m_clientDelegate->onGetUserProfileCompleted(false, NULL);
 	}
 	else
@@ -140,7 +140,7 @@ void GameClientManager::_onGetUserProfileCompleted( CCHttpClient *sender, CCHttp
 		std::vector<char> *buffer = response->getResponseData();
 		std::string str(buffer->begin(), buffer->end());
 
-		CCLOG("Content: %s", str.c_str());
+		CCLOG("Content: [%s]", str.c_str());
 
 		//get score from response
 		json_t *root;
@@ -163,7 +163,7 @@ void GameClientManager::_onGetUserProfileCompleted( CCHttpClient *sender, CCHttp
 
 	}
 
-	CCLOG("------- END %s -------", response->getHttpRequest()->getTag());
+	CCLOG("------- END [%s] -------", response->getHttpRequest()->getTag());
 }
 
 //
@@ -197,7 +197,7 @@ void GameClientManager::sendFriendList(std::string fbId, CCArray* arrFriends )
 		}
 	}	
 
-	CCString* strData = CCString::createWithFormat("data={ fbId: \"%s\", list: [%s]}&method=set",
+	CCString* strData = CCString::createWithFormat("data={ \"fbId\": \"%s\", \"list\": [%s]}&method=set",
 		fbId.c_str(),
 		strFriendList.c_str());
 
@@ -219,12 +219,12 @@ void GameClientManager::_onSendFriendListCompleted( CCHttpClient *sender, CCHttp
 	}
 
 	//Show info
-	CCLOG("------- BEGIN %s -------", response->getHttpRequest()->getTag());
+	CCLOG("------- BEGIN [%s] -------", response->getHttpRequest()->getTag());
 	CCLOG("Status: [%i]", response->getResponseCode());
 
 	if (!response->isSucceed())
 	{
-		CCLOG("Request failed: %s", response->getErrorBuffer());
+		CCLOG("Request failed: [%s]", response->getErrorBuffer());
 		m_clientDelegate->onSendFriendListCompleted(false);
 	}
 	else
@@ -232,11 +232,11 @@ void GameClientManager::_onSendFriendListCompleted( CCHttpClient *sender, CCHttp
 		std::vector<char> *buffer = response->getResponseData();
 		std::string str(buffer->begin(), buffer->end());
 
-		CCLOG("Content: %s", str.c_str());
+		CCLOG("Content: [%s]", str.c_str());
 		m_clientDelegate->onSendFriendListCompleted(true);		
 	}
 
-	CCLOG("------- END %s -------", response->getHttpRequest()->getTag());
+	CCLOG("------- END [%s] -------", response->getHttpRequest()->getTag());
 }
 
 void GameClientManager::getFriendList( std::string appId, std::string fbId )
@@ -250,7 +250,7 @@ void GameClientManager::getFriendList( std::string appId, std::string fbId )
 	request->setResponseCallback(this, httpresponse_selector(GameClientManager::_onGetFriendListCompleted));
 
 	// write the post data
-	CCString* strData = CCString::createWithFormat("data={appId: \"%s\", fbId: \"%s\" }&method=get",
+	CCString* strData = CCString::createWithFormat("data={ \"appId\": \"%s\", \"fbId\": \"%s\" }&method=get",
 		appId.c_str(),
 		fbId.c_str()
 		);
@@ -273,12 +273,12 @@ void GameClientManager::_onGetFriendListCompleted( CCHttpClient *sender, CCHttpR
 	}
 
 	//Show info
-	CCLOG("------- BEGIN %s -------", response->getHttpRequest()->getTag());
+	CCLOG("------- BEGIN [%s] -------", response->getHttpRequest()->getTag());
 	CCLOG("Status: [%i]", response->getResponseCode());
 
 	if (!response->isSucceed())
 	{
-		CCLOG("Request failed: %s", response->getErrorBuffer());
+		CCLOG("Request failed: [%s]", response->getErrorBuffer());
 		m_clientDelegate->onGetFriendListCompleted(false, NULL);
 	}
 	else
@@ -286,7 +286,7 @@ void GameClientManager::_onGetFriendListCompleted( CCHttpClient *sender, CCHttpR
 		std::vector<char> *buffer = response->getResponseData();
 		std::string str(buffer->begin(), buffer->end());
 
-		CCLOG("Content: %s", str.c_str());
+		CCLOG("Content: [%s]", str.c_str());
 
 		//get score from response
 		json_t *root;
@@ -324,7 +324,7 @@ void GameClientManager::_onGetFriendListCompleted( CCHttpClient *sender, CCHttpR
 		m_clientDelegate->onGetFriendListCompleted(true, arrFriends);
 	}
 
-	CCLOG("------- END %s -------", response->getHttpRequest()->getTag());
+	CCLOG("------- END [%s] -------", response->getHttpRequest()->getTag());
 }
 
 //
@@ -340,7 +340,7 @@ void GameClientManager::sendDeviceProfile( std::string fbId, std::string deviceI
 	request->setResponseCallback(this, httpresponse_selector(GameClientManager::_onSendDeviceProfileCompleted));
 
 	// write the post data
-	CCString* strData = CCString::createWithFormat("data={ fbId: \"%s\", deviceId: \"%s\", deviceToken: \"%s\", deviceConfig: \"%s\", devicePhoneNumber: \"%s\" }&method=set",
+	CCString* strData = CCString::createWithFormat("data={ \"fbId\": \"%s\", \"deviceId\": \"%s\", \"deviceToken\": \"%s\", \"deviceConfig\": \"%s\", \"devicePhoneNumber\": \"%s\" }&method=set",
 		fbId.c_str(),
 		deviceId.c_str(),
 		deviceToken.c_str(),
@@ -366,12 +366,12 @@ void GameClientManager::_onSendDeviceProfileCompleted( CCHttpClient *sender, CCH
 	}
 
 	//Show info
-	CCLOG("------- BEGIN %s -------", response->getHttpRequest()->getTag());
+	CCLOG("------- BEGIN [%s] -------", response->getHttpRequest()->getTag());
 	CCLOG("Status: [%i]", response->getResponseCode());
 
 	if (!response->isSucceed())
 	{
-		CCLOG("Request failed: %s", response->getErrorBuffer());
+		CCLOG("Request failed: [%s]", response->getErrorBuffer());
 		m_clientDelegate->onSendDeviceProfileCompleted(false);
 	}
 	else
@@ -379,11 +379,11 @@ void GameClientManager::_onSendDeviceProfileCompleted( CCHttpClient *sender, CCH
 		std::vector<char> *buffer = response->getResponseData();
 		std::string str(buffer->begin(), buffer->end());
 
-		CCLOG("Content: %s", str.c_str());
+		CCLOG("Content: [%s]", str.c_str());
 		m_clientDelegate->onSendDeviceProfileCompleted(true);
 	}
 
-	CCLOG("------- END %s -------", response->getHttpRequest()->getTag());
+	CCLOG("------- END [%s] -------", response->getHttpRequest()->getTag());
 }
 
 void GameClientManager::getDeviceProfile(std::string fbId, std::string deviceId )
@@ -397,7 +397,7 @@ void GameClientManager::getDeviceProfile(std::string fbId, std::string deviceId 
 	request->setResponseCallback(this, httpresponse_selector(GameClientManager::_onGetDeviceProfileCompleted));
 
 	// write the post data
-	CCString* strData = CCString::createWithFormat("data={ fbId: \"%s\", deviceId: \"%s\" }&method=get",
+	CCString* strData = CCString::createWithFormat("data={ \"fbId\": \"%s\", \"deviceId\": \"%s\" }&method=get",
 		fbId.c_str(),
 		deviceId.c_str()
 		);
@@ -420,12 +420,12 @@ void GameClientManager::_onGetDeviceProfileCompleted( CCHttpClient *sender, CCHt
 	}
 
 	//Show info
-	CCLOG("------- BEGIN %s -------", response->getHttpRequest()->getTag());
+	CCLOG("------- BEGIN [%s] -------", response->getHttpRequest()->getTag());
 	CCLOG("Status: [%i]", response->getResponseCode());
 
 	if (!response->isSucceed())
 	{
-		CCLOG("Request failed: %s", response->getErrorBuffer());
+		CCLOG("Request failed: [%s]", response->getErrorBuffer());
 		m_clientDelegate->onGetDeviceProfileCompleted(false, NULL);
 	}
 	else
@@ -433,7 +433,7 @@ void GameClientManager::_onGetDeviceProfileCompleted( CCHttpClient *sender, CCHt
 		std::vector<char> *buffer = response->getResponseData();
 		std::string str(buffer->begin(), buffer->end());
 
-		CCLOG("Content: %s", str.c_str());
+		CCLOG("Content: [%s]", str.c_str());
 
 		//get score from response
 		json_t *root;
@@ -462,7 +462,7 @@ void GameClientManager::_onGetDeviceProfileCompleted( CCHttpClient *sender, CCHt
 
 	}
 
-	CCLOG("------- END %s -------", response->getHttpRequest()->getTag());
+	CCLOG("------- END [%s] -------", response->getHttpRequest()->getTag());
 }
 
 //
@@ -478,7 +478,7 @@ void GameClientManager::sendScore( std::string appId, std::string fbId, int scor
 	request->setResponseCallback(this, httpresponse_selector(GameClientManager::_onSendScoreCompleted));
 
 	// write the post data
-	CCString* strData = CCString::createWithFormat("data={appId: \"%s\", fbId: \"%s\", score: \"%d\" }&method=set",
+	CCString* strData = CCString::createWithFormat("data={ \"appId\": \"%s\", \"fbId\": \"%s\", \"score\": \"%d\" }&method=set",
 		appId.c_str(),
 		fbId.c_str(),
 		score
@@ -502,20 +502,20 @@ void GameClientManager::_onSendScoreCompleted( CCHttpClient *sender, CCHttpRespo
 	}
 
 	//Show info
-	CCLOG("------- BEGIN %s -------", response->getHttpRequest()->getTag());
+	CCLOG("------- BEGIN [%s] -------", response->getHttpRequest()->getTag());
 	CCLOG("Status: [%i]", response->getResponseCode());
 
 	if (!response->isSucceed())
 	{
-		CCLOG("Request failed: %s", response->getErrorBuffer());
-		m_clientDelegate->onSendScoreCompleted(false, -1);
+		CCLOG("Request failed: [%s]", response->getErrorBuffer());
+		m_clientDelegate->onSendScoreCompleted(false);
 	}
 	else
 	{
 		std::vector<char> *buffer = response->getResponseData();
 		std::string str(buffer->begin(), buffer->end());
 
-		CCLOG("Content: %s", str.c_str());
+		CCLOG("Content: [%s]", str.c_str());
 
 		//get score from response
 		json_t *root;
@@ -525,20 +525,12 @@ void GameClientManager::_onSendScoreCompleted( CCHttpClient *sender, CCHttpRespo
 
 		root = json_loads(str.c_str(), strlen(str.c_str()), &error);
 		isSuccess = json_object_get(root, "isSuccess");
-		bool success = CCString::create(json_string_value(isSuccess))->boolValue();
+		bool success = json_is_true(isSuccess);
 
-		if (success)
-		{
-			m_clientDelegate->onSendScoreCompleted(success, DataManager::sharedDataManager()->GetSoloScore());
-		} 
-		else
-		{
-			score = json_object_get(root, "score");
-			m_clientDelegate->onSendScoreCompleted(success, (int)atof(json_string_value(score)));
-		}
+		m_clientDelegate->onSendScoreCompleted(success);
 	}
 
-	CCLOG("------- END %s -------", response->getHttpRequest()->getTag());
+	CCLOG("------- END [%s] -------", response->getHttpRequest()->getTag());
 }
 
 void GameClientManager::getScore( std::string appId, std::string fbId )
@@ -552,7 +544,7 @@ void GameClientManager::getScore( std::string appId, std::string fbId )
 	request->setResponseCallback(this, httpresponse_selector(GameClientManager::_onGetScoreCompleted));
 
 	// write the post data
-	CCString* strData = CCString::createWithFormat("data={appId: \"%s\", fbId: \"%s\" }&method=get",
+	CCString* strData = CCString::createWithFormat("data={ \"appId\": \"%s\", \"fbId\": \"%s\" }&method=get",
 		appId.c_str(),
 		fbId.c_str()
 		);
@@ -575,12 +567,12 @@ void GameClientManager::_onGetScoreCompleted( CCHttpClient *sender, CCHttpRespon
 	}
 
 	//Show info
-	CCLOG("------- BEGIN %s -------", response->getHttpRequest()->getTag());
+	CCLOG("------- BEGIN [%s] -------", response->getHttpRequest()->getTag());
 	CCLOG("Status: [%i]", response->getResponseCode());
 
 	if (!response->isSucceed())
 	{
-		CCLOG("Request failed: %s", response->getErrorBuffer());
+		CCLOG("Request failed: [%s]", response->getErrorBuffer());
 		m_clientDelegate->onGetScoreCompleted(false, -1, std::string());
 	}
 	else
@@ -588,7 +580,7 @@ void GameClientManager::_onGetScoreCompleted( CCHttpClient *sender, CCHttpRespon
 		std::vector<char> *buffer = response->getResponseData();
 		std::string str(buffer->begin(), buffer->end());
 
-		CCLOG("Content: %s", str.c_str());
+		CCLOG("Content: [%s]", str.c_str());
 
 		//get score from response
 		json_t *root;
@@ -603,5 +595,5 @@ void GameClientManager::_onGetScoreCompleted( CCHttpClient *sender, CCHttpRespon
 		m_clientDelegate->onGetScoreCompleted(true, (int)atof(json_string_value(score)), json_string_value(time));
 	}
 
-	CCLOG("------- END %s -------", response->getHttpRequest()->getTag());
+	CCLOG("------- END [%s] -------", response->getHttpRequest()->getTag());
 }

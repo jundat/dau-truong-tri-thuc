@@ -22,7 +22,8 @@ public:
 	void onTouchbtnNext (CCObject* pSender);
 	void onTouchbtnPrev (CCObject* pSender);
 	void onTouchbtnHome (CCObject* pSender);
-	
+	virtual void keyBackClicked();
+
 	void initControll ();
 	CCLayer* initLayerContent(int pageIndex);
 	void onChangeLayerComplete(CCNode* psender);

@@ -33,13 +33,13 @@ bool TutorialScene::init()
 
 	//background
 	CCSize size = CCDirector::sharedDirector()->getWinSize();
-	m_pSpritebackground = CCSprite::create("background1.png");
+	m_pSpritebackground = CCSprite::create("guide_background.png");
 	m_pSpritebackground->setPosition(ccp(CONF_INT(DESIGN_WIDTH) >> 1, CONF_INT(DESIGN_HEIGHT) >> 1));
 	this->addChild(m_pSpritebackground, 0);
 
 	//
 	CCSprite* tutLine = CCSprite::create("mind_box_tut.png");
-	tutLine->setPosition(ccp(768 - 383, 1280-1004));
+	tutLine->setPosition(ccp(400, 1280-1004));
 	addChild(tutLine);
 
 	//layerLevel
@@ -49,6 +49,8 @@ bool TutorialScene::init()
 	m_pLayerContent = initLayerContent(m_index);
 	this->addChild(m_pLayerContent, 5);
 	//
+
+	this->setKeypadEnabled(true);
 	return true;
 }
 
@@ -112,6 +114,11 @@ void TutorialScene::onTouchbtnHome(CCObject* pSender)
 	CCDirector::sharedDirector()->replaceScene(pScene);
 }
 
+void TutorialScene::keyBackClicked()
+{
+	onTouchbtnHome(NULL);
+}
+
 void TutorialScene::initControll()
 {
 	CCSize size = CCDirector::sharedDirector()->getWinSize();
@@ -119,10 +126,10 @@ void TutorialScene::initControll()
 	m_pLayerControll->setPosition(CCPointZero);
 	CCMenuItemImage* pMenuItembtnNext = CCMenuItemImage::create("btn_arrow.png","btn_arrow_select.png",this, menu_selector(TutorialScene::onTouchbtnNext));
 	pMenuItembtnNext->setScaleX(-1);
-	pMenuItembtnNext->setPosition(ccp(size.width - (20+pMenuItembtnNext->getContentSize().width/2),20+pMenuItembtnNext->getContentSize().height/2));
+	pMenuItembtnNext->setPosition(ccp(size.width - (pMenuItembtnNext->getContentSize().width/2),pMenuItembtnNext->getContentSize().height/2));
 
 	CCMenuItemImage* pMenuItembtnPrev = CCMenuItemImage::create("btn_arrow.png","btn_arrow_select.png",this, menu_selector(TutorialScene::onTouchbtnPrev));
-	pMenuItembtnPrev->setPosition(ccp((20+pMenuItembtnPrev->getContentSize().width/2),20+pMenuItembtnPrev->getContentSize().height/2));
+	pMenuItembtnPrev->setPosition(ccp((pMenuItembtnPrev->getContentSize().width/2),pMenuItembtnPrev->getContentSize().height/2));
 
 	CCMenuItemImage* pMenuItembtnHome = CCMenuItemImage::create("btn_home.png","btn_home.png",this, menu_selector(TutorialScene::onTouchbtnHome));
 	pMenuItembtnHome->setPosition(ccp(CONF_INT(DESIGN_WIDTH)>>1,pMenuItembtnHome->getContentSize().height/2));
@@ -178,7 +185,7 @@ CCLayer* TutorialScene::initLayerContent(int pageIndex)
 	}
 
 	
-	background->setPosition(ccp(768-384, 1280-440));
+	background->setPosition(ccp(400, 1280-440));
 	layerLevel->addChild(background);
 
 	//

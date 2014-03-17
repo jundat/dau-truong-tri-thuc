@@ -24,7 +24,7 @@ bool TestPostGetScene::init()
 	addChild(menuRequest);
 	
 	// testSendPlayerProfile
-	CCLabelTTF *labelPost1 = CCLabelTTF::create("Send User Profile", "Arial", 48);
+	CCLabelTTF *labelPost1 = CCLabelTTF::create("Send Profile", "Arial", 48);
 	labelPost1->setFontFillColor(ccc3(0,0,0));
 	CCMenuItemLabel *itemPost1 = CCMenuItemLabel::create(labelPost1, this, menu_selector(TestPostGetScene::testPost1));
 	itemPost1->setAnchorPoint(ccp(0.0f, 0.5f));
@@ -39,7 +39,7 @@ bool TestPostGetScene::init()
 	itemPost2->setPosition(ccp(20, 1160));
 	menuRequest->addChild(itemPost2);
 
-	CCLabelTTF *labelPost3 = CCLabelTTF::create("Send Device Profile", "Arial", 48);
+	CCLabelTTF *labelPost3 = CCLabelTTF::create("Send Device", "Arial", 48);
 	labelPost3->setFontFillColor(ccc3(0,0,0));
 	CCMenuItemLabel *itemPost3 = CCMenuItemLabel::create(labelPost3, this, menu_selector(TestPostGetScene::testPost3));
 	itemPost3->setAnchorPoint(ccp(0.0f, 0.5f));
@@ -60,14 +60,14 @@ bool TestPostGetScene::init()
 	itemPost5->setPosition(ccp(20, 980));
 	menuRequest->addChild(itemPost5);
 
-	CCLabelTTF *labelPost6 = CCLabelTTF::create("Get User Profile", "Arial", 48);
+	CCLabelTTF *labelPost6 = CCLabelTTF::create("Get Profile", "Arial", 48);
 	labelPost6->setFontFillColor(ccc3(0,0,0));
 	CCMenuItemLabel *itemPost6 = CCMenuItemLabel::create(labelPost6, this, menu_selector(TestPostGetScene::testPost6));
 	itemPost6->setAnchorPoint(ccp(0.0f, 0.5f));
 	itemPost6->setPosition(ccp(20, 920));
 	menuRequest->addChild(itemPost6);
 // 
-	CCLabelTTF *labelPost7 = CCLabelTTF::create("Get Device Profile", "Arial", 48);
+	CCLabelTTF *labelPost7 = CCLabelTTF::create("Get Device", "Arial", 48);
 	labelPost7->setFontFillColor(ccc3(0,0,0));
 	CCMenuItemLabel *itemPost7 = CCMenuItemLabel::create(labelPost7, this, menu_selector(TestPostGetScene::testPost7));
 	itemPost7->setAnchorPoint(ccp(0.0f, 0.5f));
@@ -92,7 +92,7 @@ bool TestPostGetScene::init()
 //user profile
 void TestPostGetScene::testPost1(CCObject *sender)
 {
-	GameClientManager::sharedGameClientManager()->sendUserProfile("Fb1", "PhamLong", "PhamLong@gmail.com");
+	GameClientManager::sharedGameClientManager()->sendUserProfile("Fb1010", "PhamLong", "PhamLong@gmail.com");
 // 	GameClientManager::sharedGameClientManager()->sendPlayerFbProfile("Fb2", "DinhDung", "DinhDung@gmail.com");
 // 	GameClientManager::sharedGameClientManager()->sendPlayerFbProfile("Fb3", "BuiHieu", "BuiHieu@gmail.com");
 // 	GameClientManager::sharedGameClientManager()->sendPlayerFbProfile("Fb4", "DangTran", "DangTran@gmail.com");
@@ -112,14 +112,14 @@ void TestPostGetScene::testPost2(CCObject *sender)
 	arrFr->addObject(new UserProfile("Fb5", "TrinhLinh", std::string("TrinhLinh@gmail.com"), 4));
 	arrFr->addObject(new UserProfile("Fb6", "NguyenChau", std::string("NguyenChau@gmail.com"), 5));
 
-	GameClientManager::sharedGameClientManager()->sendFriendList("Fb1", arrFr);
+	GameClientManager::sharedGameClientManager()->sendFriendList("Fb1010", arrFr);
 }
 
 //sendDeviceProfile
 void TestPostGetScene::testPost3(CCObject *sender)
 {
 	GameClientManager::sharedGameClientManager()->sendDeviceProfile(
-		"Fb1", 
+		"Fb1010", 
 		"DeviceId1", 
 		"DeviceToken1", 
 		"DeviceConfig1", 
@@ -129,7 +129,7 @@ void TestPostGetScene::testPost3(CCObject *sender)
 //sendScore
 void TestPostGetScene::testPost4(CCObject *sender)
 {
-	GameClientManager::sharedGameClientManager()->sendScore("App1", "Fb1", 2222);
+	GameClientManager::sharedGameClientManager()->sendScore("App1", "Fb1010", 2222);
 // 	GameClientManager::sharedGameClientManager()->sendScore("App1", "Fb2", 2222);
 // 	GameClientManager::sharedGameClientManager()->sendScore("App1", "Fb3", 3333);
 // 	GameClientManager::sharedGameClientManager()->sendScore("App1", "Fb4", 4444);
@@ -140,23 +140,23 @@ void TestPostGetScene::testPost4(CCObject *sender)
 //getScore
 void TestPostGetScene::testPost5(CCObject *sender)
 {
-	GameClientManager::sharedGameClientManager()->getScore("App1", "Fb1");
+	GameClientManager::sharedGameClientManager()->getScore("App1", "Fb1010");
 }
 
 //getPlayerFbProfile
 void TestPostGetScene::testPost6(CCObject *sender)
 {
-	GameClientManager::sharedGameClientManager()->getUserProfile("Fb1");
+	GameClientManager::sharedGameClientManager()->getUserProfile("Fb1010");
 }
 
 //getDeviceProfile
 void TestPostGetScene::testPost7(CCObject *sender)
 {
-	GameClientManager::sharedGameClientManager()->getDeviceProfile("Fb1", "DeviceId1");
+	GameClientManager::sharedGameClientManager()->getDeviceProfile("Fb1010", "DeviceId1");
 }
 
 //getFriendList
 void TestPostGetScene::testPost8(CCObject *sender)
 {
-	GameClientManager::sharedGameClientManager()->getFriendList("App1", "Fb1");
+	GameClientManager::sharedGameClientManager()->getFriendList("App1", "Fb1010");
 }

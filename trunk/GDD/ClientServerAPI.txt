@@ -9,20 +9,28 @@ Callback function: Success or Error
 -------------------------------------------------------------------
 
 0.0. Get server config
-Url: "/config/multi"
+Url: "/config"
 Message:
 	"data={
 	}&method=get"
 
 Response Message:
 	"{
-		version: "1.0",
-		winScore: 3,
-		loseScore: -1,
-		diamondForSkip: 3,
-		diamondForExplusive: 1,
-		diamondForInfinite: 1,
-		connectionTimeout: 10 // second
+		"HelpExclusive":1,
+		"JewelryDraw":0,
+		"TimePackage":100,
+		"QuestionPackage":5,
+		"Jewelry20k":10,
+		"Jewelry100k":250,
+		"JewelryLose":1,
+		"HelpSkip":3,
+		"Jewelry50k":150,
+		"JewelryWin":3,
+		"LoseScore":-3,
+		"WinScore":10,
+		"Jewelry10k":50,
+		"HelpInfinite":1,
+		"PairTimeOut":5
 	}"
 
 
