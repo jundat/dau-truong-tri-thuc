@@ -127,33 +127,30 @@ void SoloGameScene::keyBackClicked()
 
 void SoloGameScene::answerCallback( CCObject* pSender )
 {
-	CCLOG("1");
 	this->unschedule(schedule_selector(SoloGameScene::scheduleClock));
-	CCLOG("2");
+	
 	CCMenuItemImage* it = (CCMenuItemImage*) pSender;
 	it->selected();
 	int tag = it->getTag();
-	CCLOG("3");
+	
 	if (tag == m_curRightAnswer)
-	{CCLOG("3.1");
+	{
 		PLAY_GET_BOMB_EFFECT;
 		m_curScore += DataManager::sharedDataManager()->GetSoloAddScore();
 		m_isRight = true;
 	}
 	else
-	{CCLOG("3.2");
+	{
 		PLAY_OUT_PORP_EFFECT;
 		m_curScore += DataManager::sharedDataManager()->GetSoloSubScore();
 		if(m_curScore < 0) m_curScore = 0;
 		m_isRight = false;
 	}
-	CCLOG("4");
+
 	animationRightChoose();
-	CCLOG("5");
 	m_lbScore->setString(CCString::createWithFormat("%d", m_curScore)->getCString());
-	CCLOG("6");
+	
 	DataManager::sharedDataManager()->SetSoloScore(m_curScore);
-	CCLOG("7");
 }
 
 void SoloGameScene::nextQuestion(CCObject* pSender)
@@ -340,7 +337,7 @@ void SoloGameScene::scheduleClock( float dt )
 	{
 		this->unschedule(schedule_selector(SoloGameScene::scheduleClock));
 
-		m_lbScore += DataManager::sharedDataManager()->GetSoloSubScore();
+		m_curScore += DataManager::sharedDataManager()->GetSoloSubScore();
 		if(m_curScore < 0) m_curScore = 0;
 		m_isRight = false;
 

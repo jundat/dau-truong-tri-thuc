@@ -32,7 +32,7 @@ THE SOFTWARE.
 #include "App.g.h"
 #include "MainPage.xaml.h"
 
-namespace HelloWorld
+namespace HelloCpp
 {
 	/// <summary>
 	/// Provides application-specific behavior to supplement the default Application class.

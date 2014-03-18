@@ -1,7 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Deployment xmlns="http://schemas.microsoft.com/windowsphone/2012/deployment" AppPlatformVersion="8.0">
   <DefaultLanguage xmlns="" code="en-US" />
-  <App xmlns="" ProductID="{2ac777ca-2d3b-41c8-98ac-b6ed1a4b0988}" Title="HelloWorld" RuntimeType="Modern Native" Version="1.0.0.0" Genre="apps.normal" Author="HelloWorld author" Description="Simple Direct3D application" Publisher="HelloWorld" PublisherID="{aeaf9128-fa87-4333-9a06-d5491093e1c3}">
+  <App xmlns="" ProductID="{2ac777ca-2d3b-41c8-98ac-b6ed1a4b0988}" Title="DauTruongTriThuc" RuntimeType="Modern Native" Version="1.0.0.0" Genre="apps.normal" Author="DauTruongTriThuc author" Description="Simple Direct3D application" Publisher="DauTruongTriThuc" PublisherID="{aeaf9128-fa87-4333-9a06-d5491093e1c3}">
     <IconPath IsRelative="true" IsResource="false">Assets\ApplicationIcon.png</IconPath>
     <Capabilities>
       <Capability Name="ID_CAP_NETWORKING" />
@@ -10,15 +10,15 @@
       <Capability Name="ID_CAP_SENSORS" />
     </Capabilities>
     <Tasks>
-      <DefaultTask Name="_default" ImagePath="HelloWorld.exe" ImageParams="" />
+      <DefaultTask Name="_default" ImagePath="DauTruongTriThuc.exe" ImageParams="" />
     </Tasks>
     <Tokens>
-      <PrimaryToken TokenID="HelloWorldToken" TaskName="_default">
+      <PrimaryToken TokenID="DauTruongTriThucToken" TaskName="_default">
         <TemplateFlip>
           <SmallImageURI IsRelative="true" IsResource="false">Assets\Tiles\FlipCycleTileSmall.png</SmallImageURI>
           <Count>0</Count>
           <BackgroundImageURI IsRelative="true" IsResource="false">Assets\Tiles\FlipCycleTileMedium.png</BackgroundImageURI>
-          <Title>HelloWorld</Title>
+          <Title>DauTruongTriThuc</Title>
           <BackContent>
           </BackContent>
           <BackBackgroundImageURI>

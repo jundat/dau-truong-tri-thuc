@@ -30,7 +30,7 @@ THE SOFTWARE.
 #include "pch.h"
 #include "MainPage.xaml.h"
 
-using namespace HelloWorld;
+using namespace HelloCpp;
 
 using namespace Platform;
 using namespace Windows::ApplicationModel;
