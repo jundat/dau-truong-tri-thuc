@@ -251,7 +251,7 @@ void NDKHelper::HandleMessage(json_t *methodName, json_t* methodParams)
     #include <jni.h>
     #define  LOG_TAG    "EasyNDK-for-cocos2dx"
 
-    #define CLASS_NAME "com/jundat/helloworld/classes/AndroidNDKHelper"
+    #define CLASS_NAME "com/jundat/dautruongtrithuc/classes/AndroidNDKHelper"
 #endif
 
 #if (CC_TARGET_PLATFORM == CC_PLATFORM_IOS)
@@ -262,7 +262,7 @@ extern "C"
 {
     #if (CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID)
     // Method for recieving NDK messages from Java, Android
-    void Java_com_jundat_helloworld_classes_AndroidNDKHelper_CPPNativeCallHandler(JNIEnv* env, jobject thiz, jstring json)
+    void Java_com_jundat_dautruongtrithuc_classes_AndroidNDKHelper_CPPNativeCallHandler(JNIEnv* env, jobject thiz, jstring json)
     {
         string jsonString = JniHelper::jstring2string(json);
         const char *jsonCharArray = jsonString.c_str();

@@ -15,7 +15,7 @@ import android.widget.TextView;
 public class AppRater {
 	
 	private final static String TAG = "APP_RATER";
-    private final static String APP_TITLE = "Đấu trường tri thức"; // "YOUR-APP-NAME";
+    private final static String APP_TITLE = "Đấu Trường Tri Thức"; // "YOUR-APP-NAME";
     private final static String APP_PNAME = "com.jundat.dautruongtrithuc"; // "com.jundat.dautruongtrithuc"; // "YOUR-PACKAGE-NAME";
     
     private final static int DAYS_UNTIL_PROMPT = 1; //3

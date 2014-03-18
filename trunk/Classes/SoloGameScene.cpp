@@ -95,7 +95,7 @@ bool SoloGameScene::init()
 
 	MY_ADD_LABELTTF( _lbClock, CCString::createWithFormat("%d", (int)m_clockCounter)->getCString(), 
 		CONF_STR(FONT_NORMAL), 64, ccBLACK, sprClock->getPosition());
-	_lbClock->setAnchorPoint(ANCHOR_MID);
+	_lbClock->setAnchorPoint(ANCHOR_CENTER);
 	m_lbClock = _lbClock;
 
 	m_menu = CCMenu::create();
@@ -120,13 +120,26 @@ bool SoloGameScene::init()
 	m_sprGameResult = _sprGameResult;
 	m_sprGameResult->setVisible(false);
 
-	CCLabelTTF* changeScore = CCLabelTTF::create("", CONF_STR(FONT_NORMAL), 48);
+	//+10 (-5)
+	CCLabelTTF* changeScore = CCLabelTTF::create("", CONF_STR(FONT_NORMAL), 120);
 	changeScore->setFontFillColor(ccBLACK);
-	changeScore->setPosition(ccp(400, m_sprGameResult->getContentSize().height * 3/4.0f));
+	changeScore->setAnchorPoint(ANCHOR_RIGHT);
+	changeScore->setPosition(ccp(380, 1280-880));
 	changeScore->setTag(1);
 	m_sprGameResult->addChild(changeScore);
 
-	MY_CREATE_MENU_ITEM(itNext, "next.png", "next.png", "next.png", SoloGameScene::nextQuestion, ccp(400, m_sprGameResult->getContentSize().height/2));
+	//Right, wrong
+	CCLabelTTF* rightWrong = CCLabelTTF::create("", CONF_STR(FONT_NORMAL), 72);
+	rightWrong->setFontFillColor(ccBLACK);
+	rightWrong->setAnchorPoint(ANCHOR_RIGHT);
+	rightWrong->setPosition(ccp(380, 1280-722));
+	rightWrong->setTag(2);
+	m_sprGameResult->addChild(rightWrong);
+
+
+
+	MY_CREATE_MENU_ITEM(itNext, "next.png", "nextDown.png", "nextDown.png", SoloGameScene::nextQuestion, ccp(400, 1280-879));
+	itNext->setAnchorPoint(ANCHOR_LEFT);
 	CCMenu* nextMenu = CCMenu::create(itNext, NULL);
 	nextMenu->setPosition(CCPointZero);
 	m_sprGameResult->addChild(nextMenu);
@@ -232,8 +245,8 @@ void SoloGameScene::initItems()
 		CONF_STR(FONT_NORMAL), 
 		48, 
 		CCSizeMake(9.0f * boxW / 10.0f, 0), 
-		CCTextAlignment::kCCTextAlignmentCenter, 
-		CCVerticalTextAlignment::kCCVerticalTextAlignmentCenter);
+		kCCTextAlignmentCenter, 
+		kCCVerticalTextAlignmentCenter);
 	m_lbQuestion->setFontFillColor(ccBLACK);
 	m_lbQuestion->setPosition(ccp(400, 1280-600));
 	this->addChild(m_lbQuestion);
@@ -420,6 +433,7 @@ void SoloGameScene::onFinishAnimationRightChoose()
 	m_sprGameResult->setVisible(true);
 	
 	CCLabelTTF* changeScore = dynamic_cast<CCLabelTTF*>(m_sprGameResult->getChildByTag(1));
+	CCLabelTTF* rightWrong = dynamic_cast<CCLabelTTF*>(m_sprGameResult->getChildByTag(2));
 
 	if (NULL != changeScore)
 	{
@@ -428,12 +442,16 @@ void SoloGameScene::onFinishAnimationRightChoose()
 			int solo_add_score = DataManager::sharedDataManager()->GetSoloAddScore();
 			CCLOG("Add score: %d", solo_add_score);
 			changeScore->setString(CCString::createWithFormat("+%d", solo_add_score)->getCString());
+			rightWrong->setString("Đúng !!!");
+			rightWrong->setFontFillColor(ccc3(0, 162, 255));
 		} 
 		else
 		{
 			int solo_sub_score = DataManager::sharedDataManager()->GetSoloSubScore();
 			CCLOG("Sub score: %d", solo_sub_score);
 			changeScore->setString(CCString::createWithFormat("%d", solo_sub_score)->getCString());
+			rightWrong->setString("Sai !!!");
+			rightWrong->setFontFillColor(ccc3(193, 0, 0));
 		}
 	}
 }
