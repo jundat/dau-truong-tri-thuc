@@ -33,6 +33,40 @@ static string MY_LIMIT_STR(string srcString, int maxlen, string addString)
 }
 
 
+static string MY_CUT_STR(string srcString, int maxWidth)
+{
+ 	int len = srcString.length();
+
+	int counter = maxWidth;
+	while (counter <= len - maxWidth)
+	{
+		while(srcString.at(counter) != ' ')
+		{
+			if (counter < len - 1)
+			{
+				counter++;
+			}
+			else
+			{
+				break;
+			}
+		}
+
+		if (counter < len)
+		{
+			srcString = srcString.insert(counter, "\n");
+			counter += maxWidth;
+		}
+		else
+		{
+			break;
+		}
+	}
+
+	return srcString;
+}
+
+
 #define MY_RELEASE(pObj) \
 do\
 {\
