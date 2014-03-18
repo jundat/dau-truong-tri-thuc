@@ -40,6 +40,8 @@ bool MoreDiamondDialog::init()
 	m_itlbInvite = itlbInvite;
 	m_itlbShare = itlbShare;
 
+	m_itlbShare->setEnabled(false);
+
 	MY_ADD_SPRITE(sprRate, "rateIcon.png", ccp(108, 1280-628));
 	MY_ADD_SPRITE(sprInvite, "inviteIcon.png", ccp(108, 1280-738));
 	MY_ADD_SPRITE(sprShare, "shareIcon.png", ccp(108, 1280-848));
