@@ -35,7 +35,7 @@ THE SOFTWARE.
 
 USING_NS_CC;
 
-using namespace HelloWorld;
+using namespace HelloCpp;
 
 using namespace Platform;
 using namespace Windows::Foundation;
@@ -52,7 +52,7 @@ MainPage::MainPage()
 
     CCEGLView* eglView = new CCEGLView();
 	eglView->Create(Window::Current->CoreWindow, SwapChainPanel);
-    eglView->setViewName("HelloWorld");
+    eglView->setViewName("HelloCpp");
     CCApplication::sharedApplication()->run();
 }
 
@@ -68,7 +68,7 @@ void MainPage::OnNextPressed(Object^ sender, RoutedEventArgs^ args)
 
 void MainPage::SaveInternalState(IPropertySet^ state)
 {
-    CCEGLView::sharedOpenGLView()->OnSuspending();
+	//m_renderer->SaveInternalState(state);
 }
 
 void MainPage::LoadInternalState(IPropertySet^ state)

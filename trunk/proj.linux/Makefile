@@ -1,4 +1,4 @@
-EXECUTABLE = HelloWorld
+EXECUTABLE = DauTruongTriThuc
 
 INCLUDES = -I.. -I../Classes
 
