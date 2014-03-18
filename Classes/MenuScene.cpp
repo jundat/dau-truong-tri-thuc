@@ -86,7 +86,7 @@ bool MenuScene::init()
 	MY_CREATE_MENU_ITEM(itGuide, 
 		"ImgMenuGuide.png", 
 		"ImgMenuGuideDown.png", 
-		"ImgMenuFacebookDown.png", 
+		"ImgMenuGuideDown.png", 
 		MenuScene::guideCallback, 
 		ccp(475, 1280-1000));
 	m_menu->addChild(itGuide);

@@ -127,29 +127,33 @@ void SoloGameScene::keyBackClicked()
 
 void SoloGameScene::answerCallback( CCObject* pSender )
 {
+	CCLOG("1");
 	this->unschedule(schedule_selector(SoloGameScene::scheduleClock));
-
+	CCLOG("2");
 	CCMenuItemImage* it = (CCMenuItemImage*) pSender;
 	it->selected();
 	int tag = it->getTag();
-
+	CCLOG("3");
 	if (tag == m_curRightAnswer)
-	{
+	{CCLOG("3.1");
 		PLAY_GET_BOMB_EFFECT;
 		m_curScore += DataManager::sharedDataManager()->GetSoloAddScore();
 		m_isRight = true;
 	}
 	else
-	{
+	{CCLOG("3.2");
 		PLAY_OUT_PORP_EFFECT;
 		m_curScore += DataManager::sharedDataManager()->GetSoloSubScore();
 		if(m_curScore < 0) m_curScore = 0;
 		m_isRight = false;
 	}
-
+	CCLOG("4");
 	animationRightChoose();
+	CCLOG("5");
 	m_lbScore->setString(CCString::createWithFormat("%d", m_curScore)->getCString());
+	CCLOG("6");
 	DataManager::sharedDataManager()->SetSoloScore(m_curScore);
+	CCLOG("7");
 }
 
 void SoloGameScene::nextQuestion(CCObject* pSender)
@@ -210,7 +214,10 @@ void SoloGameScene::initRandomLevel(int number)
 	
 	if (ld != NULL)
 	{
-		m_lbQuestion->setString(ld->m_quest.c_str());
+		string quest = string(ld->m_quest);
+		quest = MY_CUT_STR(quest, 20);
+
+		m_lbQuestion->setString(quest.c_str());
 		m_curRightAnswer = ld->m_right; //0 -> 3
 
 		for (int i = 0; i < 4; ++i)
@@ -373,11 +380,15 @@ void SoloGameScene::onFinishAnimationRightChoose()
 	{
 		if (m_isRight)
 		{
-			changeScore->setString(CCString::createWithFormat("+%d", DataManager::sharedDataManager()->GetSoloAddScore())->getCString());
+			int solo_add_score = DataManager::sharedDataManager()->GetSoloAddScore();
+			CCLOG("Add score: %d", solo_add_score);
+			changeScore->setString(CCString::createWithFormat("+%d", solo_add_score)->getCString());
 		} 
 		else
 		{
-			changeScore->setString(CCString::createWithFormat("%d", DataManager::sharedDataManager()->GetSoloSubScore())->getCString());
+			int solo_sub_score = DataManager::sharedDataManager()->GetSoloSubScore();
+			CCLOG("Sub score: %d", solo_sub_score);
+			changeScore->setString(CCString::createWithFormat("%d", solo_sub_score)->getCString());
 		}
 	}
 }
