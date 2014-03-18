@@ -8,7 +8,38 @@
 
 USING_NS_CC;
 
+static string cutstring(string srcString, int maxWidth)
+{
+	int len = srcString.length();
 
+	int counter = maxWidth;
+	while (counter <= len - maxWidth)
+	{
+		while(srcString.at(counter) != ' ')
+		{
+			if (counter < len - 1)
+			{
+				counter++;
+			}
+			else
+			{
+				break;
+			}
+		}
+
+		if (counter < len)
+		{
+			srcString = srcString.insert(counter, "*\n");
+			counter += maxWidth;
+		}
+		else
+		{
+			break;
+		}
+	}
+
+	return srcString;
+}
 
 CCScene* SoloGameScene::scene()
 {
@@ -180,12 +211,32 @@ void SoloGameScene::nextQuestion(CCObject* pSender)
 void SoloGameScene::initItems()
 {
 	MY_ADD_SPRITE(sprQuest, "question.png", ccp(400, 1280-537));
+
+	int boxW = 774;
+
+	CCScale9Sprite* quesContent = CCScale9Sprite::create("dialog.png");
+	quesContent->setPosition(ccp(400, 588));
+	quesContent->setContentSize(CCSizeMake(boxW, 412));
+	this->addChild(quesContent, -2);
+
+	CCScale9Sprite* quesNumber = CCScale9Sprite::create("dialog.png");
+	quesNumber->setPosition(ccp(400, 345));
+	quesNumber->setContentSize(CCSizeMake(390, 128));
+	this->addChild(quesNumber, -2);
+
 	
 	MY_ADD_LABELTTF( _lbNumber, "", CONF_STR(FONT_NORMAL), 64, ccBLACK, ccp(400, 1280-340));
 	m_lbNumber = _lbNumber;
 
-	MY_ADD_LABELTTF( _lbQuestion, "", CONF_STR(FONT_NORMAL), 48, ccBLACK, ccp(400, 1280-600) );
-	m_lbQuestion = _lbQuestion;
+	m_lbQuestion = CCLabelTTF::create("", 
+		CONF_STR(FONT_NORMAL), 
+		48, 
+		CCSizeMake(9.0f * boxW / 10.0f, 0), 
+		CCTextAlignment::kCCTextAlignmentCenter, 
+		CCVerticalTextAlignment::kCCVerticalTextAlignmentCenter);
+	m_lbQuestion->setFontFillColor(ccBLACK);
+	m_lbQuestion->setPosition(ccp(400, 1280-600));
+	this->addChild(m_lbQuestion);
 
 	for (int i = 0; i < 4; ++i)
 	{
@@ -211,16 +262,13 @@ void SoloGameScene::initRandomLevel(int number)
 	
 	if (ld != NULL)
 	{
-		string quest = string(ld->m_quest);
-		quest = MY_CUT_STR(quest, 20);
-
-		m_lbQuestion->setString(quest.c_str());
+		m_lbQuestion->setString(ld->m_quest.c_str());
 		m_curRightAnswer = ld->m_right; //0 -> 3
-
-		for (int i = 0; i < 4; ++i)
-		{
-			m_lbAnswers[i]->setString(ld->m_arrChoice[i].c_str());
-		}
+		
+		m_lbAnswers[0]->setString(string("A. ").append(ld->m_arrChoice[0].c_str()).c_str());
+		m_lbAnswers[1]->setString(string("B. ").append(ld->m_arrChoice[1].c_str()).c_str());
+		m_lbAnswers[2]->setString(string("C. ").append(ld->m_arrChoice[2].c_str()).c_str());
+		m_lbAnswers[3]->setString(string("D. ").append(ld->m_arrChoice[3].c_str()).c_str());
 	} 
 	else
 	{
