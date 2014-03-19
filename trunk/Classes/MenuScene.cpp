@@ -107,8 +107,11 @@ bool MenuScene::init()
 		"facebookDown.png",
 		MenuScene::facebookCallback, 
 		ccp(622, 1280-1220));
-	m_menu->addChild(itFacebook);
+	m_itFacbook = itFacebook;
+	m_itFacbook->setVisible(false);
+	m_menu->addChild(m_itFacbook);
 
+	checkLogIn(NULL);
 
 	CCMenuItem* soundOn = CCMenuItemImage::create("sound_on.png", NULL, NULL);
 	CCMenuItem* soundOff = CCMenuItemImage::create("sound_off.png", NULL, NULL);
@@ -180,7 +183,7 @@ void MenuScene::scoreCallback( CCObject* pSender )
 void MenuScene::moreDiamondCallback( CCObject* pSender )
 {
 	PLAY_BUTTON_EFFECT;
-
+	
 	MoreDiamondDialog* dialog = MoreDiamondDialog::create();
 	this->addChild(dialog, 10);
 	this->onShowDialog();
@@ -361,13 +364,13 @@ void MenuScene::onGetAvatarCompleted( CCNode* pSender, void *data )
 		if (s->boolValue())
 		{
 			CCLOG("CPP Get Avatar Completed: TRUE");
+			DataManager::sharedDataManager()->SetFbIsLogIn(false);
 
+			m_itFacbook->runAction(CCFadeOut::create(0.5f));
+			
 			CCString* path = (CCString*)convertedData->objectForKey("path");
 
 			DataManager::sharedDataManager()->SetFbPhotoPath(path->getCString());
-
-			//show ways to get more diamond
-			moreDiamondCallback(NULL);
 		} 
 		else
 		{
@@ -400,4 +403,49 @@ void MenuScene::onGetAvatarCompleted( CCNode* pSender, void *data )
 
 		NDKHelper::RemoveSelector("MENU", "onGetAvatarCompleted");
 	}
+}
+
+void MenuScene::onCheckLogInCompleted( CCNode *sender, void *data )
+{
+	CCLOG("onCheckLogInCompleted");
+	if (data != NULL)
+	{
+		CCDictionary *convertedData = (CCDictionary *)data;
+		CCString* s = (CCString*)convertedData->objectForKey("isSuccess");
+		if (s->boolValue())
+		{
+			CCLOG("CPP Check Log In Completed: TRUE");
+
+			bool isLogIn = ((CCString*)convertedData->objectForKey("isLogIn"))->boolValue();
+			DataManager::sharedDataManager()->SetFbIsLogIn(isLogIn);
+
+			if (isLogIn)
+			{
+				CCLOG("IS LOG IN");
+				m_itFacbook->setVisible(false);
+			} 
+			else
+			{
+				CCLOG("IS --NOT-- LOG IN");
+				m_itFacbook->setVisible(true);
+			}
+		} 
+		else
+		{
+			CCLOG("CPP Check Log In Completed: FALSE");
+			m_itFacbook->setVisible(true);
+			DataManager::sharedDataManager()->SetFbIsLogIn(false);
+		}
+
+		NDKHelper::RemoveSelector("MENU", "onCheckLogInCompleted");
+	}
+}
+
+void MenuScene::checkLogIn( CCObject* pSender )
+{
+	NDKHelper::AddSelector("MENU",
+		"onCheckLogInCompleted",
+		callfuncND_selector(MenuScene::onCheckLogInCompleted),
+		this);
+	SendMessageWithParams(string("CheckLogIn"), NULL);
 }

@@ -3,6 +3,7 @@
 
 #include "cocos2d.h"
 #include "cocos-ext.h"
+#include "NDKHelper/NDKHelper.h"
 
 #include <algorithm>
 
@@ -19,6 +20,11 @@ public:
 	void menuCallback(CCObject* pSender);
 	virtual void keyBackClicked();
 	void onSendRequestCompleted(CCHttpClient *sender, CCHttpResponse *response);
+
+	void loginFacebook( CCObject* pSender );
+	void onLogInCompleted(CCNode *sender, void *data);
+	void onGetProfileCompleted( CCNode *sender, void *data );
+	void onGetAvatarCompleted( CCNode* pSender, void *data );
 };
 
 #endif // __SCORE_SCENE_H__
