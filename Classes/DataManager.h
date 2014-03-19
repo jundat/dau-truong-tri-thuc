@@ -47,7 +47,7 @@ public:
 
 	//////////////////////////////////////////////////////////////////////////
 	//Facebook
-
+	MY_GETSET_BOOL_FUNC(FbIsLogIn, "FB_IS_LOG_IN", false);
 	MY_GETSET_STR_FUNC(FbPhotoPath, "FB_PHOTO_PATH", std::string(""));
 	MY_GETSET_STR_FUNC(FbID, "FB_ID", std::string(""));
 	MY_GETSET_STR_FUNC(FbUserName, "FB_USERNAME", std::string(""));

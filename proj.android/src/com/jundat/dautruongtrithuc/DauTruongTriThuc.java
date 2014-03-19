@@ -35,7 +35,20 @@ import android.os.Bundle;
 public class DauTruongTriThuc extends Cocos2dxActivity
 {
     JNIFacebookFunctions jni;
-    
+
+	
+	@Override
+	public void onPause() {
+	    super.onPause();
+	    jni.onPause();
+	}
+
+	@Override
+	public void onDestroy() {
+	    super.onDestroy();
+	    jni.onDestroy();
+	}
+	
     @Override
     public void onResume() {
         super.onResume();
@@ -53,7 +66,16 @@ public class DauTruongTriThuc extends Cocos2dxActivity
         super.onCreate(savedInstanceState);
 
         jni = new JNIFacebookFunctions(this);
+        jni.onCreate(savedInstanceState);
 	}
+    
+
+	@Override
+	protected void onSaveInstanceState(Bundle outState) {
+	    super.onSaveInstanceState(outState);
+	    jni.onSaveInstanceState(outState);
+	}
+
     
     public Cocos2dxGLSurfaceView onCreateView() {
     	Cocos2dxGLSurfaceView glSurfaceView = new Cocos2dxGLSurfaceView(this);

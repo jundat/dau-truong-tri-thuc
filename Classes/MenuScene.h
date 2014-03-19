@@ -16,6 +16,7 @@ public:
 
 public:
 	CCMenu* m_menu;
+	CCMenuItemImage* m_itFacbook;
 
 public:
 	
@@ -30,11 +31,13 @@ public:
 	void settingCallback(CCObject* pSender);
 	void soundCallback(CCObject* pSender);
 	void facebookCallback(CCObject* pSender);
-
+	void checkLogIn(CCObject* pSender);
 
 	void onLogInCompleted(CCNode *sender, void *data);
 	void onGetProfileCompleted( CCNode *sender, void *data );
 	void onGetAvatarCompleted( CCNode* pSender, void *data );
+
+	void onCheckLogInCompleted(CCNode *sender, void *data);
 };
 
 #endif // __MENU_SCENE_H__
