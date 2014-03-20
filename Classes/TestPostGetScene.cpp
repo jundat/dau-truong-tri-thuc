@@ -26,6 +26,7 @@ bool TestPostGetScene::init()
 	// testSendPlayerProfile
 	CCLabelTTF *labelPost1 = CCLabelTTF::create("Send Profile", "Arial", 48);
 	labelPost1->setFontFillColor(ccc3(0,0,0));
+	labelPost1->setColor(ccc3(0,0,0));
 	CCMenuItemLabel *itemPost1 = CCMenuItemLabel::create(labelPost1, this, menu_selector(TestPostGetScene::testPost1));
 	itemPost1->setAnchorPoint(ccp(0.0f, 0.5f));
 	itemPost1->setPosition(ccp(20, 1220));
@@ -34,6 +35,7 @@ bool TestPostGetScene::init()
 	// testSendPlayerProfile
 	CCLabelTTF *labelPost2 = CCLabelTTF::create("Send Friend List", "Arial", 48);
 	labelPost2->setFontFillColor(ccc3(0,0,0));
+	labelPost2->setColor(ccc3(0,0,0));
 	CCMenuItemLabel *itemPost2 = CCMenuItemLabel::create(labelPost2, this, menu_selector(TestPostGetScene::testPost2));
 	itemPost2->setAnchorPoint(ccp(0.0f, 0.5f));
 	itemPost2->setPosition(ccp(20, 1160));
@@ -41,6 +43,7 @@ bool TestPostGetScene::init()
 
 	CCLabelTTF *labelPost3 = CCLabelTTF::create("Send Device", "Arial", 48);
 	labelPost3->setFontFillColor(ccc3(0,0,0));
+	labelPost3->setColor(ccc3(0,0,0));
 	CCMenuItemLabel *itemPost3 = CCMenuItemLabel::create(labelPost3, this, menu_selector(TestPostGetScene::testPost3));
 	itemPost3->setAnchorPoint(ccp(0.0f, 0.5f));
 	itemPost3->setPosition(ccp(20, 1100));
@@ -48,6 +51,7 @@ bool TestPostGetScene::init()
 
 	CCLabelTTF *labelPost4 = CCLabelTTF::create("Send Score", "Arial", 48);
 	labelPost4->setFontFillColor(ccc3(0,0,0));
+	labelPost4->setColor(ccc3(0,0,0));
 	CCMenuItemLabel *itemPost4 = CCMenuItemLabel::create(labelPost4, this, menu_selector(TestPostGetScene::testPost4));
 	itemPost4->setAnchorPoint(ccp(0.0f, 0.5f));
 	itemPost4->setPosition(ccp(20, 1040));
@@ -55,6 +59,7 @@ bool TestPostGetScene::init()
 
 	CCLabelTTF *labelPost5 = CCLabelTTF::create("Get Score", "Arial", 48);
 	labelPost5->setFontFillColor(ccc3(0,0,0));
+	labelPost5->setColor(ccc3(0,0,0));
 	CCMenuItemLabel *itemPost5 = CCMenuItemLabel::create(labelPost5, this, menu_selector(TestPostGetScene::testPost5));
 	itemPost5->setAnchorPoint(ccp(0.0f, 0.5f));
 	itemPost5->setPosition(ccp(20, 980));
@@ -62,6 +67,7 @@ bool TestPostGetScene::init()
 
 	CCLabelTTF *labelPost6 = CCLabelTTF::create("Get Profile", "Arial", 48);
 	labelPost6->setFontFillColor(ccc3(0,0,0));
+	labelPost6->setColor(ccc3(0,0,0));
 	CCMenuItemLabel *itemPost6 = CCMenuItemLabel::create(labelPost6, this, menu_selector(TestPostGetScene::testPost6));
 	itemPost6->setAnchorPoint(ccp(0.0f, 0.5f));
 	itemPost6->setPosition(ccp(20, 920));
@@ -69,6 +75,7 @@ bool TestPostGetScene::init()
 // 
 	CCLabelTTF *labelPost7 = CCLabelTTF::create("Get Device", "Arial", 48);
 	labelPost7->setFontFillColor(ccc3(0,0,0));
+	labelPost7->setColor(ccc3(0,0,0));
 	CCMenuItemLabel *itemPost7 = CCMenuItemLabel::create(labelPost7, this, menu_selector(TestPostGetScene::testPost7));
 	itemPost7->setAnchorPoint(ccp(0.0f, 0.5f));
 	itemPost7->setPosition(ccp(20, 860));
@@ -77,6 +84,7 @@ bool TestPostGetScene::init()
 
 	CCLabelTTF *labelPost8 = CCLabelTTF::create("Get Friend List", "Arial", 48);
 	labelPost8->setFontFillColor(ccc3(0,0,0));
+	labelPost8->setColor(ccc3(0,0,0));
 	CCMenuItemLabel *itemPost8 = CCMenuItemLabel::create(labelPost8, this, menu_selector(TestPostGetScene::testPost8));
 	itemPost8->setAnchorPoint(ccp(0.0f, 0.5f));
 	itemPost8->setPosition(ccp(20, 800));
@@ -92,7 +100,7 @@ bool TestPostGetScene::init()
 //user profile
 void TestPostGetScene::testPost1(CCObject *sender)
 {
-	GameClientManager::sharedGameClientManager()->sendUserProfile("Fb1010", "PhamLong", "PhamLong@gmail.com");
+	GameClientManager::sharedGameClientManager()->sendUserProfile("Fb1011", "PhamLong", "PhamLong@gmail.com");
 // 	GameClientManager::sharedGameClientManager()->sendPlayerFbProfile("Fb2", "DinhDung", "DinhDung@gmail.com");
 // 	GameClientManager::sharedGameClientManager()->sendPlayerFbProfile("Fb3", "BuiHieu", "BuiHieu@gmail.com");
 // 	GameClientManager::sharedGameClientManager()->sendPlayerFbProfile("Fb4", "DangTran", "DangTran@gmail.com");
@@ -129,7 +137,7 @@ void TestPostGetScene::testPost3(CCObject *sender)
 //sendScore
 void TestPostGetScene::testPost4(CCObject *sender)
 {
-	GameClientManager::sharedGameClientManager()->sendScore("App1", "Fb1010", 2222);
+	GameClientManager::sharedGameClientManager()->sendScore("App1", "Fb1010", 33333);
 // 	GameClientManager::sharedGameClientManager()->sendScore("App1", "Fb2", 2222);
 // 	GameClientManager::sharedGameClientManager()->sendScore("App1", "Fb3", 3333);
 // 	GameClientManager::sharedGameClientManager()->sendScore("App1", "Fb4", 4444);

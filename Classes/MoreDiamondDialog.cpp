@@ -104,7 +104,6 @@ void MoreDiamondDialog::shareCallback( CCObject* pSender )
 		callfuncND_selector(MoreDiamondDialog::onPublishFeedCompleted),
 		this);
 
-	string withDialog = "true";
 	string message = "Game này được, có bạn chơi cùng thì khỏi chê!";
 	string name = "The Croods";
 	string caption = "Thánh thức cùng bạn bè";
@@ -113,7 +112,6 @@ void MoreDiamondDialog::shareCallback( CCObject* pSender )
 	string link = "https://play.google.com/store/apps/details?id=com.supercell.hayday";
 	
 	CCDictionary* prms = CCDictionary::create();
-	prms->setObject(CCString::create(withDialog), "withDialog");
 	prms->setObject(CCString::create(message), "message");
 	prms->setObject(CCString::create(name), "name");
 	prms->setObject(CCString::create(caption), "caption");

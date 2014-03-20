@@ -8,39 +8,6 @@
 
 USING_NS_CC;
 
-static string cutstring(string srcString, int maxWidth)
-{
-	int len = srcString.length();
-
-	int counter = maxWidth;
-	while (counter <= len - maxWidth)
-	{
-		while(srcString.at(counter) != ' ')
-		{
-			if (counter < len - 1)
-			{
-				counter++;
-			}
-			else
-			{
-				break;
-			}
-		}
-
-		if (counter < len)
-		{
-			srcString = srcString.insert(counter, "*\n");
-			counter += maxWidth;
-		}
-		else
-		{
-			break;
-		}
-	}
-
-	return srcString;
-}
-
 CCScene* SoloGameScene::scene()
 {
     CCScene *scene = CCScene::create();
@@ -123,6 +90,7 @@ bool SoloGameScene::init()
 	//+10 (-5)
 	CCLabelTTF* changeScore = CCLabelTTF::create("", CONF_STR(FONT_NORMAL), 120);
 	changeScore->setFontFillColor(ccBLACK);
+	changeScore->setColor(ccBLACK);
 	changeScore->setAnchorPoint(ANCHOR_RIGHT);
 	changeScore->setPosition(ccp(380, 1280-880));
 	changeScore->setTag(1);
@@ -131,6 +99,7 @@ bool SoloGameScene::init()
 	//Right, wrong
 	CCLabelTTF* rightWrong = CCLabelTTF::create("", CONF_STR(FONT_NORMAL), 72);
 	rightWrong->setFontFillColor(ccBLACK);
+	rightWrong->setColor(ccBLACK);
 	rightWrong->setAnchorPoint(ANCHOR_RIGHT);
 	rightWrong->setPosition(ccp(380, 1280-722));
 	rightWrong->setTag(2);
@@ -248,6 +217,7 @@ void SoloGameScene::initItems()
 		kCCTextAlignmentCenter, 
 		kCCVerticalTextAlignmentCenter);
 	m_lbQuestion->setFontFillColor(ccBLACK);
+	m_lbQuestion->setColor(ccBLACK);
 	m_lbQuestion->setPosition(ccp(400, 1280-600));
 	this->addChild(m_lbQuestion);
 
@@ -263,6 +233,7 @@ void SoloGameScene::initItems()
 	{
 		m_lbAnswers[i] = CCLabelTTF::create("", CONF_STR(FONT_NORMAL), 48);
 		m_lbAnswers[i]->setFontFillColor(ccBLACK);
+		m_lbAnswers[i]->setColor(ccBLACK);
 		m_lbAnswers[i]->setAnchorPoint(ANCHOR_LEFT);
 		m_lbAnswers[i]->setPosition(ccp(140, 1280-840 - i*94));
 		this->addChild(m_lbAnswers[i]);
@@ -444,6 +415,7 @@ void SoloGameScene::onFinishAnimationRightChoose()
 			changeScore->setString(CCString::createWithFormat("+%d", solo_add_score)->getCString());
 			rightWrong->setString("Đúng !!!");
 			rightWrong->setFontFillColor(ccc3(0, 162, 255));
+			rightWrong->setColor(ccc3(0, 162, 255));
 		} 
 		else
 		{
@@ -452,6 +424,7 @@ void SoloGameScene::onFinishAnimationRightChoose()
 			changeScore->setString(CCString::createWithFormat("%d", solo_sub_score)->getCString());
 			rightWrong->setString("Sai !!!");
 			rightWrong->setFontFillColor(ccc3(193, 0, 0));
+			rightWrong->setColor(ccc3(193, 0, 0));
 		}
 	}
 }

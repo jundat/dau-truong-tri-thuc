@@ -73,7 +73,7 @@ bool AppDelegate::applicationDidFinishLaunching() {
 	}
 	else
 	{
-		pScene = TestPostGetScene::scene(); // TestAndroidFacebookScene::scene(); // MenuScene::scene(); // TestPostGetScene::scene(); // IntroScene::scene(); //  MenuScene::scene(); //  MainGameScene::scene(); //
+		pScene = MenuScene::scene(); // TestAndroidFacebookScene::scene(); // TestPostGetScene::scene(); // IntroScene::scene(); //  MenuScene::scene(); //  MainGameScene::scene(); //
 	}
 
 	pDirector->runWithScene(pScene);

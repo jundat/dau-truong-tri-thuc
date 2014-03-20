@@ -176,6 +176,7 @@ public: void Set##funName(bool var) {\
 #define MY_ADD_MENU_ITEM_LABEL(itName, str, fontName, fontSize, color, callbackFunc, anchor, position)\
 	CCLabelTTF* lb##itName = CCLabelTTF::create(str, fontName, fontSize);\
 	lb##itName->setFontFillColor(color);\
+	lb##itName->setColor(color);\
 	CCMenuItemLabel* itName = CCMenuItemLabel::create(lb##itName, this, menu_selector(callbackFunc));\
 	itName->setAnchorPoint(anchor);\
 	itName->setPosition(position);\
@@ -186,6 +187,7 @@ public: void Set##funName(bool var) {\
 #define MY_CREATE_MENU_ITEM_LABEL(itName, str, fontName, fontSize, color, callbackFunc, anchor, position)\
 	CCLabelTTF* lb##itName = CCLabelTTF::create(str, fontName, fontSize);\
 	lb##itName->setFontFillColor(color);\
+	lb##itName->setColor(color);\
 	CCMenuItemLabel* itName = CCMenuItemLabel::create(lb##itName, this, menu_selector(callbackFunc));\
 	itName->setAnchorPoint(anchor);\
 	itName->setPosition(position);
@@ -212,12 +214,14 @@ public: void Set##funName(bool var) {\
 #define MY_ADD_LABELTTF(lbName, str, fontName, fontSize, color, position)\
 	CCLabelTTF* lbName = CCLabelTTF::create(str, fontName, fontSize);\
 	lbName->setFontFillColor(color);\
+	lbName->setColor(color);\
 	lbName->setPosition(position);\
 	this->addChild(lbName);
 
 #define MY_CREATE_LABELTTF(lbName, str, fontName, fontSize, color, position)\
 	CCLabelTTF* lbName = CCLabelTTF::create(str, fontName, fontSize);\
 	lbName->setFontFillColor(color);\
+	lbName->setColor(color);\
 	lbName->setPosition(position);
 
 

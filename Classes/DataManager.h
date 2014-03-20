@@ -83,7 +83,6 @@ public:
 	MY_GETSET_INT_FUNC(WarNumberOfLose, "WAR_NUMBER_OF_LOSE", 0);
 
 
-	~DataManager(void);
 };
 
 #endif

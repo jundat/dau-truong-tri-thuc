@@ -218,11 +218,13 @@ Response Message:
 		[
 			{
 				user: "Anh Hieu Dep Trai",
+				score: 100,
 				order: 1
 			},
 			
 			{
 				user: "Cu Long De",
+				score: 20,
 				order: 2
 			},
 			

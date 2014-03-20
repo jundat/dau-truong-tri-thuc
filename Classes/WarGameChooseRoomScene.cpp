@@ -78,7 +78,7 @@ bool WarGameChooseRoomScene::init()
 
 void WarGameChooseRoomScene::onEnterTransitionDidFinish()
 {
-	MY_SEND_REQUEST(CONF_STR(URL_SUBJECT), this, WarGameChooseRoomScene::onGetSubjectListCompleted, "");
+	MY_SEND_REQUEST(CONF_STR(URL_SUBJECT), this, WarGameChooseRoomScene::onGetSubjectListCompleted, "data={}&method=get");
 }
 
 void WarGameChooseRoomScene::menuCallback(CCObject* pSender)
