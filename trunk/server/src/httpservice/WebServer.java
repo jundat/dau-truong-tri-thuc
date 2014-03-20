@@ -66,10 +66,10 @@ public class WebServer {
         
         // Handler question response
         handler.addServletWithMapping("webservlet.SubjectController", "/subject");
-//        
-//        // Handler user game multi
-//        handler.addServletWithMapping("webservlet.JoinGame", "/game/join");
-//        
+        
+        // Handler user game multi
+        handler.addServletWithMapping("webservlet.GamePairerController", "/join");
+
 //        // Handler leaderboard
         handler.addServletWithMapping("webservlet.SingleReportController", "/report/single");
 //        handler.addServletWithMapping("webservlet.ReportMulti", "/report/multi");

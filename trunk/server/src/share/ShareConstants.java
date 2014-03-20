@@ -68,4 +68,5 @@ public class ShareConstants {
     public static String TABLE_SINGLERESULT =   "SINGLERESULT";
     public static String TABLE_MULTIRESULT  =   "MULTIRESULT";
     public static String TABLE_SUBJECT      =   "SUBJECT";
+    public static String TABLE_QUESTION     =   "QUESTION";
 }
