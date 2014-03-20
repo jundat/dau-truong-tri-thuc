@@ -120,12 +120,13 @@ public class JNIFacebookFunctions implements AsyncListener {
 	            if (didComplete) {
 	            	Log.i("SHARE_DIALOG", "didComplete = true");
 		            String completionGesture = FacebookDialog.getNativeDialogCompletionGesture(data);
-		            if (completionGesture == "post") {
-		            	Log.i("SHARE_DIALOG", "completionGesture == post");
+	            	Log.i("SHARE_DIALOG", "completionGesture == " + completionGesture);
+		            if (completionGesture.contains("post")) {
+		            	Log.i("SHARE_DIALOG", "SUCCESS");
 		            	String postId = FacebookDialog.getNativeDialogPostId(data);
-		            	sendPublishFeedback(true, postId);		            	
+		            	sendPublishFeedback(true, postId);
 					} else { //cancel
-		            	Log.i("SHARE_DIALOG", "completionGesture == cancel");
+		            	Log.i("SHARE_DIALOG", "ERROR");
 						sendPublishFeedback(false, "");
 					}
 				} else {
