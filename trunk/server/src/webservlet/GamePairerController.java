@@ -5,6 +5,7 @@
 package webservlet;
 
 import java.io.IOException;
+import java.io.PrintWriter;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -25,6 +26,11 @@ public class GamePairerController extends webservlet.ServerServlet{
     }
 
     private void doProcess(HttpServletRequest req, HttpServletResponse resp) throws IOException {
-        GamePairer.getInstance().join(req, resp);
+        String resultStr    =   GamePairer.getInstance().join(req, resp);
+        try ( PrintWriter pw    =   resp.getWriter() )
+        {
+            pw.println( resultStr );
+            pw.flush();
+        }
     }
 }

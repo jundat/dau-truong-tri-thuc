@@ -4,6 +4,7 @@
  */
 package entities;
 
+import model.QuestionModel;
 import model.UserModel;
 
 /**
@@ -12,9 +13,10 @@ import model.UserModel;
  */
 public class WaittingUser {
     
-    private UserModel pairer;
+    private WaittingUser pairer;
     private UserModel me;
     private Boolean isOrdered;
+    private QuestionModel questionPackage;
     
     public WaittingUser( UserModel me )
     {
@@ -22,15 +24,31 @@ public class WaittingUser {
         this.me     =   me;
     }
     
-    synchronized public Boolean orderMe( UserModel user )
+    synchronized public Boolean orderMe( WaittingUser user )
     {
-        if( isOrdered )
+        if( !isOrdered )
         {
             isOrdered   =   true;
             this.pairer =   user;
             return true;
         }
         return false;
+    }
+    
+    synchronized public void setQuestionPackage( QuestionModel questionModel ) {
+        if( this.questionPackage == null )
+        {
+            this.questionPackage    =   questionModel;
+            System.out.println( me.uid + " has binary " + this.toString() + " ----> set question package has " + this.questionPackage.questions.size() + " sentences" );
+        }
+    }
+    
+    public QuestionModel getQuestionPackage() {
+        return this.questionPackage;
+    }
+    
+    synchronized public Boolean hasQuestionPackage() {
+        return ( this.questionPackage != null );
     }
     
     public Boolean hasOrder()
@@ -43,7 +61,7 @@ public class WaittingUser {
         return me;
     }
     
-    public UserModel getPairer()
+    public WaittingUser getPairer()
     {
         return pairer;
     }

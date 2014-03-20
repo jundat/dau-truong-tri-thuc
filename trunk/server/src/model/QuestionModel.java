@@ -20,7 +20,7 @@ import share.ShareConstants;
  */
 public class QuestionModel implements BaseModel{
 
-    List<Question>  questions   =   new ArrayList<>();
+    public List<Question>  questions   =   new ArrayList<>();
     
     public QuestionModel() {
     }
@@ -63,7 +63,7 @@ public class QuestionModel implements BaseModel{
         return strResult;
     }
     
-    public void randomQuestionWithSubject( String subjectId ) {
+    synchronized public void randomQuestionWithSubject( String subjectId ) {
         
         // Get subject info
         Subject subj    =   SubjectModel.getInstance().getSubjectInfo(subjectId);
@@ -73,12 +73,19 @@ public class QuestionModel implements BaseModel{
             List<String> randomQuestIds     =   new ArrayList<>();
             int numberQuestionInSubj        =   subj.getNumberSentence();
             String commandWhere =   "";
+            List<Integer> ints      =   new ArrayList<>();
             for( int i = 0; i < nQuestion; ++i ) {
-                int randomInt   =   (int)( Math.random() * numberQuestionInSubj );
-                String rand     =   subjectId + String.valueOf( randomInt );
+                // Make sure not repeat question
+                int randomInt   =   1;
+                do {
+                     randomInt  =   (int)( Math.random() * (numberQuestionInSubj - 1) + 1 );
+                } while( ints.contains(randomInt) );
+                ints.add( randomInt );
+                
+                String rand     =   subj.getPrefix()+ "_" + String.valueOf( randomInt );
                 randomQuestIds.add( rand );
                 
-                commandWhere    +=  " questionid = " + rand;
+                commandWhere    +=  " questionid = \'" + rand + "\'";
                 if( i < (nQuestion - 1) )
                 {
                     commandWhere    +=  " OR ";
@@ -105,5 +112,6 @@ public class QuestionModel implements BaseModel{
                 }
             }
         }
+        System.out.println( "QuestionModel: create package--> " + this.questions.size());
     }
 }

@@ -4,6 +4,7 @@
  */
 package model;
 
+import entities.Question;
 import entities.WaittingUser;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -55,29 +56,46 @@ public class GamePairer {
      * return: data info of pairer
      */
     public String join( HttpServletRequest req, HttpServletResponse resp ) throws IOException {
+        // Final result
+        String resultStr            =   "";
+        
         // Data info of pairer
-        String pairerStr  =  "";
+        String pairerStr            =  "";
         
         String dataStr  =   req.getParameter( ShareConstants.DATA );
         Map<String, String> mData   =   (Map<String, String>) JSONValue.parse(dataStr);
+        String subjectId            =   "";
+        String uid                  =   "";
+            
+        // Random question
+        QuestionModel questionModel =   new QuestionModel();
+        System.out.println( "Create package with " + questionModel.questions.size() + " question");
+        
         if( mData != null )
         {
-            String subjectId        =   mData.get( "subjectId" );
-            String uid              =   mData.get( ShareConstants.FID );
-            
+            subjectId               =   mData.get( "subjectId" );
+            uid                     =   mData.get( ShareConstants.FID );
             UserModel um            =   new UserModel();
             um.uid                  =   uid;
             um.getData();
             
+            // Random question
+            questionModel.randomQuestionWithSubject(subjectId);
+            
             // Empty list for this subject
             List<WaittingUser> waits    =   waittingUsers.get( subjectId );
-            final WaittingUser waitU          =   new WaittingUser( um );
+            final WaittingUser waitU    =   new WaittingUser( um );
             if( waits.size() > 0 ) {
                 for( int i = 0; !waitU.hasOrder() && i < waits.size(); ++i ) {
                     WaittingUser pairer = waittingUsers.get( subjectId ).get(i);
                     if( !pairer.hasOrder() ) {
-                        waitU.orderMe( pairer.getMe() );
-                        pairer.orderMe( um );
+                        waitU.orderMe( pairer );
+                        pairer.orderMe( waitU );
+                        if( !waitU.hasQuestionPackage() )
+                        {
+                            waitU.setQuestionPackage( questionModel );
+                            waitU.getPairer().setQuestionPackage( questionModel );
+                        }
                     }
                 }
             }
@@ -104,8 +122,14 @@ public class GamePairer {
                             if( !pairer.hasOrder() )
                             {
                                 // Book this one
-                                waitU.orderMe( pairer.getMe() );
-                                pairer.orderMe( um );
+                                waitU.orderMe( pairer );
+                                pairer.orderMe( waitU );
+                                // Set question package
+                                if( !waitU.hasQuestionPackage() )
+                                {
+                                    waitU.setQuestionPackage(questionModel);
+                                    waitU.getPairer().setQuestionPackage(questionModel);
+                                }
                             }
                         }
                     }
@@ -115,10 +139,37 @@ public class GamePairer {
             // Try to return pairer info
             if( waitU.hasOrder() ) 
             {
-                UserModel pairerModel   =   waitU.getPairer();
-                pairerStr   =   pairerModel.toData();
+                UserModel pairerModel   =   waitU.getPairer().getMe();
+                System.out.println( uid + " has binary " + waitU.toString() );
+                
+                List<Question> questions    =   waitU.getQuestionPackage().questions;
+                String questionStr          =   "";
+                // Parse string question
+                for( int i = 0; i < questions.size(); ++i )
+                {
+                    Question quest          =   questions.get(i);
+                    String questIterator    =   String.format( "{\"quest\":\"%s\", \"a\":\"%s\", \"b\":\"%s\", \"c\":\"%s\", \"d\":\"%s\", \"right\":\"%s\"}",
+                                                       quest.getContent(),
+                                                       quest.getA(),
+                                                       quest.getB(),
+                                                       quest.getC(),
+                                                       quest.getD(),
+                                                       quest.getCorrect());
+                    if( i < (questions.size() - 1) )
+                        questIterator       +=  ",";
+                    
+                    questionStr             +=  questIterator;
+                }
+                
+                resultStr   =   String.format( "{ \"oppId\":\"%s\", \"oppName\":\"%s\", \"oppWin\":%s, \"oppLose\":%s, \"Quest\":[%s] }",
+                                               pairerModel.uid,
+                                               pairerModel.name,
+                                               pairerModel.multiResult.result.getWins(),
+                                               pairerModel.multiResult.result.getLoses(),
+                                               questionStr );
             }
+            System.out.println( uid + " ----> " + resultStr );
         }
-        return pairerStr;
+        return resultStr;
     }
 }
