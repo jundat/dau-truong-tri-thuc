@@ -53,6 +53,8 @@ public:
 	MY_GETSET_STR_FUNC(FbUserName, "FB_USERNAME", std::string(""));
 	MY_GETSET_STR_FUNC(FbFullName, "FB_FULL_NAME", std::string(""));
 
+	MY_GETSET_INT_FUNC(AdviseFacebookTimes, "ADVISE_FACEBOOK_TIMES", CONF_INT(ADVISE_FACEBOOK_TIMES));
+
 	//////////////////////////////////////////////////////////////////////////
 	//Normal Account
 

@@ -19,12 +19,16 @@ public:
 
 	void menuCallback(CCObject* pSender);
 	virtual void keyBackClicked();
+	void checkBeforeNextQuestion(CCObject* pSender);
 	void nextQuestion(CCObject* pSender);
 	void initRandomLevel(int number);
-	void initItems();
+	void initQuestionItems();
 	void answerCallback(CCObject* pSender);
 	void animationRightChoose();
 	void onFinishAnimationRightChoose();
+	void refreshUserInfo();
+	void onOpenDialog();
+	void onCloseDialog();
 
 	void itHelp1Callback(CCObject* pSender);
 	void itHelp2Callback(CCObject* pSender);
@@ -41,6 +45,9 @@ public:
 	int m_curDisableChoose;
 	bool m_isUsedInfiniteTime;
 
+	CCSprite* m_defaultAvatar;
+	CCSprite* m_fbAvatar;
+	CCLabelTTF* m_lbName;
 	CCLabelTTF* m_lbClock;
 	CCLabelTTF* m_lbDiamond;
 	CCLabelTTF* m_lbScore;

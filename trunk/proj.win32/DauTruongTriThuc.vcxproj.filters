@@ -126,6 +126,9 @@
     <ClCompile Include="..\Classes\jansson\value.c">
       <Filter>Classes\jansson</Filter>
     </ClCompile>
+    <ClCompile Include="..\Classes\AdviseFacebookDialog.cpp">
+      <Filter>Classes</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="main.h">
@@ -229,6 +232,9 @@
     </ClInclude>
     <ClInclude Include="..\Classes\jansson\utf.h">
       <Filter>Classes\jansson</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\AdviseFacebookDialog.h">
+      <Filter>Classes</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
