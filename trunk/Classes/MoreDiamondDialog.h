@@ -3,6 +3,8 @@
 
 #include "cocos2d.h"
 USING_NS_CC;
+using namespace std;
+
 
 class MoreDiamondDialog : public cocos2d::CCLayerColor
 {
@@ -15,11 +17,17 @@ private:
 	CCMenuItemLabel* m_itlbInvite;
 	CCMenuItemLabel* m_itlbShare;
 
+	string m_curOperator;
+
 public:
 	virtual void keyBackClicked();
 	void rateCallback( CCObject* pSender );
 	void inviteCallback( CCObject* pSender );
 	void shareCallback( CCObject* pSender );
+
+	void onLogInCompleted(CCNode *sender, void *data);
+	void onGetProfileCompleted( CCNode *sender, void *data );
+	void onGetAvatarCompleted( CCNode* pSender, void *data );
 
 	void onRateCompleted( CCNode *sender, void *data );
 	void onInviteAllCompleted( CCNode *sender, void *data );

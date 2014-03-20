@@ -4,6 +4,7 @@
 #include "cocos-ext.h"
 #include "MyMacro.h"
 #include "NDKHelper/NDKHelper.h"
+#include "AudioManager.h"
 
 USING_NS_CC;
 USING_NS_CC_EXT;
@@ -65,6 +66,8 @@ void MoreDiamondDialog::keyBackClicked()
 
 void MoreDiamondDialog::exitCallback( CCObject* pSender )
 {
+	PLAY_BUTTON_EFFECT;
+
 	MenuScene* parent = (MenuScene*)this->getParent();
 	parent->setTouchEnabled(true);
 	parent->onCloseDialog();
@@ -73,7 +76,9 @@ void MoreDiamondDialog::exitCallback( CCObject* pSender )
 
 void MoreDiamondDialog::rateCallback( CCObject* pSender )
 {
-	NDKHelper::AddSelector("MORE_DIAMOND_DIALOG",
+	PLAY_BUTTON_EFFECT;
+
+	NDKHelper::AddSelector("MoreDiamondDialog",
 		"onRateCompleted",
 		callfuncND_selector(MoreDiamondDialog::onRateCompleted),
 		this);
@@ -86,40 +91,70 @@ void MoreDiamondDialog::rateCallback( CCObject* pSender )
 
 void MoreDiamondDialog::inviteCallback( CCObject* pSender )
 {
-	NDKHelper::AddSelector("MORE_DIAMOND_DIALOG",
-		"onInviteAllCompleted",
-		callfuncND_selector(MoreDiamondDialog::onInviteAllCompleted),
-		this);
+	PLAY_BUTTON_EFFECT;
 
-	CCDictionary* prms = CCDictionary::create();
-	prms->setObject(CCString::create(CONF_STR(INVITE_MESSAGE)), "message");
+	bool isLogIn = DataManager::sharedDataManager()->GetFbIsLogIn();
+	if (isLogIn)
+	{
+		NDKHelper::AddSelector("MoreDiamondDialog",
+			"onInviteAllCompleted",
+			callfuncND_selector(MoreDiamondDialog::onInviteAllCompleted),
+			this);
 
-	SendMessageWithParams(string("InviteAll"), prms);
+		CCDictionary* prms = CCDictionary::create();
+		prms->setObject(CCString::create(CONF_STR(INVITE_MESSAGE)), "message");
+
+		SendMessageWithParams(string("InviteAll"), prms);
+	} 
+	else
+	{
+		m_curOperator = string("invite");
+		NDKHelper::AddSelector("MoreDiamondDialog",
+			"onLogInCompleted",
+			callfuncND_selector(MoreDiamondDialog::onLogInCompleted),
+			this);
+		SendMessageWithParams(string("LogIn"), NULL);
+	}
 }
 
 void MoreDiamondDialog::shareCallback( CCObject* pSender )
 {
-	NDKHelper::AddSelector("MORE_DIAMOND_DIALOG",
-		"onPublishFeedCompleted",
-		callfuncND_selector(MoreDiamondDialog::onPublishFeedCompleted),
-		this);
+	PLAY_BUTTON_EFFECT;
 
-	string message = "Game này được, có bạn chơi cùng thì khỏi chê!";
-	string name = "The Croods";
-	string caption = "Thánh thức cùng bạn bè";
-	string description = "Game hay, thuộc thể loại này nọ...";
-	string picture = "http://vfossa.vn/tailen/news/2012_01/knowledge.jpg";
-	string link = "https://play.google.com/store/apps/details?id=com.supercell.hayday";
-	
-	CCDictionary* prms = CCDictionary::create();
-	prms->setObject(CCString::create(message), "message");
-	prms->setObject(CCString::create(name), "name");
-	prms->setObject(CCString::create(caption), "caption");
-	prms->setObject(CCString::create(description), "description");
-	prms->setObject(CCString::create(picture), "picture");
-	prms->setObject(CCString::create(link), "link");
+	bool isLogIn = DataManager::sharedDataManager()->GetFbIsLogIn();
+	if (isLogIn)
+	{
+		NDKHelper::AddSelector("MoreDiamondDialog",
+			"onPublishFeedCompleted",
+			callfuncND_selector(MoreDiamondDialog::onPublishFeedCompleted),
+			this);
 
-	SendMessageWithParams(string("PublishFeed"), prms);
+		string message = "Game này được, có bạn chơi cùng thì khỏi chê!";
+		string name = "The Croods";
+		string caption = "Thánh thức cùng bạn bè";
+		string description = "Game hay, thuộc thể loại này nọ...";
+		string picture = "http://vfossa.vn/tailen/news/2012_01/knowledge.jpg";
+		string link = "https://play.google.com/store/apps/details?id=com.supercell.hayday";
+
+		CCDictionary* prms = CCDictionary::create();
+		prms->setObject(CCString::create(message), "message");
+		prms->setObject(CCString::create(name), "name");
+		prms->setObject(CCString::create(caption), "caption");
+		prms->setObject(CCString::create(description), "description");
+		prms->setObject(CCString::create(picture), "picture");
+		prms->setObject(CCString::create(link), "link");
+
+		SendMessageWithParams(string("PublishFeed"), prms);
+	} 
+	else
+	{
+		m_curOperator = string("share");
+		NDKHelper::AddSelector("MoreDiamondDialog",
+			"onLogInCompleted",
+			callfuncND_selector(MoreDiamondDialog::onLogInCompleted),
+			this);
+		SendMessageWithParams(string("LogIn"), NULL);
+	}	
 }
 
 //
@@ -152,7 +187,7 @@ void MoreDiamondDialog::onRateCompleted( CCNode *sender, void *data )
 			CCLOG("CPP Rate Completed: FALSE");
 		}
 
-		NDKHelper::RemoveSelector("MORE_DIAMOND_DIALOG", "onRateCompleted");
+		NDKHelper::RemoveSelector("MoreDiamondDialog", "onRateCompleted");
 	}
 }
 
@@ -184,9 +219,10 @@ void MoreDiamondDialog::onInviteAllCompleted( CCNode *sender, void *data )
 		else
 		{
 			CCLOG("CPP Invite All Completed: FALSE");
+			CCMessageBox("Không thể mời bạn", "Lỗi");
 		}
 
-		NDKHelper::RemoveSelector("MORE_DIAMOND_DIALOG", "onInviteAllCompleted");
+		NDKHelper::RemoveSelector("MoreDiamondDialog", "onInviteAllCompleted");
 	}
 }
 
@@ -212,8 +248,124 @@ void MoreDiamondDialog::onPublishFeedCompleted( CCNode *sender, void *data )
 		else
 		{
 			CCLOG("CPP Publish Feed Completed: FALSE");
+			CCMessageBox("Không thể chia sẻ", "Lỗi");
 		}
 
-		NDKHelper::RemoveSelector("MORE_DIAMOND_DIALOG", "onPublishFeedCompleted");
+		NDKHelper::RemoveSelector("MoreDiamondDialog", "onPublishFeedCompleted");
+	}
+}
+
+
+void MoreDiamondDialog::onLogInCompleted( CCNode *sender, void *data )
+{
+	CCLOG("onLogInCompleted");
+	if (data != NULL)
+	{
+		CCDictionary *convertedData = (CCDictionary *)data;
+		CCString* s = (CCString*)convertedData->objectForKey("isSuccess");
+		if (s->boolValue())
+		{
+			CCLOG("CPP Log In Completed: TRUE");
+
+			NDKHelper::AddSelector("MoreDiamondDialog",
+				"onGetProfileCompleted",
+				callfuncND_selector(MoreDiamondDialog::onGetProfileCompleted),
+				this);
+			SendMessageWithParams(string("GetProfile"), NULL);
+		} 
+		else
+		{
+			CCLOG("CPP Log In Completed: FALSE");
+			CCMessageBox("Không thể kết nối", "Lỗi");
+		}
+
+		NDKHelper::RemoveSelector("MoreDiamondDialog", "onLogInCompleted");
+	}
+}
+
+void MoreDiamondDialog::onGetProfileCompleted( CCNode *sender, void *data )
+{
+	CCLOG("onGetProfileCompleted");
+	if (data != NULL)
+	{
+		CCDictionary *convertedData = (CCDictionary *)data;
+		CCString* s = (CCString*)convertedData->objectForKey("isSuccess");
+		if (s->boolValue())
+		{
+			CCLOG("CPP Get Profile Completed: TRUE");
+
+			string fbId = ((CCString*)convertedData->objectForKey("id"))->getCString();
+			string firstName = ((CCString*)convertedData->objectForKey("firstName"))->getCString();
+			string name = ((CCString*)convertedData->objectForKey("name"))->getCString();
+			string username = ((CCString*)convertedData->objectForKey("username"))->getCString();
+			string birthday = ((CCString*)convertedData->objectForKey("birthday"))->getCString();
+			string picture50x50 = ((CCString*)convertedData->objectForKey("picture"))->getCString();
+
+			//save
+
+			DataManager::sharedDataManager()->SetFbID(fbId);
+			DataManager::sharedDataManager()->SetFbFullName(name);
+			DataManager::sharedDataManager()->SetName(name);
+			DataManager::sharedDataManager()->SetFbUserName(username);
+
+			//////////////////////////////////////////////////////////////////////////
+
+			NDKHelper::AddSelector("MoreDiamondDialog",
+				"onGetAvatarCompleted",
+				callfuncND_selector(MoreDiamondDialog::onGetAvatarCompleted),
+				this);
+
+			string w = "128";
+			string h = "128";
+
+			CCDictionary* prms = CCDictionary::create();
+			prms->setObject(CCString::create(fbId), "fbId");
+			prms->setObject(CCString::create(w), "width");
+			prms->setObject(CCString::create(h), "height");
+
+			SendMessageWithParams(string("GetAvatar"), prms);
+		} 
+		else
+		{
+			CCLOG("CPP Get Profile Completed: FALSE");
+			CCMessageBox("Không thể kết nối", "Lỗi");
+		}
+
+		NDKHelper::RemoveSelector("MoreDiamondDialog", "onGetProfileCompleted");
+	}
+}
+
+void MoreDiamondDialog::onGetAvatarCompleted( CCNode* pSender, void *data )
+{
+	CCLOG("onGetAvatarCompleted");
+	if (data != NULL)
+	{
+		CCDictionary *convertedData = (CCDictionary *)data;
+		CCString* s = (CCString*)convertedData->objectForKey("isSuccess");
+		if (s->boolValue())
+		{
+			CCLOG("CPP Get Avatar Completed: TRUE");
+			DataManager::sharedDataManager()->SetFbIsLogIn(true);
+
+			CCString* path = (CCString*)convertedData->objectForKey("path");
+			DataManager::sharedDataManager()->SetFbPhotoPath(path->getCString());
+
+			//show
+			if (m_curOperator.compare("invite") == 0)
+			{
+				inviteCallback(NULL);
+			} 
+			else if (m_curOperator.compare("share") == 0)
+			{
+				shareCallback(NULL);
+			}			
+		} 
+		else
+		{
+			CCLOG("CPP Get Avatar Completed: FALSE");
+			CCMessageBox("Không thể kết nối", "Lỗi");
+		}
+
+		NDKHelper::RemoveSelector("MoreDiamondDialog", "onGetAvatarCompleted");
 	}
 }
