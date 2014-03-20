@@ -10,7 +10,7 @@ USING_NS_CC_EXT;
 
 bool AdviseFacebookDialog::init()
 {
-    if ( !CCLayer::init() )
+    if ( !CCLayerColor::initWithColor(DIM_COLOR))
     {
         return false;
     }
@@ -20,9 +20,9 @@ bool AdviseFacebookDialog::init()
 
 
 	CCScale9Sprite* dialog = CCScale9Sprite::create("dialog.png");
-	dialog->setPosition(ccp(400, 640));
+	dialog->setPosition(ccp(400, 630));
 	dialog->setContentSize(CCSizeMake(680, 480));
-	this->addChild(dialog, -2);
+	this->addChild(dialog);
 	
 	CCMenuItemImage* exitButton = CCMenuItemImage::create(
 		"yes.png",
