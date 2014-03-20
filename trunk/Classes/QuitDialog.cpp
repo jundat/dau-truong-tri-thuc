@@ -2,13 +2,14 @@
 #include "MenuScene.h"
 #include "DataManager.h"
 #include "cocos-ext.h"
+#include "MyMacro.h"
 
 USING_NS_CC;
 USING_NS_CC_EXT;
 
 bool QuitDialog::init()
 {
-    if ( !CCLayer::init() )
+    if ( !CCLayerColor::initWithColor(DIM_COLOR) )
     {
         return false;
     }
@@ -20,7 +21,7 @@ bool QuitDialog::init()
 	CCScale9Sprite* dialog = CCScale9Sprite::create("dialog.png");
 	dialog->setPosition(ccp(400, 640));
 	dialog->setContentSize(CCSizeMake(680, 480));
-	this->addChild(dialog, -2);
+	this->addChild(dialog);
 	
 	CCMenuItemImage* exitButton = CCMenuItemImage::create(
 		"yes.png",

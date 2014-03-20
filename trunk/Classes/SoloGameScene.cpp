@@ -216,19 +216,17 @@ void SoloGameScene::nextQuestion(CCObject* pSender)
 
 void SoloGameScene::initQuestionItems()
 {
-	MY_ADD_SPRITE(sprQuest, "question.png", ccp(400, 1280-537));
-
 	int boxW = 774;
 
 	CCScale9Sprite* quesContent = CCScale9Sprite::create("dialog.png");
-	quesContent->setPosition(ccp(400, 588));
+	quesContent->setPosition(ccp(400, 1280-588));
 	quesContent->setContentSize(CCSizeMake(boxW, 412));
-	this->addChild(quesContent, -2);
+	this->addChild(quesContent);
 
 	CCScale9Sprite* quesNumber = CCScale9Sprite::create("dialog.png");
-	quesNumber->setPosition(ccp(400, 345));
+	quesNumber->setPosition(ccp(400, 1280-345));
 	quesNumber->setContentSize(CCSizeMake(390, 128));
-	this->addChild(quesNumber, -2);
+	this->addChild(quesNumber);
 
 	
 	MY_ADD_LABELTTF( _lbNumber, "", CONF_STR(FONT_NORMAL), 64, ccBLACK, ccp(400, 1280-340));

@@ -5,7 +5,7 @@
 USING_NS_CC;
 using namespace std;
 
-
+#define DIM_COLOR		ccc4(0, 0, 0, 128)
 #define ccWHITE4		ccc4(255, 255, 255, 255)
 #define ccBLACK4		ccc4(0, 0, 0, 255)
 

@@ -4,7 +4,7 @@
 #include "cocos2d.h"
 USING_NS_CC;
 
-class AdviseFacebookDialog : public cocos2d::CCLayer
+class AdviseFacebookDialog : public cocos2d::CCLayerColor
 {
 public:
     virtual bool init();

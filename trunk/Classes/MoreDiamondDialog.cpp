@@ -10,7 +10,7 @@ USING_NS_CC_EXT;
 
 bool MoreDiamondDialog::init()
 {
-    if ( !CCLayer::init() )
+    if ( !CCLayerColor::initWithColor(DIM_COLOR) )
     {
         return false;
     }
