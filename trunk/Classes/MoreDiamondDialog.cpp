@@ -194,6 +194,7 @@ void MoreDiamondDialog::onInviteAllCompleted( CCNode *sender, void *data )
 
 void MoreDiamondDialog::onPublishFeedCompleted( CCNode *sender, void *data )
 {
+	CCLOG("onPublishFeedCompleted");
 	if (data != NULL)
 	{
 		CCDictionary *convertedData = (CCDictionary *)data;

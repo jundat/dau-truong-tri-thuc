@@ -110,30 +110,22 @@ public class JNIFacebookFunctions implements AsyncListener {
 		uiHelper.onActivityResult(requestCode, resultCode, data, new FacebookDialog.Callback() {
 	        @Override
 	        public void onError(FacebookDialog.PendingCall pendingCall, Exception error, Bundle data) {
-	            Log.e("ShareFB", String.format("Error: %s", error.toString()));
+				sendPublishFeedback(false, "");
 	        }
 
 	        @Override
 	        public void onComplete(FacebookDialog.PendingCall pendingCall, Bundle data) {
-	            Log.i("ShareFB", "Success!");
-	            
 	            boolean didComplete = FacebookDialog.getNativeDialogDidComplete(data);
-	            
 	            if (didComplete) {
-					Log.i("Did Complete", "true");
-					
 		            String completionGesture = FacebookDialog.getNativeDialogCompletionGesture(data);
-		            Log.i("Complete Gesture", completionGesture);
-		            
 		            if (completionGesture == "post") {
 		            	String postId = FacebookDialog.getNativeDialogPostId(data);
-		            	Log.i("PostId", postId);
+		            	sendPublishFeedback(true, postId);		            	
 					} else { //cancel
-						Log.i("Post", "Cancel");
+						sendPublishFeedback(false, "");
 					}
-		            
 				} else {
-					Log.i("Did Complete", "false");
+					sendPublishFeedback(false, "");
 				}	            
 	        }
 	    });
@@ -428,11 +420,7 @@ public class JNIFacebookFunctions implements AsyncListener {
 	}
 
 	public void PublishFeed(JSONObject prms) {
-		Log.i(TAG, "CALL PUBLISH FEED");
-		Log.i(TAG, "Check if picture and link is exactly a link: http://...");
-
 		String name = null, caption = null, description = null, picture = null, link = null;
-
 		try {
 			name = prms.getString("name");
 			caption = prms.getString("caption");
@@ -467,34 +455,38 @@ public class JNIFacebookFunctions implements AsyncListener {
 		                @Override
 		                public void onComplete(Bundle values, FacebookException error) {
 		                    if (error == null) {
-		                        // When the story is posted, echo the success
-		                        // and the post Id.
 		                        final String postId = values.getString("post_id");
 		                        if (postId != null) {
-		                            Toast.makeText(mainActivity, "Posted story, id: " + postId, Toast.LENGTH_SHORT).show();
+		                        	sendPublishFeedback(true, postId);
 		                        } else {
-		                            // User clicked the Cancel button
-		                            Toast.makeText(mainActivity.getApplicationContext(), "Publish cancelled", Toast.LENGTH_SHORT).show();
+		                        	sendPublishFeedback(false, "");
 		                        }
 		                    } else if (error instanceof FacebookOperationCanceledException) {
-		                        // User clicked the "x" button
-		                        Toast.makeText(mainActivity.getApplicationContext(), "Publish cancelled", Toast.LENGTH_SHORT).show();
+		                    	sendPublishFeedback(false, "");
 		                    } else {
-		                        // Generic, ex: network error
-		                        Toast.makeText(mainActivity.getApplicationContext(), "Error posting story", Toast.LENGTH_SHORT).show();
+		                    	sendPublishFeedback(false, "");
 		                    }
 		                }
 		            })
 		            .build();
-			    
 			    feedDialog.show();
-	        
 			}
-
 		} catch (JSONException e) {
-			// TODO: handle exception
 			e.printStackTrace();
 		}
+	}
+
+	public void sendPublishFeedback(boolean isSuccess, String postId) {
+		String jsonStr = "{\"isSuccess\" : " + isSuccess + ", \"postId\": \"" + postId + "\"}";
+		Log.i(TAG, jsonStr);
+		JSONObject prmsToSend = null;
+		try {
+			prmsToSend = new JSONObject(jsonStr);
+		} catch (JSONException e) {
+			e.printStackTrace();
+		}
+
+		AndroidNDKHelper.SendMessageWithParameters("onPublishFeedCompleted", prmsToSend);
 	}
 	
 	public void AutoPublishFeed(JSONObject prms) {
@@ -919,31 +911,6 @@ public class JNIFacebookFunctions implements AsyncListener {
 			e.printStackTrace();
 		}
 	}
-
-	
-	
-	// OK
-	// public void shareStatus() {
-	//
-	// //share by Facebook App
-	// if
-	// (FacebookDialog.canPresentShareDialog(this.mainActivity.getApplicationContext(),
-	// ShareDialogFeature.SHARE_DIALOG)) {
-	// FacebookDialog shareDialog = new
-	// FacebookDialog.ShareDialogBuilder(this.mainActivity)
-	// .setCaption("caption")
-	// .setDescription("description")
-	// .setLink("http://www.cocos2d-x.org/")
-	// .setPicture("http://www.cocos2d-x.org/attachments/download/801")
-	// .build();
-	//
-	// uiHelper.trackPendingDialogCall(shareDialog.present());
-	// } else {
-	// //share by web dialog
-	//
-	// }
-	//
-	// }
 
 	// ///////////////////////////// Non-facebook functions
 	// /////////////////////////////////
