@@ -3,12 +3,12 @@
 #include "MyMacro.h"
 
 
-DataManager* DataManager::s_instance = 0;
+DataManager* DataManager::s_instance = NULL;
 
 
 DataManager* DataManager::sharedDataManager()
 {
-	if(DataManager::s_instance == 0)
+	if(s_instance == NULL)
 	{
 		s_instance = new DataManager();
 	}
@@ -76,9 +76,9 @@ json_t* DataManager::SetQuestionIdObject( vector<PairIntInt*>* listPairIntInt )
 	}
 
 	strToSave.append("\"null\": 0}");
-	CCLOG("SET: %s", strToSave.c_str() );
+	//CCLOG("SET: %s", strToSave.c_str());
 
-	CCUserDefault::sharedUserDefault()->setStringForKey("VECTOR_QUESTION_ID", strToSave);
+	CCUserDefault::sharedUserDefault()->setStringForKey("VECTOR_QUESTION_ID", strToSave.c_str());
 	CCUserDefault::sharedUserDefault()->flush();
 
 	json_t *questionObject;

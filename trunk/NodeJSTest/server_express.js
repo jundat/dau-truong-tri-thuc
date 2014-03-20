@@ -58,9 +58,6 @@ app.post('/subject', function(req, res){
 
 
 app.post('/join', function(req, res){
-	var POST = res.body;
-	console.log(POST);
-
 	var obj = {
 		oppId: "123456789",
 		oppName: "Bích Phương",
@@ -80,18 +77,15 @@ app.post('/join', function(req, res){
 
 app.post('/config', function(req, res){
 	var obj = {
-		version: "1.0",
-		winScore: 10,
-		loseScore: -5,
-		diamondForSkip: 20,
-		diamondForExclusive: 10,
-		diamondForInfinite: 10,
-		connectionTimeout: 10
+		WinScore: 10,
+		LoseScore: -5,
+		HelpSkip: 20,
+		HelpExclusive: 10,
+		HelpInfinite: 10
 	};
 
     res.send(obj);
 });
-
 
 
 

@@ -31,6 +31,7 @@ public class SubjectModel implements BaseModel{
     static 
     {
         inst    =   new SubjectModel();
+        inst.getData();
     }
     
     private SubjectModel() {
@@ -82,9 +83,9 @@ public class SubjectModel implements BaseModel{
             Map<String, Object> data    =   new HashMap<>();
             data.put( ShareConstants.SUBJECT_ID, subject.getId() );
             data.put( ShareConstants.SUBJECT_NAME, subject.getName());
-            data.put( ShareConstants.SUBJECT_ACTIVE, subject.isActive());
-            data.put( ShareConstants.SUBJECT_NSENTENCE, subject.getNumberSentence());
-            data.put( ShareConstants.SUBJECT_PREFIX, subject.getPrefix());
+            //data.put( ShareConstants.SUBJECT_ACTIVE, subject.isActive());
+            //data.put( ShareConstants.SUBJECT_NSENTENCE, subject.getNumberSentence());
+            //data.put( ShareConstants.SUBJECT_PREFIX, subject.getPrefix());
             
             dataStr     =   dataStr + Util.obj2String( data );
 

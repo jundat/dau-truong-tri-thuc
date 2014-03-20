@@ -110,21 +110,26 @@ public class JNIFacebookFunctions implements AsyncListener {
 		uiHelper.onActivityResult(requestCode, resultCode, data, new FacebookDialog.Callback() {
 	        @Override
 	        public void onError(FacebookDialog.PendingCall pendingCall, Exception error, Bundle data) {
-				sendPublishFeedback(false, "");
+				Log.i("SHARE_DIALOG", "onError");
+	        	sendPublishFeedback(false, "");
 	        }
 
 	        @Override
 	        public void onComplete(FacebookDialog.PendingCall pendingCall, Bundle data) {
 	            boolean didComplete = FacebookDialog.getNativeDialogDidComplete(data);
 	            if (didComplete) {
+	            	Log.i("SHARE_DIALOG", "didComplete = true");
 		            String completionGesture = FacebookDialog.getNativeDialogCompletionGesture(data);
 		            if (completionGesture == "post") {
+		            	Log.i("SHARE_DIALOG", "completionGesture == post");
 		            	String postId = FacebookDialog.getNativeDialogPostId(data);
 		            	sendPublishFeedback(true, postId);		            	
 					} else { //cancel
+		            	Log.i("SHARE_DIALOG", "completionGesture == cancel");
 						sendPublishFeedback(false, "");
 					}
 				} else {
+	            	Log.i("SHARE_DIALOG", "didComplete == false");
 					sendPublishFeedback(false, "");
 				}	            
 	        }
@@ -455,15 +460,20 @@ public class JNIFacebookFunctions implements AsyncListener {
 		                @Override
 		                public void onComplete(Bundle values, FacebookException error) {
 		                    if (error == null) {
+		                    	Log.i("SHARE", "error");
 		                        final String postId = values.getString("post_id");
 		                        if (postId != null) {
+			                    	Log.i("SHARE", "postId != null");
 		                        	sendPublishFeedback(true, postId);
 		                        } else {
+			                    	Log.i("SHARE", "postId == null");
 		                        	sendPublishFeedback(false, "");
 		                        }
 		                    } else if (error instanceof FacebookOperationCanceledException) {
+		                    	Log.i("SHARE", "FacebookOperationCanceledException");
 		                    	sendPublishFeedback(false, "");
 		                    } else {
+		                    	Log.i("SHARE", "Unknown");
 		                    	sendPublishFeedback(false, "");
 		                    }
 		                }

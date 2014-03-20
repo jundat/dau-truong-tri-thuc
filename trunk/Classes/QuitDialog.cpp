@@ -43,6 +43,7 @@ bool QuitDialog::init()
 
 	CCLabelTTF* labelTitle = CCLabelTTF::create("Bạn có muốn\nthoát game?", "Roboto-Medium.ttf", 48);
 	labelTitle->setFontFillColor(ccc3(56, 56, 56));
+	labelTitle->setColor(ccc3(56, 56, 56));
 	labelTitle->setPosition(ccp(400, 660));
 	this->addChild(labelTitle);
 
