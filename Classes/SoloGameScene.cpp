@@ -5,6 +5,7 @@
 #include <time.h>
 #include "PauseDialog.h"
 #include "LevelManager.h"
+#include "AdviseFacebookDialog.h"
 
 USING_NS_CC;
 
@@ -33,19 +34,24 @@ bool SoloGameScene::init()
 
 	MY_ADD_SPRITE(bg, "game_background.png", ccp(400, 640));
 	
-	MY_ADD_SPRITE(defaultAvatar, "avatar.png", ccp(86, 1280-86));
+	MY_CREATE_SPRITE(defaultAvatar, "avatar.png", ccp(86, 1280-86));
+	m_defaultAvatar = defaultAvatar;
+	this->addChild(m_defaultAvatar);
 	
 	string photoPath = DataManager::sharedDataManager()->GetFbPhotoPath();
 	if (photoPath.length() > 0)
 	{
-		MY_ADD_SPRITE(fbAvatar, photoPath.c_str(), ccp(86, 1280-86));
-		fbAvatar->setScale((defaultAvatar->getContentSize().width - 7) / CONF_INT(AVATAR_SIZE));
+		MY_CREATE_SPRITE(fbAvatar, photoPath.c_str(), ccp(86, 1280-86));
+		m_fbAvatar = fbAvatar;
+		this->addChild(m_fbAvatar);
+		m_fbAvatar->setScale((m_defaultAvatar->getContentSize().width - 7) / CONF_INT(AVATAR_SIZE));
 	}
 	
 	string name = DataManager::sharedDataManager()->GetName();
 	name = MY_LIMIT_STR(name, 22, "");
 	MY_ADD_LABELTTF(lbName, name.c_str(), CONF_STR(FONT_NORMAL), 36, ccBLACK, ccp(12, 1280-195));
-	lbName->setAnchorPoint(ANCHOR_LEFT);
+	m_lbName = lbName;
+	m_lbName->setAnchorPoint(ANCHOR_LEFT);
 
 	MY_ADD_SPRITE(score, "score.png", ccp(203, 1280-41));
 	MY_ADD_LABELTTF(_lbScore, CCString::createWithFormat("%d", m_curScore)->getCString(), CONF_STR(FONT_NORMAL), 48, ccBLACK, ccp(240, 1280-46));
@@ -81,7 +87,9 @@ bool SoloGameScene::init()
 	MY_CREATE_MENU_ITEM(itHelp3, "help3.png", "help3Down.png", "help3Down.png", SoloGameScene::itHelp3Callback, ccp(540, 1280-60));
 	m_menu->addChild(itHelp3);
 
-	initItems();
+	initQuestionItems();
+
+	//RESULT //////////////////////////////////////////////////////////////////////////
 
 	MY_ADD_SPRITE(_sprGameResult, "game_result.png", ccp(400, 640));
 	m_sprGameResult = _sprGameResult;
@@ -104,10 +112,8 @@ bool SoloGameScene::init()
 	rightWrong->setPosition(ccp(380, 1280-722));
 	rightWrong->setTag(2);
 	m_sprGameResult->addChild(rightWrong);
-
-
-
-	MY_CREATE_MENU_ITEM(itNext, "next.png", "nextDown.png", "nextDown.png", SoloGameScene::nextQuestion, ccp(400, 1280-879));
+	
+	MY_CREATE_MENU_ITEM(itNext, "next.png", "nextDown.png", "nextDown.png", SoloGameScene::checkBeforeNextQuestion, ccp(400, 1280-879));
 	itNext->setAnchorPoint(ANCHOR_LEFT);
 	CCMenu* nextMenu = CCMenu::create(itNext, NULL);
 	nextMenu->setPosition(CCPointZero);
@@ -166,6 +172,24 @@ void SoloGameScene::answerCallback( CCObject* pSender )
 	DataManager::sharedDataManager()->SetSoloScore(m_curScore);
 }
 
+void SoloGameScene::checkBeforeNextQuestion( CCObject* pSender )
+{
+	bool isLogIn = DataManager::sharedDataManager()->GetFbIsLogIn();
+	int adviseFacebookTimes = DataManager::sharedDataManager()->GetAdviseFacebookTimes();
+	if (isLogIn == false && m_curQuestionNumber % adviseFacebookTimes == 0)
+	{
+		m_sprGameResult->setVisible(false);
+
+		AdviseFacebookDialog* dialog = AdviseFacebookDialog::create();
+		this->addChild(dialog);
+		this->onOpenDialog();
+	}
+	else
+	{
+		nextQuestion(NULL);
+	}
+}
+
 void SoloGameScene::nextQuestion(CCObject* pSender)
 {
 	//UI
@@ -190,7 +214,7 @@ void SoloGameScene::nextQuestion(CCObject* pSender)
 	this->schedule(schedule_selector(SoloGameScene::scheduleClock), 0.5f);
 }
 
-void SoloGameScene::initItems()
+void SoloGameScene::initQuestionItems()
 {
 	MY_ADD_SPRITE(sprQuest, "question.png", ccp(400, 1280-537));
 
@@ -427,4 +451,34 @@ void SoloGameScene::onFinishAnimationRightChoose()
 			rightWrong->setColor(ccc3(193, 0, 0));
 		}
 	}
+}
+
+void SoloGameScene::refreshUserInfo()
+{
+	string photoPath = DataManager::sharedDataManager()->GetFbPhotoPath();
+	if (photoPath.length() > 0)
+	{
+		MY_CREATE_SPRITE(fbAvatar, photoPath.c_str(), ccp(86, 1280-86));
+		m_fbAvatar = fbAvatar;
+		this->addChild(m_fbAvatar);
+		m_fbAvatar->setScale((m_defaultAvatar->getContentSize().width - 7) / CONF_INT(AVATAR_SIZE));
+	}
+
+	string name = DataManager::sharedDataManager()->GetName();
+	name = MY_LIMIT_STR(name, 22, "");
+	m_lbName->setString(name.c_str());
+}
+
+void SoloGameScene::onOpenDialog()
+{
+	m_menu->setEnabled(false);
+	//this->setTouchEnabled(false);
+	this->setKeypadEnabled(false);
+}
+
+void SoloGameScene::onCloseDialog()
+{
+	m_menu->setEnabled(true);
+	//this->setTouchEnabled(true);
+	this->setKeypadEnabled(true);
 }

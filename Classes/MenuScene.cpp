@@ -364,7 +364,7 @@ void MenuScene::onGetAvatarCompleted( CCNode* pSender, void *data )
 		if (s->boolValue())
 		{
 			CCLOG("CPP Get Avatar Completed: TRUE");
-			DataManager::sharedDataManager()->SetFbIsLogIn(false);
+			DataManager::sharedDataManager()->SetFbIsLogIn(true);
 
 			m_itFacbook->runAction(CCFadeOut::create(0.5f));
 			
