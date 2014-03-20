@@ -212,9 +212,6 @@ void MoreDiamondDialog::onInviteAllCompleted( CCNode *sender, void *data )
 			CCMessageBox(CCString::createWithFormat("Bạn nhận được:\n%d x %d bạn = %d kim cương", 
 				CONF_INT(DIAMOND_FOR_INVITE), count, total)->getCString(),
 				"Thưởng");
-
-			m_itlbInvite->setEnabled(false);
-			m_itlbInvite->setOpacity(100);
 		}
 		else
 		{
@@ -241,9 +238,6 @@ void MoreDiamondDialog::onPublishFeedCompleted( CCNode *sender, void *data )
 				CCString::createWithFormat("Bạn được nhận +%d kim cương.", CONF_INT(DIAMOND_FOR_SHARE))->getCString(),
 				"Thưởng");
 			DataManager::sharedDataManager()->AddDiamond(CONF_INT(DIAMOND_FOR_SHARE));
-
-			m_itlbShare->setEnabled(false);
-			m_itlbShare->setOpacity(100);
 		} 
 		else
 		{
@@ -350,6 +344,9 @@ void MoreDiamondDialog::onGetAvatarCompleted( CCNode* pSender, void *data )
 			CCString* path = (CCString*)convertedData->objectForKey("path");
 			DataManager::sharedDataManager()->SetFbPhotoPath(path->getCString());
 
+			MenuScene* parent = (MenuScene*) this->getParent();
+			parent->m_itFacbook->runAction(CCFadeOut::create(0.5f));
+
 			//show
 			if (m_curOperator.compare("invite") == 0)
 			{
@@ -358,7 +355,7 @@ void MoreDiamondDialog::onGetAvatarCompleted( CCNode* pSender, void *data )
 			else if (m_curOperator.compare("share") == 0)
 			{
 				shareCallback(NULL);
-			}			
+			}
 		} 
 		else
 		{
