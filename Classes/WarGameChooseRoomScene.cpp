@@ -106,7 +106,7 @@ void WarGameChooseRoomScene::startCallback( CCObject* pSender )
 		PLAY_BUTTON_EFFECT;
 
 		MY_SEND_REQUEST(CONF_STR(URL_JOIN), this, WarGameChooseRoomScene::onJoinCompleted, 
-			CCString::createWithFormat("{ fbId : \"%s\", subjectId : \"%d\" }", CONF_STR(APP_ID), m_curSubjectId)->getCString());
+			CCString::createWithFormat("data={ \"fbId\" : \"%s\", \"subjectId\" : \"%d\" }", CONF_STR(APP_ID), m_curSubjectId)->getCString());
 	}
 	else
 	{
@@ -229,20 +229,21 @@ void WarGameChooseRoomScene::onGetSubjectListCompleted( CCHttpClient *sender, CC
 
 			json_t* subjectId;
 			json_t* subjectName;
+			int id;
 
-			subjectId = json_object_get(subject, "subjectId");
-			subjectName = json_object_get(subject, "subjectName");
+			subjectId = json_object_get(subject, "subjectid");
+			subjectName = json_object_get(subject, "name");
+			id = CCString::createWithFormat("%s", json_string_value(subjectId))->intValue();
 			
-			CCLOG("%d: ", (int)json_number_value(subjectId));
+			CCLOG("%d: ", id);
 			CCLOG("%s: ", json_string_value(subjectName));
 
-			Subject* sub = Subject::create((int)json_number_value(subjectId), json_string_value(subjectName));
+			Subject* sub = Subject::create(id, json_string_value(subjectName));
 			m_arrSubjects->addObject(sub);
 		}
 
 		if (m_tableSubjects != NULL)
 		{
-			CCLOG("Table: RELOAD DATA");
 			m_tableSubjects->reloadData();
 		}
 	}
