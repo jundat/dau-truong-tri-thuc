@@ -35,7 +35,7 @@ bool AppDelegate::applicationDidFinishLaunching() {
 		CONF_STR(URL_PROFILE),
 		CONF_STR(URL_DEVICE),
 		CONF_STR(URL_FRIEND),
-		CONF_STR(URL_SCORE)
+		CONF_STR(URL_SINGLE_SCORE)
 		);
 
 
@@ -73,7 +73,7 @@ bool AppDelegate::applicationDidFinishLaunching() {
 	}
 	else
 	{
-		pScene = MenuScene::scene(); // TestAndroidFacebookScene::scene(); // TestPostGetScene::scene(); // IntroScene::scene(); //  MenuScene::scene(); //  MainGameScene::scene(); //
+		pScene = TestAndroidFacebookScene::scene(); // TestPostGetScene::scene(); // IntroScene::scene(); //  MenuScene::scene(); //  MainGameScene::scene(); //
 	}
 
 	pDirector->runWithScene(pScene);

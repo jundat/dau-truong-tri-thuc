@@ -33,6 +33,9 @@ class NDKHelper
         static CCObject* GetCCObjectFromJson(json_t *obj);
         static json_t* GetJsonFromCCObject(CCObject* obj);
         static void HandleMessage(json_t *methodName, json_t* methodParams);
+		
+		//pham tan long
+		static void CallJNIFunction(string jniFuncName, CCObject* jniFuncParams, const char *callbackFuncName, SEL_CallFuncND selector, CCNode* target);
 };
 
 extern "C"
