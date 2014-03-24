@@ -245,6 +245,17 @@ void NDKHelper::HandleMessage(json_t *methodName, json_t* methodParams)
     }
 }
 
+void NDKHelper::CallJNIFunction( string jniFuncName, CCObject* jniFuncParams, const char *callbackFuncName, SEL_CallFuncND selector, CCNode* target )
+{
+	if (strlen(callbackFuncName) > 0 && selector != NULL && target != NULL)
+	{
+		NDKHelper::AddSelector(callbackFuncName, callbackFuncName, selector, target);
+	}
+	
+	SendMessageWithParams(jniFuncName, jniFuncParams);
+}
+
+
 #if (CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID)
     #include "../cocos2dx/platform/android/jni/JniHelper.h"
     #include <android/log.h>

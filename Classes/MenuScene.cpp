@@ -30,6 +30,27 @@ CCScene* MenuScene::scene()
     return scene;
 }
 
+void MenuScene::onEnterTransitionDidFinish()
+{
+	GameClientManager::sharedGameClientManager()->setDelegate(this);
+	string fbId = DataManager::sharedDataManager()->GetFbID();
+	int score = DataManager::sharedDataManager()->GetSoloScore();
+
+	//send to server
+	GameClientManager::sharedGameClientManager()->sendScore(CONF_STR(APP_ID), fbId, score);
+
+	//send score to facebook ////////////////////////////////////////////////////////////
+	NDKHelper::AddSelector("MENU",
+		"onPostScoreCompleted",
+		callfuncND_selector(MenuScene::onPostScoreCompleted),
+		this);
+
+	CCDictionary* prms = CCDictionary::create();
+	prms->setObject(CCString::createWithFormat("%d", score), "score");
+
+	SendMessageWithParams(string("PostScore"), prms);
+}
+
 bool MenuScene::init()
 {
     if ( !CCLayerColor::initWithColor(ccc4(255, 255, 255, 255)) )
@@ -448,4 +469,35 @@ void MenuScene::checkLogIn( CCObject* pSender )
 		callfuncND_selector(MenuScene::onCheckLogInCompleted),
 		this);
 	SendMessageWithParams(string("CheckLogIn"), NULL);
+}
+
+void MenuScene::onPostScoreCompleted( CCNode *sender, void *data )
+{
+	if (data != NULL)
+	{
+		CCDictionary *convertedData = (CCDictionary *)data;
+		CCString* s = (CCString*)convertedData->objectForKey("isSuccess");
+		if (s->boolValue())
+		{
+			CCLOG("CPP Post Score Completed: TRUE");
+		} 
+		else
+		{
+			CCLOG("CPP Post Score Completed: FALSE");
+		}
+
+		NDKHelper::RemoveSelector("MENU", "onPostScoreCompleted");
+	}
+}
+
+void MenuScene::onSendScoreCompleted( bool isSuccess )
+{
+	if (isSuccess)
+	{
+		CCLOG("TRUE");
+	} 
+	else
+	{
+		CCLOG("FALSE");
+	}
 }

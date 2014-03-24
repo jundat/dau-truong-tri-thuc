@@ -10,7 +10,7 @@
 USING_NS_CC;
 USING_NS_CC_EXT;
 
-class ScoreScene : public cocos2d::CCLayer
+class ScoreScene : public cocos2d::CCLayer, public GameClientDelegate
 {
 public:
 	virtual bool init();
@@ -20,6 +20,10 @@ public:
 	void menuCallback(CCObject* pSender);
 	virtual void keyBackClicked();
 	void onSendRequestCompleted(CCHttpClient *sender, CCHttpResponse *response);
+	virtual void onEnterTransitionDidFinish();
+
+	void getFacebookScores();
+	void onGetScoresCompleted( CCNode *sender, void *data );
 
 	void loginFacebook( CCObject* pSender );
 	void onLogInCompleted(CCNode *sender, void *data);

@@ -41,18 +41,6 @@ bool ScoreScene::init()
 	
 	MY_ADD_LABELTTF(lbTitle, "Bảng xếp hạng", CONF_STR(FONT_LEADERBOARD), 64, ccBLACK, ccp(400, 1200));
 
-	//check if connect facebook
-	//auto connect
-
-	//get leaderboard
-
-	//
-
-
-
-	//MY_SEND_REQUEST("http://127.0.0.1:1337/", this, ScoreScene::onSendRequestCompleted, "HELLO");
-	//GameClientManager::sharedGameClientManager()->sendRequest("http://127.0.0.1:1337/", this, httpresponse_selector(ScoreScene::onSendRequestCompleted), "HELLO");
-	
 	this->setKeypadEnabled(true);
 	return true;
 }
@@ -112,10 +100,8 @@ void ScoreScene::loginFacebook( CCObject* pSender )
 void ScoreScene::onLogInCompleted( CCNode *sender, void *data )
 {
 	CCLOG("onLogInCompleted");
-	static int counter = 0;
 	if (data != NULL)
 	{
-		counter++;
 		CCLOG("CPP data != NULL");
 		CCDictionary *convertedData = (CCDictionary *)data;
 		CCLOG("CPP get isSuccess");
@@ -133,6 +119,7 @@ void ScoreScene::onLogInCompleted( CCNode *sender, void *data )
 		else
 		{
 			CCLOG("CPP Log In Completed: FALSE");
+			CCMessageBox("Không thể kết nối", "Lỗi");
 		}
 
 		NDKHelper::RemoveSelector("ScoreScene", "onLogInCompleted");
@@ -142,11 +129,8 @@ void ScoreScene::onLogInCompleted( CCNode *sender, void *data )
 void ScoreScene::onGetProfileCompleted( CCNode *sender, void *data )
 {
 	CCLOG("onGetProfileCompleted");
-	static int counter = 0;
 	if (data != NULL)
 	{
-		counter++;
-
 		CCDictionary *convertedData = (CCDictionary *)data;
 		CCString* s = (CCString*)convertedData->objectForKey("isSuccess");
 		if (s->boolValue())
@@ -187,6 +171,7 @@ void ScoreScene::onGetProfileCompleted( CCNode *sender, void *data )
 		else
 		{
 			CCLOG("CPP Get Profile Completed: FALSE");
+			CCMessageBox("Không thể kết nối", "Lỗi");
 		}
 
 		NDKHelper::RemoveSelector("ScoreScene", "onGetProfileCompleted");
@@ -196,11 +181,8 @@ void ScoreScene::onGetProfileCompleted( CCNode *sender, void *data )
 void ScoreScene::onGetAvatarCompleted( CCNode* pSender, void *data )
 {
 	CCLOG("onGetAvatarCompleted");
-	static int counter = 0;
 	if (data != NULL)
 	{
-		counter++;
-
 		CCDictionary *convertedData = (CCDictionary *)data;
 		CCString* s = (CCString*)convertedData->objectForKey("isSuccess");
 		if (s->boolValue())
@@ -214,9 +196,76 @@ void ScoreScene::onGetAvatarCompleted( CCNode* pSender, void *data )
 		else
 		{
 			CCLOG("CPP Get Avatar Completed: FALSE");
+			CCMessageBox("Không thể kết nối", "Lỗi");
 		}
 
 		NDKHelper::RemoveSelector("ScoreScene", "onGetAvatarCompleted");
+	}
+}
+
+void ScoreScene::onEnterTransitionDidFinish()
+{
+	//check if connect facebook
+	bool isLogIn = DataManager::sharedDataManager()->GetFbIsLogIn();
+	if (isLogIn == false) //auto connect
+	{
+		loginFacebook(NULL);
+	}
+	else //get leaderboard from facebook
+	{
+		getFacebookScores();
+	}
+}
+
+void ScoreScene::getFacebookScores()
+{
+	NDKHelper::AddSelector("ScoreScene",
+		"onGetScoresCompleted",
+		callfuncND_selector(ScoreScene::onGetScoresCompleted),
+		this);
+
+	SendMessageWithParams(string("GetScores"), NULL);
+}
+
+void ScoreScene::onGetScoresCompleted( CCNode *sender, void *data )
+{
+	if (data != NULL)
+	{
+		CCDictionary *convertedData = (CCDictionary *)data;
+		CCString* s = (CCString*)convertedData->objectForKey("isSuccess");
+		if (s->boolValue())
+		{
+			CCLOG("CPP Get Scores Completed: TRUE");
+
+			CCArray *arrScore = (CCArray *)convertedData->objectForKey("scores");
+			for (int i = 0; i < arrScore->count(); ++i)
+			{
+				CCLOG("------ USER %d -------", i);
+				CCDictionary *element = (CCDictionary *)arrScore->objectAtIndex(i);
+				{
+					CCString* score = (CCString*)element->objectForKey("score");		CCLOG("%s", score->getCString());
+
+					CCDictionary *user = (CCDictionary *)element->objectForKey("user");
+					{
+						CCString* user_id = (CCString*)user->objectForKey("id");		CCLOG("%s", user_id->getCString());
+						CCString* user_name = (CCString*)user->objectForKey("name");	CCLOG("%s", user_name->getCString());
+					}
+
+					CCDictionary *application = (CCDictionary *)element->objectForKey("application");
+					{
+						CCString* app_id = (CCString*)application->objectForKey("id");			CCLOG("%s", app_id->getCString());
+						CCString* app_namespace = (CCString*)application->objectForKey("namespace");		CCLOG("%s", app_namespace->getCString());
+						CCString* app_name = (CCString*)application->objectForKey("name");		CCLOG("%s", app_name->getCString());
+					}
+				}
+			}			
+		} 
+		else
+		{
+			CCLOG("CPP Get Scores Completed: FALSE");
+		}
+
+		NDKHelper::RemoveSelector("ScoreScene", "onGetScoresCompleted");
 	}
 }
 

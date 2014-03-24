@@ -131,47 +131,24 @@ void TestAndroidFacebookScene::keyBackClicked()
 
 void TestAndroidFacebookScene::LogIn( CCObject* pSender )
 {
-	NDKHelper::AddSelector(TEST_GROUP_NAME,
-		"onLogInCompleted",
-		callfuncND_selector(TestAndroidFacebookScene::onLogInCompleted),
-		this);
-
-	SendMessageWithParams(string("LogIn"), NULL);
+	NDKHelper::CallJNIFunction(string("LogIn"), NULL, "onLogInCompleted", 
+		callfuncND_selector(TestAndroidFacebookScene::onLogInCompleted), this);
 }
 
 void TestAndroidFacebookScene::LogOut( CCObject* pSender )
 {
-	NDKHelper::AddSelector(TEST_GROUP_NAME,
-		"onLogOutCompleted",
-		callfuncND_selector(TestAndroidFacebookScene::onLogOutCompleted),
-		this);
-
-	SendMessageWithParams(string("LogOut"), NULL);
+	NDKHelper::CallJNIFunction(string("LogOut"), NULL, "onLogOutCompleted", 
+		callfuncND_selector(TestAndroidFacebookScene::onLogOutCompleted), this);
 }
 
 void TestAndroidFacebookScene::GetProfile( CCObject* pSender )
 {
-	NDKHelper::AddSelector(TEST_GROUP_NAME,
-		"onGetProfileCompleted",
-		callfuncND_selector(TestAndroidFacebookScene::onGetProfileCompleted),
-		this);
-
-	SendMessageWithParams(string("GetProfile"), NULL);
+	NDKHelper::CallJNIFunction(string("GetProfile"), NULL, "onGetProfileCompleted", 
+		callfuncND_selector(TestAndroidFacebookScene::onGetProfileCompleted), this);
 }
 
 void TestAndroidFacebookScene::PublishFeed( CCObject* pSender )
 {
-	NDKHelper::AddSelector(TEST_GROUP_NAME,
-		"onPublishFeedCompleted",
-		callfuncND_selector(TestAndroidFacebookScene::onPublishFeedCompleted),
-		this);
-
-	//message
-	//name
-	//caption
-	//description
-	//picture
-	//link
 	string withDialog = "true";
 	string message = "This is the message";
 	string name = "This is the name";
@@ -179,13 +156,6 @@ void TestAndroidFacebookScene::PublishFeed( CCObject* pSender )
 	string description = "This is the description";
 	string picture = "http://vfossa.vn/tailen/news/2012_01/knowledge.jpg";
 	string link = "https://play.google.com/store/apps/details?id=com.supercell.hayday";
-		
-	//more
-// 	string action = "Download";
-// 	string actionLink = "https://www.google.com.vn/#q=download";
-// 	string propertyName = "Star";
-// 	string propertyValue = "14";
-
 
 	CCDictionary* prms = CCDictionary::create();
 	prms->setObject(CCString::create(withDialog), "withDialog");
@@ -196,59 +166,38 @@ void TestAndroidFacebookScene::PublishFeed( CCObject* pSender )
 	prms->setObject(CCString::create(picture), "picture");
 	prms->setObject(CCString::create(link), "link");
 
-// 	prms->setObject(CCString::create(action), "action");
-// 	prms->setObject(CCString::create(actionLink), "actionLink");
-// 	prms->setObject(CCString::create(propertyName), "propertyName");
-// 	prms->setObject(CCString::create(propertyValue), "propertyValue");
-	
-	SendMessageWithParams(string("PublishFeed"), prms);
+	NDKHelper::CallJNIFunction(string("PublishFeed"), prms, "onPublishFeedCompleted", 
+		callfuncND_selector(TestAndroidFacebookScene::onPublishFeedCompleted), this);
 }
 
 void TestAndroidFacebookScene::PostScore( CCObject* pSender )
 {
-	NDKHelper::AddSelector(TEST_GROUP_NAME,
-		"onPostScoreCompleted",
-		callfuncND_selector(TestAndroidFacebookScene::onPostScoreCompleted),
-		this);
-
 	string score = "2020";
 
 	CCDictionary* prms = CCDictionary::create();
 	prms->setObject(CCString::create(score), "score");
 
-	SendMessageWithParams(string("PostScore"), prms);
+	NDKHelper::CallJNIFunction(string("PostScore"), prms, "onPostScoreCompleted", 
+		callfuncND_selector(TestAndroidFacebookScene::onPostScoreCompleted), this);
 }
 
 void TestAndroidFacebookScene::GetScores( CCObject* pSender )
 {
-	NDKHelper::AddSelector(TEST_GROUP_NAME,
-		"onGetScoresCompleted",
-		callfuncND_selector(TestAndroidFacebookScene::onGetScoresCompleted),
-		this);
-	
-	SendMessageWithParams(string("GetScores"), NULL);
+	NDKHelper::CallJNIFunction(string("GetScores"), NULL, "onGetScoresCompleted", 
+		callfuncND_selector(TestAndroidFacebookScene::onGetScoresCompleted), this);
 }
 
 void TestAndroidFacebookScene::InviteAll( CCObject* pSender )
 {
-	NDKHelper::AddSelector(TEST_GROUP_NAME,
-		"onInviteAllCompleted",
-		callfuncND_selector(TestAndroidFacebookScene::onInviteAllCompleted),
-		this);
-
 	CCDictionary* prms = CCDictionary::create();
 	prms->setObject(CCString::create("THIS IS THE MESSAGE :v"), "message");
 
-	SendMessageWithParams(string("InviteAll"), prms);
+	NDKHelper::CallJNIFunction(string("InviteAll"), prms, "onInviteAllCompleted", 
+		callfuncND_selector(TestAndroidFacebookScene::onInviteAllCompleted), this);
 }
 
 void TestAndroidFacebookScene::GetAvatar( CCObject* pSender )
 {
-	NDKHelper::AddSelector(TEST_GROUP_NAME,
-		"onGetAvatarCompleted",
-		callfuncND_selector(TestAndroidFacebookScene::onGetAvatarCompleted),
-		this);
-	
 	string fbId = "100002844686620"; // "100006639370902";
 	string w = "128";
 	string h = "128";
@@ -257,8 +206,9 @@ void TestAndroidFacebookScene::GetAvatar( CCObject* pSender )
 	prms->setObject(CCString::create(fbId), "fbId");
 	prms->setObject(CCString::create(w), "width");
 	prms->setObject(CCString::create(h), "height");
-
-	SendMessageWithParams(string("GetAvatar"), prms);
+	
+	NDKHelper::CallJNIFunction(string("GetAvatar"), prms, "onGetAvatarCompleted", 
+		callfuncND_selector(TestAndroidFacebookScene::onGetAvatarCompleted), this);
 }
 
 void TestAndroidFacebookScene::DeleteSavedAvatar( CCObject* pSender )
@@ -272,7 +222,7 @@ void TestAndroidFacebookScene::DeleteSavedAvatar( CCObject* pSender )
 	prms->setObject(CCString::create(w), "width");
 	prms->setObject(CCString::create(h), "height");
 
-	SendMessageWithParams(string("DeleteSavedAvatar"), prms);
+	NDKHelper::CallJNIFunction(string("DeleteSavedAvatar"), prms, "", NULL, NULL);
 }
 
 
