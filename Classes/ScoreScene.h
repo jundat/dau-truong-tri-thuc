@@ -4,6 +4,7 @@
 #include "cocos2d.h"
 #include "cocos-ext.h"
 #include "NDKHelper/NDKHelper.h"
+#include "FriendLeaderboardLayer.h"
 
 #include <algorithm>
 
@@ -29,6 +30,15 @@ public:
 	void onLogInCompleted(CCNode *sender, void *data);
 	void onGetProfileCompleted( CCNode *sender, void *data );
 	void onGetAvatarCompleted( CCNode* pSender, void *data );
+
+public:
+	CCArray* m_arrFriendSoloScores;
+	CCArray* m_arrFriendWarScores;
+	CCArray* m_arrWorldSoloScores;
+	CCArray* m_arrWorldWarScores;
+
+	FriendLeaderboardLayer* m_friendSoloBoard;
+
 };
 
 #endif // __SCORE_SCENE_H__
