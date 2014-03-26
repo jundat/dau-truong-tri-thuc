@@ -7,6 +7,8 @@
 #include "Global.h"
 #include "MyMacro.h"
 #include "GameClientManager.h"
+#include "GameClientDelegate.h"
+#include "GameClientObjects.h"
 
 
 USING_NS_CC;
@@ -219,12 +221,8 @@ void ScoreScene::onEnterTransitionDidFinish()
 
 void ScoreScene::getFacebookScores()
 {
-	NDKHelper::AddSelector("ScoreScene",
-		"onGetScoresCompleted",
-		callfuncND_selector(ScoreScene::onGetScoresCompleted),
-		this);
-
-	SendMessageWithParams(string("GetScores"), NULL);
+	NDKHelper::CallJNIFunction(string("GetScores"), NULL, "onGetScoresCompleted", 
+		callfuncND_selector(ScoreScene::onGetScoresCompleted), this);
 }
 
 void ScoreScene::onGetScoresCompleted( CCNode *sender, void *data )
@@ -237,35 +235,57 @@ void ScoreScene::onGetScoresCompleted( CCNode *sender, void *data )
 		{
 			CCLOG("CPP Get Scores Completed: TRUE");
 
+			m_arrFriendSoloScores = new CCArray();
+			m_arrFriendSoloScores->retain();
+
 			CCArray *arrScore = (CCArray *)convertedData->objectForKey("scores");
 			for (int i = 0; i < arrScore->count(); ++i)
 			{
 				CCLOG("------ USER %d -------", i);
 				CCDictionary *element = (CCDictionary *)arrScore->objectAtIndex(i);
 				{
-					CCString* score = (CCString*)element->objectForKey("score");		CCLOG("%s", score->getCString());
+					CCString *score,
+						*user_id, 
+						*user_name,
+						*app_id,
+						*app_namespace,
+						*app_name;
+
+					score = (CCString*)element->objectForKey("score");		CCLOG("%s", score->getCString());
 
 					CCDictionary *user = (CCDictionary *)element->objectForKey("user");
 					{
-						CCString* user_id = (CCString*)user->objectForKey("id");		CCLOG("%s", user_id->getCString());
-						CCString* user_name = (CCString*)user->objectForKey("name");	CCLOG("%s", user_name->getCString());
+						user_id = (CCString*)user->objectForKey("id");		CCLOG("%s", user_id->getCString());
+						user_name = (CCString*)user->objectForKey("name");	CCLOG("%s", user_name->getCString());
 					}
 
 					CCDictionary *application = (CCDictionary *)element->objectForKey("application");
 					{
-						CCString* app_id = (CCString*)application->objectForKey("id");			CCLOG("%s", app_id->getCString());
-						CCString* app_namespace = (CCString*)application->objectForKey("namespace");		CCLOG("%s", app_namespace->getCString());
-						CCString* app_name = (CCString*)application->objectForKey("name");		CCLOG("%s", app_name->getCString());
+						app_id = (CCString*)application->objectForKey("id");			CCLOG("%s", app_id->getCString());
+						app_namespace = (CCString*)application->objectForKey("namespace");		CCLOG("%s", app_namespace->getCString());
+						app_name = (CCString*)application->objectForKey("name");		CCLOG("%s", app_name->getCString());
 					}
+
+					UserProfile* fr = new UserProfile(
+						user_id->getCString(), 
+						user_name->getCString(),
+						string(""), 
+						score->intValue()
+					);
+
+					m_arrFriendSoloScores->addObject(fr);
 				}
-			}			
+			}
+
+			//////////////////////// send to layer ////////////////////////////
+			m_friendSoloBoard = FriendLeaderboardLayer::create(m_arrFriendSoloScores);
 		} 
 		else
 		{
 			CCLOG("CPP Get Scores Completed: FALSE");
 		}
 
-		NDKHelper::RemoveSelector("ScoreScene", "onGetScoresCompleted");
+		NDKHelper::RemoveSelector("onGetScoresCompleted", "onGetScoresCompleted");
 	}
 }
 

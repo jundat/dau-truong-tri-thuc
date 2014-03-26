@@ -129,6 +129,9 @@
     <ClCompile Include="..\Classes\AdviseFacebookDialog.cpp">
       <Filter>Classes</Filter>
     </ClCompile>
+    <ClCompile Include="..\Classes\FriendLeaderboardLayer.cpp">
+      <Filter>Classes</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="main.h">
@@ -234,6 +237,9 @@
       <Filter>Classes\jansson</Filter>
     </ClInclude>
     <ClInclude Include="..\Classes\AdviseFacebookDialog.h">
+      <Filter>Classes</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\FriendLeaderboardLayer.h">
       <Filter>Classes</Filter>
     </ClInclude>
   </ItemGroup>
