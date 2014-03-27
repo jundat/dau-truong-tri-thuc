@@ -278,7 +278,8 @@ void ScoreScene::onGetScoresCompleted( CCNode *sender, void *data )
 			}
 
 			//////////////////////// send to layer ////////////////////////////
-			m_friendSoloBoard = FriendLeaderboardLayer::create(m_arrFriendSoloScores);
+			m_friendSoloBoard = FriendLeaderboardLayer::create();
+			m_friendSoloBoard->updateData(m_arrFriendSoloScores);
 		} 
 		else
 		{
