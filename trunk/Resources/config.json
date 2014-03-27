@@ -2,7 +2,7 @@
 	"URL_RATE" : "https://www.facebook.com/hiep.truong.984",
 
 	"URL_PROFILE" : "127.0.0.1:8025/profile",
-	"URL_DEVICE" : "127.0.0.1:8025/report/single",
+	"URL_DEVICE" : "http://dttt-tst.esy.es/test.php",
 	"URL_FRIEND" : "127.0.0.1:8025/friend",
 	"URL_SINGLE_SCORE" : "127.0.0.1:8025/score/single",
 	"URL_CONFIG" : "127.0.0.1:8025/config",

@@ -333,7 +333,7 @@ void GameClientManager::sendDeviceProfile( std::string fbId, std::string deviceI
 {
 	CCAssert(s_urlDevice.length() > 0, "Not set s_urlDevice yet");
 	CCHttpRequest* request = new CCHttpRequest();
-	request->setRequestType(CCHttpRequest::kHttpPost);
+	request->setRequestType(CCHttpRequest::kHttpGet);
 
 	request->setUrl(s_urlDevice.c_str());
 	request->setTag("sendDeviceProfile");
