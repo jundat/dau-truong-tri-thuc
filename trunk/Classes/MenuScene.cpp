@@ -32,23 +32,22 @@ CCScene* MenuScene::scene()
 
 void MenuScene::onEnterTransitionDidFinish()
 {
-	GameClientManager::sharedGameClientManager()->setDelegate(this);
-	string fbId = DataManager::sharedDataManager()->GetFbID();
-	int score = DataManager::sharedDataManager()->GetSoloScore();
-
-	//send to server
-	GameClientManager::sharedGameClientManager()->sendScore(CONF_STR(APP_ID), fbId, score);
-
-	//send score to facebook ////////////////////////////////////////////////////////////
-	NDKHelper::AddSelector("MENU",
-		"onPostScoreCompleted",
-		callfuncND_selector(MenuScene::onPostScoreCompleted),
-		this);
-
-	CCDictionary* prms = CCDictionary::create();
-	prms->setObject(CCString::createWithFormat("%d", score), "score");
-
-	SendMessageWithParams(string("PostScore"), prms);
+//	GameClientManager::sharedGameClientManager()->setDelegate(this);
+//	string fbId = DataManager::sharedDataManager()->GetFbID();
+//	int score = DataManager::sharedDataManager()->GetSoloScore();
+//
+//	//send to server
+//	GameClientManager::sharedGameClientManager()->sendScore(CONF_STR(APP_ID), fbId, score);
+//
+//	//send score to facebook ////////////////////////////////////////////////////////////
+// 	NDKHelper::AddSelector("MENU",
+// 		"onPostScoreCompleted",
+// 		callfuncND_selector(MenuScene::onPostScoreCompleted),
+// 		this);
+//
+// 	CCDictionary* prms = CCDictionary::create();
+// 	prms->setObject(CCString::createWithFormat("%d", score), "score"
+//	SendMessageWithParams(string("PostScore"), prms);
 }
 
 bool MenuScene::init()
@@ -58,8 +57,8 @@ bool MenuScene::init()
         return false;
     }
 	
-	MY_ADD_SPRITE(bg, "menu_background.png", ccp(400, 640));
-	MY_ADD_SPRITE(sprTop, "ImgCrown.png", ccp(400, 1280-292));
+	MY_ADD_SPRITE(bg, "game_background.png", ccp(400, 640));
+//	MY_ADD_SPRITE(sprTop, "ImgCrown.png", ccp(400, 1280-292));
 
 	m_menu = CCMenu::create();
 	m_menu->setPosition(CCPointZero);
@@ -74,65 +73,65 @@ bool MenuScene::init()
 		ccp(400, 1280-639));
 	m_menu->addChild(itPlaySolo);
 
-	MY_CREATE_MENU_ITEM(itPlayWar, 
-		"play_button.png", 
-		"play_button_down.png", 
-		"play_button_down.png", 
-		MenuScene::playWarCallback, 
-		ccp(400, 1280-804));
-	m_menu->addChild(itPlayWar);
+// 	MY_CREATE_MENU_ITEM(itPlayWar, 
+// 		"play_button.png", 
+// 		"play_button_down.png", 
+// 		"play_button_down.png", 
+// 		MenuScene::playWarCallback, 
+// 		ccp(400, 1280-804));
+// 	m_menu->addChild(itPlayWar);
 	
 	MY_ADD_SPRITE(sprPlaySolo, "solo.png", ccp(400, 1280-642));
-	MY_ADD_SPRITE(sprPlayWar, "thi_dau.png", ccp(400, 1280-800));
+//	MY_ADD_SPRITE(sprPlayWar, "thi_dau.png", ccp(400, 1280-800));
 
 	//score
-	MY_CREATE_MENU_ITEM(itScore, 
-		"ImgMenuLeaderboard.png", 
-		"ImgMenuLeaderboardDown.png", 
-		"ImgMenuLeaderboardDown.png", 
-		MenuScene::scoreCallback, 
-		ccp(175, 1280-1000));
-	m_menu->addChild(itScore);
+// 	MY_CREATE_MENU_ITEM(itScore, 
+// 		"ImgMenuLeaderboard.png", 
+// 		"ImgMenuLeaderboardDown.png", 
+// 		"ImgMenuLeaderboardDown.png", 
+// 		MenuScene::scoreCallback, 
+// 		ccp(175, 1280-1000));
+// 	m_menu->addChild(itScore);
 
 	//more diamond
-	MY_CREATE_MENU_ITEM(itMoreDiamond, 
-		"moreDiamond.png", 
-		"moreDiamondDown.png", 
-		"moreDiamondDown.png", 
-		MenuScene::moreDiamondCallback, 
-		ccp(325, 1280-1000));
-	m_menu->addChild(itMoreDiamond);
+// 	MY_CREATE_MENU_ITEM(itMoreDiamond, 
+// 		"moreDiamond.png", 
+// 		"moreDiamondDown.png", 
+// 		"moreDiamondDown.png", 
+// 		MenuScene::moreDiamondCallback, 
+// 		ccp(325, 1280-1000));
+// 	m_menu->addChild(itMoreDiamond);
 
 	//guide
-	MY_CREATE_MENU_ITEM(itGuide, 
-		"ImgMenuGuide.png", 
-		"ImgMenuGuideDown.png", 
-		"ImgMenuGuideDown.png", 
-		MenuScene::guideCallback, 
-		ccp(475, 1280-1000));
-	m_menu->addChild(itGuide);
+// 	MY_CREATE_MENU_ITEM(itGuide, 
+// 		"ImgMenuGuide.png", 
+// 		"ImgMenuGuideDown.png", 
+// 		"ImgMenuGuideDown.png", 
+// 		MenuScene::guideCallback, 
+// 		ccp(475, 1280-1000));
+// 	m_menu->addChild(itGuide);
 
 	//setting
-	MY_CREATE_MENU_ITEM(itSetting, 
-		"ImgMenuSetting.png", 
-		"ImgMenuSettingDown.png", 
-		"ImgMenuSettingDown.png", 
-		MenuScene::settingCallback, 
-		ccp(625, 1280-1000));
-	m_menu->addChild(itSetting);
+// 	MY_CREATE_MENU_ITEM(itSetting, 
+// 		"ImgMenuSetting.png", 
+// 		"ImgMenuSettingDown.png", 
+// 		"ImgMenuSettingDown.png", 
+// 		MenuScene::settingCallback, 
+// 		ccp(625, 1280-1000));
+// 	m_menu->addChild(itSetting);
 	
 	//facebook
-	MY_CREATE_MENU_ITEM(itFacebook, 
-		"facebook.png", 
-		"facebookDown.png", 
-		"facebookDown.png",
-		MenuScene::facebookCallback, 
-		ccp(622, 1280-1220));
-	m_itFacbook = itFacebook;
-	m_itFacbook->setVisible(false);
-	m_menu->addChild(m_itFacbook);
+// 	MY_CREATE_MENU_ITEM(itFacebook, 
+// 		"facebook.png", 
+// 		"facebookDown.png", 
+// 		"facebookDown.png",
+// 		MenuScene::facebookCallback, 
+// 		ccp(622, 1280-1220));
+// 	m_itFacbook = itFacebook;
+// 	m_itFacbook->setVisible(false);
+// 	m_menu->addChild(m_itFacbook);
 
-	checkLogIn(NULL);
+//	checkLogIn(NULL);
 
 	CCMenuItem* soundOn = CCMenuItemImage::create("sound_on.png", NULL, NULL);
 	CCMenuItem* soundOff = CCMenuItemImage::create("sound_off.png", NULL, NULL);

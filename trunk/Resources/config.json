@@ -8,6 +8,7 @@
 	"URL_CONFIG" : "127.0.0.1:8025/config",
 	"URL_SUBJECT" : "127.0.0.1:8025/subject",
 	"URL_JOIN" : "127.0.0.1:8025/join",
+	"URL_LOG_QUEST_RESULTS" : "dttt-report.esy.es/post_quetsion/post_questions.php",
 
 
 	"IS_TEST_POSTGET" : false,
@@ -54,5 +55,8 @@
 
 
 	"INVITE_MESSAGE" : "Vào Đấu Trường Tri Thức, thách đố nhau không?",
-	"FEED_MESSAGE" : "Game này được, có bạn chơi thì khỏi chê!"
+	"FEED_MESSAGE" : "Game này được, có bạn chơi thì khỏi chê!",
+
+
+	"QUEST_RESULTS_NUMBER" : 5
 }

@@ -2,7 +2,9 @@
 #define __MY_MACRO_H__
 
 #include "cocos2d.h"
+#include "cocos-ext.h"
 USING_NS_CC;
+USING_NS_CC_EXT;
 using namespace std;
 
 #define DIM_COLOR		ccc4(0, 0, 0, 128)
@@ -249,10 +251,6 @@ do\
 	CCHttpClient::getInstance()->send(request);\
 	request->release();\
 } while (0)
-
-
-
-
 
 
 

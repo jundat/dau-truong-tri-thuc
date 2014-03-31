@@ -6,8 +6,12 @@
 #include "PauseDialog.h"
 #include "LevelManager.h"
 #include "AdviseFacebookDialog.h"
+#include "ConfigLoader.h"
 
 USING_NS_CC;
+
+int SoloGameScene::QUEST_RESULTS_NUMBER = 0;
+
 
 CCScene* SoloGameScene::scene()
 {
@@ -24,6 +28,8 @@ bool SoloGameScene::init()
         return false;
     }
 	
+	SoloGameScene::QUEST_RESULTS_NUMBER = CONF_INT(QUEST_RESULTS_NUMBER);
+
 	m_curScore = DataManager::sharedDataManager()->GetSoloScore();
 	m_curQuestionNumber = DataManager::sharedDataManager()->GetSoloQuestionNumber();
 	m_curRightAnswer = -1;
@@ -174,20 +180,31 @@ void SoloGameScene::answerCallback( CCObject* pSender )
 
 void SoloGameScene::checkBeforeNextQuestion( CCObject* pSender )
 {
-	bool isLogIn = DataManager::sharedDataManager()->GetFbIsLogIn();
-	int adviseFacebookTimes = DataManager::sharedDataManager()->GetAdviseFacebookTimes();
-	if (isLogIn == false && m_curQuestionNumber % adviseFacebookTimes == 0)
-	{
-		m_sprGameResult->setVisible(false);
+	//send to server
+	CCArray* questResults = DataManager::sharedDataManager()->GetQuestResults();
 
-		AdviseFacebookDialog* dialog = AdviseFacebookDialog::create();
-		this->addChild(dialog);
-		this->onOpenDialog();
+	int isRight = (m_isRight == true) ? 1 : 0;
+	int answerTime = CONF_INT(SOLO_TIME_FOR_QUESTION) - (int)(m_clockCounter + 1);
+	QuestionResult* result = new QuestionResult(m_curQuest->m_id, isRight, answerTime);
+	questResults->addObject(result);
+		
+	if (questResults->count() >= QUEST_RESULTS_NUMBER - 1)
+	{
+		CCLOG("CLEAR--SEND--");
+		//clear
+		DataManager::sharedDataManager()->SetQuestResults(NULL);
+
+		//send to server
+		GameClientManager::sharedGameClientManager()->SendQuestResults(questResults);
+
 	}
 	else
 	{
-		nextQuestion(NULL);
+		//save again
+		DataManager::sharedDataManager()->SetQuestResults(questResults);
 	}
+
+ 	nextQuestion(NULL);
 }
 
 void SoloGameScene::nextQuestion(CCObject* pSender)
@@ -264,17 +281,17 @@ void SoloGameScene::initQuestionItems()
 
 void SoloGameScene::initRandomLevel(int number)
 {
-	LevelData* ld = LevelManager::shareLevelLoader()->getLevelInRandom(number);
+	m_curQuest = LevelManager::shareLevelLoader()->getLevelInRandom(number);
 	
-	if (ld != NULL)
+	if (m_curQuest != NULL)
 	{
-		m_lbQuestion->setString(ld->m_quest.c_str());
-		m_curRightAnswer = ld->m_right; //0 -> 3
+		m_lbQuestion->setString(m_curQuest->m_quest.c_str());
+		m_curRightAnswer = m_curQuest->m_right; //0 -> 3
 		
-		m_lbAnswers[0]->setString(string("A. ").append(ld->m_arrChoice[0].c_str()).c_str());
-		m_lbAnswers[1]->setString(string("B. ").append(ld->m_arrChoice[1].c_str()).c_str());
-		m_lbAnswers[2]->setString(string("C. ").append(ld->m_arrChoice[2].c_str()).c_str());
-		m_lbAnswers[3]->setString(string("D. ").append(ld->m_arrChoice[3].c_str()).c_str());
+		m_lbAnswers[0]->setString(string("A. ").append(m_curQuest->m_arrChoice[0].c_str()).c_str());
+		m_lbAnswers[1]->setString(string("B. ").append(m_curQuest->m_arrChoice[1].c_str()).c_str());
+		m_lbAnswers[2]->setString(string("C. ").append(m_curQuest->m_arrChoice[2].c_str()).c_str());
+		m_lbAnswers[3]->setString(string("D. ").append(m_curQuest->m_arrChoice[3].c_str()).c_str());
 	} 
 	else
 	{
@@ -449,6 +466,15 @@ void SoloGameScene::onFinishAnimationRightChoose()
 			rightWrong->setColor(ccc3(193, 0, 0));
 		}
 	}
+
+	//animation
+
+	CCPoint oldPoint = m_sprGameResult->getPosition();
+	CCPoint newPoint = ccp(400, - m_sprGameResult->getContentSize().height / 2);
+
+	m_sprGameResult->setPosition(newPoint);
+
+	m_sprGameResult->runAction(CCEaseBackOut::create(CCMoveTo::create(0.5f, oldPoint)));
 }
 
 void SoloGameScene::refreshUserInfo()
