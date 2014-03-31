@@ -3,6 +3,8 @@
 
 #include "cocos2d.h"
 #include "EffectLayer.h"
+#include "ConfigLoader.h"
+#include "LevelManager.h"
 
 
 USING_NS_CC;
@@ -37,6 +39,9 @@ public:
 	void scheduleClock(float dt);
 
 public:
+	static int QUEST_RESULTS_NUMBER;
+
+	LevelData* m_curQuest;
 	int m_curScore;
 	int m_curQuestionNumber;
 	int m_curRightAnswer;

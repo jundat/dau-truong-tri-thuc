@@ -40,12 +40,12 @@ ConfigLoader* ConfigLoader::shareConfigLoader()
 
 void ConfigLoader::getConfigFromServer()
 {
-	CCLOG("--------- GET CONFIG FROM SERVER: BEGIN -----------");
-
-	string url_config = CONF_STR(URL_CONFIG);
-	GameClientManager::sharedGameClientManager()->sendRequest(url_config.c_str(), this, httpresponse_selector(ConfigLoader::_onGetConfigCompleted), "data={}&method=get");
-
-	CCLOG("---------- GET CONFIG FROM SERVER: END ------------");
+	//CCLOG("--------- GET CONFIG FROM SERVER: BEGIN -----------");
+	//
+	//string url_config = CONF_STR(URL_CONFIG);
+	//GameClientManager::sharedGameClientManager()->sendRequest(url_config.c_str(), this, httpresponse_selector(ConfigLoader::_onGetConfigCompleted), "data={}&method=get");
+	//
+	//CCLOG("---------- GET CONFIG FROM SERVER: END ------------");
 }
 
 const char* ConfigLoader::getStringValue(const char* key)

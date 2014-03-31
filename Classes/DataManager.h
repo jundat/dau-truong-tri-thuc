@@ -12,6 +12,65 @@
 USING_NS_CC;
 using namespace std;
 
+
+
+
+class QuestionResult : public CCObject
+{
+public:
+	int m_questId;
+	int m_isRight;
+	int m_time;
+
+public:
+	QuestionResult() 
+	{
+		m_questId = -1;
+		m_isRight = 0;
+		m_time = -1;
+	}
+
+	QuestionResult(int _questId, int _isRight, int _time)
+	{
+		m_questId = _questId;
+		m_isRight = _isRight;
+		m_time = _time;
+	}
+
+	CCObject* copyWithZone(CCZone *pZone)
+	{
+		CCZone *pNewZone = NULL;
+		QuestionResult *pRet = NULL;
+		if(pZone && pZone->m_pCopyObject) //in case of being called at sub class
+		{
+			pRet = (QuestionResult*)(pZone->m_pCopyObject);
+		}
+		else
+		{
+			pRet = new QuestionResult();
+			pZone = pNewZone = new CCZone(pRet);
+		}
+		CCObject::copyWithZone(pZone);
+		// copy member data
+		//pRet->m_nTag = m_nTag;
+		pRet->m_questId = m_questId;
+		pRet->m_isRight = m_isRight;
+		pRet->m_time = m_time;
+
+		CC_SAFE_DELETE(pNewZone);
+		return pRet;
+	}
+
+	string toJson()
+	{
+		CCString* s = CCString::createWithFormat("{\"questId\": %d, \"isRight\": %d, \"time\": %d}", m_questId, m_isRight, m_time);
+		return string(s->getCString());
+	}
+};
+
+
+
+
 class DataManager
 {
 private:
@@ -43,6 +102,9 @@ public:
 	MY_GETSET_INT_FUNC(DiamondForInfinite, "DIAMOND_FOR_INFINITE", CONF_INT(DIAMOND_FOR_INFINITE));
 	MY_GETSET_INT_FUNC(DiamondForExclusive, "DIAMOND_FOR_EXCLUSIVE", CONF_INT(DIAMOND_FOR_EXCLUSIVE));
 
+	//////////////////////////////////////////////////////////////////////////
+	//user
+	MY_GETSET_STR_FUNC(UserID, "USER_ID", std::string(""));
 
 
 	//////////////////////////////////////////////////////////////////////////
@@ -84,6 +146,8 @@ public:
 	MY_GETSET_INT_FUNC(WarNumberOfWin, "WAR_NUMBER_OF_WIN", 0);
 	MY_GETSET_INT_FUNC(WarNumberOfLose, "WAR_NUMBER_OF_LOSE", 0);
 
+	CCArray* GetQuestResults();
+	void SetQuestResults( CCArray* arrQuestResults );
 
 };
 

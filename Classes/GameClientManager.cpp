@@ -597,3 +597,86 @@ void GameClientManager::_onGetScoreCompleted( CCHttpClient *sender, CCHttpRespon
 
 	CCLOG("------- END [%s] -------", response->getHttpRequest()->getTag());
 }
+
+void GameClientManager::SendQuestResults( CCArray* arrQuestResults )
+{
+	//parse arrFriendList to json
+	std::string strQuestList = std::string("");
+	int count = arrQuestResults->count();
+
+	for (int i = 0; i < count; ++i)
+	{
+		QuestionResult* questResult = (QuestionResult*)arrQuestResults->objectAtIndex(i);
+		CCString* s = CCString::createWithFormat("{ \"question_id\": %d, \"is_true\": %d, \"time\": %d }", 
+			questResult->m_questId, questResult->m_isRight, questResult->m_time);
+		strQuestList.append(s->getCString());
+
+		if (i != count - 1)
+		{
+			strQuestList.append(",");
+		}
+	}	
+
+	CCString* strData;
+	string userId = DataManager::sharedDataManager()->GetUserID();
+	if (userId.length() > 0)
+	{
+		strData = CCString::createWithFormat("data={ \"user_id\": \"%s\", \"questions\": [%s]}", 
+			userId.c_str(), strQuestList.c_str());
+	}
+	else
+	{
+		strData = CCString::createWithFormat("data={\"questions\": [%s]}", 
+			strQuestList.c_str());
+	}
+
+	CCLOG("--SEND--: %s", strData->getCString());
+
+	MY_SEND_REQUEST(CONF_STR(URL_LOG_QUEST_RESULTS), 
+		this, 
+		GameClientManager::SendQuestResultsCompleted, 
+		strData->getCString());
+}
+
+void GameClientManager::SendQuestResultsCompleted( CCHttpClient *sender, CCHttpResponse *response )
+{
+	if (!response)
+	{
+		return;
+	}
+
+	//Show info
+	CCLOG("------- BEGIN [%s] -------", response->getHttpRequest()->getTag());
+	CCLOG("Status: [%i]", response->getResponseCode());
+
+	if (!response->isSucceed())
+	{
+		CCLOG("Request failed: [%s]", response->getErrorBuffer());
+	}
+	else
+	{
+		std::vector<char> *buffer = response->getResponseData();
+		std::string str(buffer->begin(), buffer->end());
+
+		CCLOG("Content: %s", str.c_str());
+
+		//get score from response
+		json_t *root;
+		json_error_t error;
+		json_t *user_id;
+
+		root = json_loads(str.c_str(), strlen(str.c_str()), &error);
+		user_id = json_object_get(root, "user_id");
+
+		string userId = DataManager::sharedDataManager()->GetUserID();;
+		if (userId.length() == 0)
+		{
+			string newUserId = (string)json_string_value(user_id);
+			CCLOG("SET USERID: %s", newUserId.c_str());
+
+			DataManager::sharedDataManager()->SetUserID(newUserId);
+		}
+	}
+
+	CCLOG("------- END [%s] -------", response->getHttpRequest()->getTag());
+}

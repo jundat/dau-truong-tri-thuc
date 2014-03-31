@@ -110,3 +110,81 @@ json_t* DataManager::GetQuestionIdObject()
 	}
 }
 
+
+CCArray* DataManager::GetQuestResults()
+{
+	string str = CCUserDefault::sharedUserDefault()->getStringForKey("QUEST_RESULTS", string("{\"list\":[]}")); //empty list
+//	CCLOG("GET: %s", str.c_str());
+
+	//get score from response
+	json_t *root;
+	json_error_t error;
+	json_t *questResults;
+
+	root = json_loads(str.c_str(), strlen(str.c_str()), &error);
+	questResults = json_object_get(root, "list");
+
+	//foreach to get all friend, insert to list
+	int count = json_array_size(questResults);
+//	CCLOG("COUNT: %d", count);
+	CCArray* arrQuestResults = CCArray::create();
+
+	for(int i = 0; i < count; i++)
+	{
+		json_t *quest = json_array_get(questResults, i);
+
+		json_t* questId;
+		json_t* isRight;
+		json_t* answerTime;
+
+		questId = json_object_get(quest, "questId");
+		isRight = json_object_get(quest, "isRight");
+		answerTime = json_object_get(quest, "time");
+
+// 		CCLOG("(%d : %d : %d)", 
+// 			(int)json_number_value(questId),
+// 			(int)json_number_value(isRight), 
+// 			(int)json_number_value(answerTime));
+
+		QuestionResult* acc = new QuestionResult(
+			(int)json_number_value(questId),
+			(int)json_number_value(isRight), 
+			(int)json_number_value(answerTime));
+
+		arrQuestResults->addObject(acc);
+	}
+
+	return arrQuestResults;
+}
+
+void DataManager::SetQuestResults( CCArray* arrQuestResults )
+{
+	if (arrQuestResults == NULL)
+	{
+		CCUserDefault::sharedUserDefault()->setStringForKey("QUEST_RESULTS", string("{\"list\":[]}"));
+		return;
+	}
+
+
+	//parse arrFriendList to json
+	std::string strQuestList = std::string("");
+	int count = arrQuestResults->count();
+
+	for (int i = 0; i < count; ++i)
+	{
+		QuestionResult* questResult = (QuestionResult*)arrQuestResults->objectAtIndex(i);
+		strQuestList.append(questResult->toJson());
+
+		if (i != count - 1)
+		{
+			strQuestList.append(",");
+		}
+	}	
+
+	CCString* strData = CCString::createWithFormat("{\"list\": [%s]}", strQuestList.c_str());
+//	CCLOG("SAVE: %s", strData->getCString());
+
+	CCUserDefault::sharedUserDefault()->setStringForKey("QUEST_RESULTS", strData->getCString());
+	CCUserDefault::sharedUserDefault()->flush();
+}
+

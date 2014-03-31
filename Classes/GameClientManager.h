@@ -99,6 +99,10 @@ public:
 	void getScore( std::string appId, std::string fbId );
 	void _onGetScoreCompleted(CCHttpClient *sender, CCHttpResponse *response);
 
+	//more ...
+	void SendQuestResults(CCArray* arrQuestResults);
+	void SendQuestResultsCompleted(CCHttpClient *sender, CCHttpResponse *response);
+
 
 	//////////////////////////////////////////////////////////////////////////
 
@@ -118,8 +122,6 @@ public:
 			arrFriends->data->arr + arrFriends->data->num, CompareFriendScore);
 	}
 
-
-	//more ...
 };
 
 #endif //__GAME_CLIENT_MANAGER_H__
