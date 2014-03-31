@@ -58,7 +58,7 @@ bool MenuScene::init()
     }
 	
 	MY_ADD_SPRITE(bg, "game_background.png", ccp(400, 640));
-//	MY_ADD_SPRITE(sprTop, "ImgCrown.png", ccp(400, 1280-292));
+	MY_ADD_SPRITE(sprTop, "menu_top.png", ccp(371, 1280-149));
 
 	m_menu = CCMenu::create();
 	m_menu->setPosition(CCPointZero);
@@ -73,6 +73,11 @@ bool MenuScene::init()
 		ccp(400, 1280-639));
 	m_menu->addChild(itPlaySolo);
 
+	CCLabelTTF* lbVendor = CCLabelTTF::create("...Exception Games...", CONF_STR(FONT_NORMAL), 36);
+	lbVendor->setPosition(ccp(400, lbVendor->getContentSize().height));
+	lbVendor->setColor(ccBLACK);
+	this->addChild(lbVendor);
+
 // 	MY_CREATE_MENU_ITEM(itPlayWar, 
 // 		"play_button.png", 
 // 		"play_button_down.png", 
@@ -81,7 +86,7 @@ bool MenuScene::init()
 // 		ccp(400, 1280-804));
 // 	m_menu->addChild(itPlayWar);
 	
-	MY_ADD_SPRITE(sprPlaySolo, "solo.png", ccp(400, 1280-642));
+//	MY_ADD_SPRITE(sprPlaySolo, "solo.png", ccp(400, 1280-642));
 //	MY_ADD_SPRITE(sprPlayWar, "thi_dau.png", ccp(400, 1280-800));
 
 	//score
@@ -144,8 +149,8 @@ bool MenuScene::init()
 	{
 		soundToggle->setSelectedIndex(1);
 	}
-	soundToggle->setAnchorPoint(ccp(0.0f, 0.0f));
-	soundToggle->setPosition(ccp(10, 10));
+	//soundToggle->setAnchorPoint(ccp(0.0f, 0.0f));
+	soundToggle->setPosition(ccpSub(itPlaySolo->getPosition(), ccp(0, itPlaySolo->getContentSize().height/2 + soundToggle->getContentSize().height/2)));
 	m_menu->addChild(soundToggle);
 
 
