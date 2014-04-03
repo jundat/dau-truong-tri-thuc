@@ -56,9 +56,10 @@ bool MenuScene::init()
     {
         return false;
     }
-	
+
+
 	MY_ADD_SPRITE(bg, "game_background.png", ccp(400, 640));
-	MY_ADD_SPRITE(sprTop, "menu_top.png", ccp(371, 1280-149));
+	MY_ADD_SPRITE(sprTop, "menu_top.png", ccp(377, 1280-227));
 
 	m_menu = CCMenu::create();
 	m_menu->setPosition(CCPointZero);
@@ -70,7 +71,7 @@ bool MenuScene::init()
 		"play_button_down.png", 
 		"play_button_down.png", 
 		MenuScene::playSoloCallback, 
-		ccp(400, 1280-639));
+		ccp(400, 1280-739)); //639
 	m_menu->addChild(itPlaySolo);
 
 	CCLabelTTF* lbVendor = CCLabelTTF::create("...Exception Games...", CONF_STR(FONT_NORMAL), 36);

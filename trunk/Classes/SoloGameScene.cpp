@@ -184,7 +184,7 @@ void SoloGameScene::checkBeforeNextQuestion( CCObject* pSender )
 	CCArray* questResults = DataManager::sharedDataManager()->GetQuestResults();
 
 	int isRight = (m_isRight == true) ? 1 : 0;
-	int answerTime = CONF_INT(SOLO_TIME_FOR_QUESTION) - (int)(m_clockCounter + 1);
+	int answerTime = CONF_INT(SOLO_TIME_FOR_QUESTION) - (int)(m_clockCounter);
 	QuestionResult* result = new QuestionResult(m_curQuest->m_id, isRight, answerTime);
 	questResults->addObject(result);
 		
